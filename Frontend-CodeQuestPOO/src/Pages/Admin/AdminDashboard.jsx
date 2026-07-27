@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import DashBoardHeader from "/src/Components/Header/HeaderDashBoard";
 import SideBar from "/src/Components/SideBar/SideBar";
-import adminBackground from "/src/assets/AdminBackground.png";
+import adminBackground from "../../Assets/AdminBackground.png";
 
 import {
   getAdminAlunoDetalhes,
