@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import loadingVideo from "../../../assets/Loading/loading.webm";
+import loadingVideo from "../../..../../../Assets/Loading/loading.webm";
 
 //_______________________________Nivel 1_______________________________
 import DSF1 from "./Nivel-1/dsf_1";

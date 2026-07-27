@@ -11,13 +11,13 @@ import Result from "../../../Components/Result"
 import { getToken, getUser } from "../../../../Services/auth/authStorage";
 import { getLevelsByMap } from "../../../../Services/maps/levelService"
 import { getProgressoDashboard } from "../../../../Services/users/userStatsService"
-import Bg from "../../../../assets/Maps/Bg-Map1.png"
+import Bg from "../../../..../../../Assets/Maps/Bg-Map1.png"
 import dsf_2 from "../../../Data/Mapa-1/Nivel-1/dsf_2"
 
 import ModalService from '../../../Components/Modal/ModalService'
 import ModalFalha from '../../../Components/Modal/ModalFalha'
 
-import loadingVideo from "../../../../assets/Loading/loading.webm";
+import loadingVideo from "../../../..../../../Assets/Loading/loading.webm";
 
 const dsf = dsf_2
 

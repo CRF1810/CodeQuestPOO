@@ -4,7 +4,7 @@ import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
 import SideBar from "../../Components/SideBar/SideBar";
 import { getHistoricoSemanal } from "../../Services/users/jogTemService";
 import { getMe } from "../../Services/users/userService";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 import {
     BarChart2,
     CalendarDays,

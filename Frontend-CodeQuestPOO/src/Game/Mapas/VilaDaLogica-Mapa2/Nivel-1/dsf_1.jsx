@@ -11,13 +11,13 @@ import { useNavigate } from "react-router-dom"
 import { getToken, getUser } from "../../../../Services/auth/authStorage";
 import { getLevelsByMap } from "../../../../Services/maps/levelService"
 import { getProgressoDashboard } from "../../../../Services/users/userStatsService"
-import Bg from "../../../../assets/Maps/Bg-Map2.png"
+import Bg from "../../../..../../../Assets/Maps/Bg-Map2.png"
 import dsf_1 from "../../../Data/Mapa-2/Nivel-1/dsf_1"
 
 import ModalService from '../../../Components/Modal/ModalService'
 import ModalFalha from '../../../Components/Modal/ModalFalha'
 
-import loadingVideo from "../../../../assets/Loading/loading.webm";
+import loadingVideo from "../../../..../../../Assets/Loading/loading.webm";
 
 const dsf = dsf_1
 

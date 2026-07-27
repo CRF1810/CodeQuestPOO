@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import BossBannerImgMap1 from "../../../assets/Maps/BannerBoss-Map1.png";
-import BossBannerImgMap2 from "../../../assets/Maps/BannerBoss-Map2.png";
+import BossBannerImgMap1 from "../../..../../../Assets/Maps/BannerBoss-Map1.png";
+import BossBannerImgMap2 from "../../..../../../Assets/Maps/BannerBoss-Map2.png";
 
 import { obterXPAluno } from "../../../Services/Gameplay/xpProgressService";
 import { Trophy, CheckSquare } from "lucide-react";
 
-import loadingVideo from "../../../assets/Loading/loading.webm";
+import loadingVideo from "../../..../../../Assets/Loading/loading.webm";
 
 // ─── PALETA DE CORES ────────────────────────────────────────────────────────
 

@@ -9,12 +9,12 @@ import { useCode } from "../../../Hooks/useCode"
 import { getToken, getUser } from "../../../../Services/auth/authStorage";
 
 import { getLevelsByMap } from "../../../../Services/maps/levelService"
-import Bg from "../../../../assets/Maps/Bg-Map2-Nivel2.png"
+import Bg from "../../../..../../../Assets/Maps/Bg-Map2-Nivel2.png"
 import dsf_5 from "../../../Data/Mapa-2/Nivel-2/dsf_5"
 import ModalService from '../../../Components/Modal/ModalService'
 import ModalFalha from '../../../Components/Modal/ModalFalha'
 
-import loadingVideo from "../../../../assets/Loading/loading.webm";
+import loadingVideo from "../../../..../../../Assets/Loading/loading.webm";
 
 const dsf = dsf_5
 

@@ -7,7 +7,7 @@ import { getEstadosAmizade, enviarPedidoAmizade } from "../../Services/users/ami
 import api from "../../Services/api/axios";
 import { getLevelsByMap } from "../../Services/maps/levelService";
 import { getMapas } from "../../Services/maps/mapasService";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 import socket from "../../Services/socket/socket";
 import {
     ArrowLeft,

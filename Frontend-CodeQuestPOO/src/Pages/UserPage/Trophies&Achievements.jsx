@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 
 const CATEGORIES = [
     { id: "all", label: "Todas", count: 998, icon: "◎" },

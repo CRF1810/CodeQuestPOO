@@ -3,9 +3,9 @@ import { useState, useEffect } from "react"
 import { getProgressoDashboard } from "../../../Services/users/userStatsService";
 import { Flame, DollarSign } from "lucide-react";
 
-import ButtonImgBack from "../../../assets/Buttons/Back.png"
-import ButtonImgHouse from "../../../assets/Buttons/House.png"
-import ButtonImgInfo from "../../../assets/Buttons/Info.png"
+import ButtonImgBack from "../../..../../../Assets/Buttons/Back.png"
+import ButtonImgHouse from "../../..../../../Assets/Buttons/House.png"
+import ButtonImgInfo from "../../..../../../Assets/Buttons/Info.png"
 
 const Color = {
     primary: {

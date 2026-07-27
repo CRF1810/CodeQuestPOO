@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import BgModal from "../../../assets/Maps/ModalChallenge.png";
-import loadingVideo from "../../../assets/Loading/loading.webm";
+import BgModal from "../../..../../../Assets/Maps/ModalChallenge.png";
+import loadingVideo from "../../..../../../Assets/Loading/loading.webm";
 
 export default function ModalChallenge({ isOpen, onClose, onPlay, challenge }) {
     const [visible, setVisible] = useState(false);

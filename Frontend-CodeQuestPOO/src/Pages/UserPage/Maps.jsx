@@ -8,11 +8,11 @@ import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
 
 import SideBar from "../../Components/SideBar/SideBar";
 
-import map1 from "../../assets/Maps/FirstMap.png";
+import map1 from "../../Assets/Maps/FirstMap.png";
 
-import map2 from "../../assets/Maps/SecondMap.png";
+import map2 from "../../Assets/Maps/SecondMap.png";
 
-import map3 from "../../assets/Maps/ThirdMap.png";
+import map3 from "../../Assets/Maps/ThirdMap.png";
 
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ import { ChartBar, Search, Lock, Swords, X } from "lucide-react";
 
 import { getMe } from "../../Services/users/userService";
 
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 
 
 

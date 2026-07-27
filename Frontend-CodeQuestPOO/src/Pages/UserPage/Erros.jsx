@@ -12,7 +12,7 @@ import {
   FileText,
   Loader2
 } from "lucide-react";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 
 const ERRO_COLORS = ["#7c3aed", "#3b82f6", "#f59e0b", "#ef4444", "#06b6d4", "#22c55e"];
 const PAGE_SIZE = 5;

@@ -11,10 +11,10 @@ import {
   Rocket
 } from "lucide-react";
 
-import buttonMap from "../../assets/Buttons/Mapa.png";
-import buttonRemake from "../../assets/Buttons/Refazer.png";
-import Bg from "../../assets/Maps/Bg-Map1.png";
-import Bg2 from "../../assets/Maps/Bg-Map2-Nivel3.png"
+import buttonMap from "../../Assets/Buttons/Mapa.png";
+import buttonRemake from "../../Assets/Buttons/Refazer.png";
+import Bg from "../../Assets/Maps/Bg-Map1.png";
+import Bg2 from "../../Assets/Maps/Bg-Map2-Nivel3.png"
 
 function formatTime(s) {
   const m = Math.floor(s / 60);

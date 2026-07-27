@@ -1,4 +1,4 @@
-import BgOptions from "../../../assets/Buttons/BgOptions.png"
+import BgOptions from "../../..../../../Assets/Buttons/BgOptions.png"
 
 export default function AnswerOptions({
   options = [],

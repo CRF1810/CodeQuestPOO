@@ -7,11 +7,11 @@ import { getMapas } from "../../Services/maps/mapasService";
 import { getLevelsByMap } from "../../Services/maps/levelService";
 import { gerarRelatorioPDF } from "../../Services/pdf/pdfService";
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 import SideBar from "../../Components/SideBar/SideBar";
-import map1 from "../../assets/Maps/FirstMap.png";
-import map2 from "../../assets/Maps/SecondMap.png";
-import map3 from "../../assets/Maps/ThirdMap.png";
+import map1 from "../../Assets/Maps/FirstMap.png";
+import map2 from "../../Assets/Maps/SecondMap.png";
+import map3 from "../../Assets/Maps/ThirdMap.png";
 import {
     ArrowLeft,
     Clock,

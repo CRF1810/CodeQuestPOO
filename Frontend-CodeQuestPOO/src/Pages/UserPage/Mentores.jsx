@@ -10,7 +10,7 @@ import {
 } from "../../Services/mentores/mentores";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Sparkles, Shield, Swords, Check, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 

@@ -6,13 +6,13 @@ import { getDesempenhoCodigo } from "../../Services/users/performaceService";
 import { getUserTempo } from "../../Services/users/jogTemService";
 import { obterXPAluno } from "../../Services/Gameplay/xpProgressService";
 import { getMapas } from "../../Services/maps/mapasService";
-import map1 from "../../assets/Maps/FirstMap.png";
-import map2 from "../../assets/Maps/SecondMap.png";
-import map3 from "../../assets/Maps/ThirdMap.png";
+import map1 from "../../Assets/Maps/FirstMap.png";
+import map2 from "../../Assets/Maps/SecondMap.png";
+import map3 from "../../Assets/Maps/ThirdMap.png";
 import { useState, useEffect } from "react";
 import SideBar from "../../Components/SideBar/SideBar";
-import mago from "../../assets/DashBoard/mago.png";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import mago from "../../Assets/DashBoard/mago.png";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 import "../../css/DashBoard.css";
 import {
     Target,

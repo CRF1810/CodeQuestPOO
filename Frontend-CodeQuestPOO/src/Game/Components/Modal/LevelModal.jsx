@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import BgModal from "../../../assets/Maps/ModalChallenge.png"; // mesma imagem
+import BgModal from "../../..../../../Assets/Maps/ModalChallenge.png"; // mesma imagem
 
 export default function ModalNivelConcluido({
     isOpen,

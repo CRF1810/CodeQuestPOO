@@ -14,13 +14,13 @@ import { useQuiz } from "../../../Hooks/useQuiz"
 import { getToken, getUser } from "../../../../Services/auth/authStorage"
 import { getLevelsByMap } from "../../../../Services/maps/levelService"
 
-import Bg from "../../../../assets/Maps/Bg-Map1-Nivel3.png"
+import Bg from "../../../..../../../Assets/Maps/Bg-Map1-Nivel3.png"
 import dsf_7 from "../../../Data/Mapa-1/Nivel-3/dsf_7"
 
 import ModalService from '../../../Components/Modal/ModalService'
 import ModalFalha from '../../../Components/Modal/ModalFalha'
 
-import loadingVideo from "../../../../assets/Loading/loading.webm";
+import loadingVideo from "../../../..../../../Assets/Loading/loading.webm";
 
 const quizSteps = dsf_7.filter(s => s.type === "quiz")
 const codeSteps = dsf_7.filter(s => s.type === "code")

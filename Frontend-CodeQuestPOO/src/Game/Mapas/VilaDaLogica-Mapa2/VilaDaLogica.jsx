@@ -14,23 +14,23 @@ import { getLevelsByMap } from "../../../Services/maps/levelService";
 import { getProgresso } from "../../../Services/users/userStatsService";
 import { obterXPAluno } from "../../../Services/Gameplay/xpProgressService";
 import { getProgressoDashboard } from "../../../Services/users/userStatsService";
-import map from "../../../assets/Maps/Map2.png";
-import Banner from "../../../assets/Maps/Banner.jpg";
+import map from "../../..../../../Assets/Maps/Map2.png";
+import Banner from "../../..../../../Assets/Maps/Banner.jpg";
 
-import Arrow from "../../../assets/Maps/Arrow.png";
-import ButtonImgBack from "../../../assets/Buttons/Back.png"
-import Button1 from "../../../assets/Buttons/1.png"
+import Arrow from "../../..../../../Assets/Maps/Arrow.png";
+import ButtonImgBack from "../../..../../../Assets/Buttons/Back.png"
+import Button1 from "../../..../../../Assets/Buttons/1.png"
 
-import Button2 from "../../../assets/Buttons/2.png"
-import Button3 from "../../../assets/Buttons/3.png"
-import Button4 from "../../../assets/Buttons/4.png"
-import Button5 from "../../../assets/Buttons/5.png"
+import Button2 from "../../..../../../Assets/Buttons/2.png"
+import Button3 from "../../..../../../Assets/Buttons/3.png"
+import Button4 from "../../..../../../Assets/Buttons/4.png"
+import Button5 from "../../..../../../Assets/Buttons/5.png"
 
-import Button6 from "../../../assets/Buttons/6.png"
-import Button7 from "../../../assets/Buttons/7.png"
-import Button8 from "../../../assets/Buttons/8.png"
+import Button6 from "../../..../../../Assets/Buttons/6.png"
+import Button7 from "../../..../../../Assets/Buttons/7.png"
+import Button8 from "../../..../../../Assets/Buttons/8.png"
 
-import loadingVideo from "../../../assets/Loading/loading.webm";
+import loadingVideo from "../../..../../../Assets/Loading/loading.webm";
 
 const GLOBAL_CSS = `
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&family=DM+Sans:wght@400;600&display=swap');

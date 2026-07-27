@@ -20,7 +20,7 @@ import {
     GraduationCap,
     ShieldCheck,
 } from "lucide-react";
-import loadingVideo from "../../assets/Loading/loading.webm";
+import loadingVideo from "../../Assets/Loading/loading.webm";
 
 function formatDate(iso) {
     if (!iso) return "—";

@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
-import mapImg from "../../../assets/Maps/Map1.png";
-import mapImg2 from "../../../assets/Maps/Map2.png";
+import mapImg from "../../..../../../Assets/Maps/Map1.png";
+import mapImg2 from "../../..../../../Assets/Maps/Map2.png";
 import { getLevelsByMap } from "../../../Services/maps/levelService";
 import { obterXPAluno } from "../../../Services/Gameplay/xpProgressService";
 
 import { getProgresso } from "../../../Services/users/userStatsService";
 import { Lock, Trophy, CheckSquare } from "lucide-react";
-import loadingVideo from "../../../assets/Loading/loading.webm";
+import loadingVideo from "../../..../../../Assets/Loading/loading.webm";
 
-import Button1 from "../../../assets/Buttons/1.png"
-import Button2 from "../../../assets/Buttons/2.png"
-import Button3 from "../../../assets/Buttons/3.png"
-import Button4 from "../../../assets/Buttons/4.png"
-import Button5 from "../../../assets/Buttons/5.png"
-import Button6 from "../../../assets/Buttons/6.png"
-import Button7 from "../../../assets/Buttons/7.png"
-import Button8 from "../../../assets/Buttons/8.png"
+import Button1 from "../../..../../../Assets/Buttons/1.png"
+import Button2 from "../../..../../../Assets/Buttons/2.png"
+import Button3 from "../../..../../../Assets/Buttons/3.png"
+import Button4 from "../../..../../../Assets/Buttons/4.png"
+import Button5 from "../../..../../../Assets/Buttons/5.png"
+import Button6 from "../../..../../../Assets/Buttons/6.png"
+import Button7 from "../../..../../../Assets/Buttons/7.png"
+import Button8 from "../../..../../../Assets/Buttons/8.png"
 
 // ─── PALETA DE CORES ────────────────────────────────────────────────────────
 
