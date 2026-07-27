@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react"
-import { concluirDesafio } from "../../Services/Gameplay/xpProgressService"
+import { concluirDesafio } from "../../Services/gameplay/xpProgressService"
 import { getPyodide } from "../../Python/pyodideEngine"
 import formatError from "../../Python/ErrorPyton"
 import classifyError from "../../Python/classifyError"
 import classifyFeedback from "../../Python/classifyFeedback"
-import { pedirFeedbackIA } from "../../Services/Gameplay/feedbackAIService"
+import { pedirFeedbackIA } from "../../Services/gameplay/feedbackAiService"
 
 export function useCode(fases = [], config = {}) {
   const [currentIndex, setCurrentIndex] = useState(0)

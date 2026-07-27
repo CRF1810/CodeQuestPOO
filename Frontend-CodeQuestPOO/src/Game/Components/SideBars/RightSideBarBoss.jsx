@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import BossBannerImgMap1 from "../../..../../../Assets/Maps/BannerBoss-Map1.png";
 import BossBannerImgMap2 from "../../..../../../Assets/Maps/BannerBoss-Map2.png";
 
-import { obterXPAluno } from "../../../Services/Gameplay/xpProgressService";
+import { obterXPAluno } from "../../../Services/gameplay/xpProgressService";
 import { Trophy, CheckSquare } from "lucide-react";
 
 import loadingVideo from "../../..../../../Assets/Loading/loading.webm";

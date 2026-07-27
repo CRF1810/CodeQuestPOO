@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import RightSideBar from "../../../Components/SideBars/RightSideBar"
+import RightSideBar from "../../../Components/SideBars/rightSideBar"
 import LeftSideBar from "../../../Components/SideBars/LeftSideBar"
 import QuizContainer from "../../../Components/Quiz/QuizContainer"
 

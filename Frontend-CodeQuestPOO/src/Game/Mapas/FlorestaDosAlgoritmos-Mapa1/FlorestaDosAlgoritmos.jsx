@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { getLevelsByMap } from "../../../Services/maps/levelService";
 import { getProgresso } from "../../../Services/users/userStatsService";
-import { obterXPAluno } from "../../../Services/Gameplay/xpProgressService";
+import { obterXPAluno } from "../../../Services/gameplay/xpProgressService";
 import { getProgressoDashboard } from "../../../Services/users/userStatsService";
 import map from "../../..../../../Assets/Maps/Map1.png";
 import Banner from "../../..../../../Assets/Maps/Banner.jpg";

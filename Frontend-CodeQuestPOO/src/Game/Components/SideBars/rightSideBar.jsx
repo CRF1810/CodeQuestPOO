@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import mapImg from "../../..../../../Assets/Maps/Map1.png";
 import mapImg2 from "../../..../../../Assets/Maps/Map2.png";
 import { getLevelsByMap } from "../../../Services/maps/levelService";
-import { obterXPAluno } from "../../../Services/Gameplay/xpProgressService";
+import { obterXPAluno } from "../../../Services/gameplay/xpProgressService";
 
 import { getProgresso } from "../../../Services/users/userStatsService";
 import { Lock, Trophy, CheckSquare } from "lucide-react";

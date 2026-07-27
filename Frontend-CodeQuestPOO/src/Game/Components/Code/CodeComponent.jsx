@@ -1,6 +1,6 @@
-import CodeBox from "./codeBox"
+import CodeBox from "./CodeBox"
 import ConsoleBox from "./ConsoleBox"
-import Objectives from "./objectives"
+import Objectives from "./Objectives"
 import MentorBox from "./MentorBox"
 
 export default function CodeComponent({

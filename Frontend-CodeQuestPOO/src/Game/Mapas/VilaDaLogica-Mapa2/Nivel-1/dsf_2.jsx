@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import RightSideBar from "../../../Components/SideBars/RightSideBar"
+import RightSideBar from "../../../Components/SideBars/rightSideBar"
 import LeftSideBar from "../../../Components/SideBars/LeftSideBar"
 
 import CodeComponent from "../../../Components/Code/CodeComponent"

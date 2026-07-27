@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMe } from "../../Services/users/userService";
-import { buscarTempoNivel } from "../../Services/Gameplay/tempoService";
+import { buscarTempoNivel } from "../../Services/gameplay/tempoService";
 import { getProgresso } from "../../Services/users/userStatsService";
 import { getMapas } from "../../Services/maps/mapasService";
 import { getLevelsByMap } from "../../Services/maps/levelService";

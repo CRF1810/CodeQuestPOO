@@ -4,7 +4,7 @@ import { getProgresso, getProgressoDashboard } from "../../Services/users/userSt
 import { getTipoDeErrosUsers } from "../../Services/users/errorsUsers";
 import { getDesempenhoCodigo } from "../../Services/users/performaceService";
 import { getUserTempo } from "../../Services/users/jogTemService";
-import { obterXPAluno } from "../../Services/Gameplay/xpProgressService";
+import { obterXPAluno } from "../../Services/gameplay/xpProgressService";
 import { getMapas } from "../../Services/maps/mapasService";
 import map1 from "../../Assets/Maps/FirstMap.png";
 import map2 from "../../Assets/Maps/SecondMap.png";

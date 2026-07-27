@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import { concluirDesafio } from "../../Services/Gameplay/xpProgressService"
+import { concluirDesafio } from "../../Services/gameplay/xpProgressService"
 
 export function useQuiz(perguntas = [], config = {}) {
 

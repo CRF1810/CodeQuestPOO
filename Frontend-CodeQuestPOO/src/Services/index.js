@@ -3,10 +3,10 @@ export * from "./auth/authStorage";
 
 export * from "./users/userService";
 export * from "./users/userStatsService";
-export * from "./users/performanceService";
+export * from "./users/performaceService";
 
 export * from "./maps/mapasService";
 export * from "./maps/levelService";
 
-export * from "./Gameplay/xpProgressService";
-export * from "./Gameplay/tempoService";
+export * from "./gameplay/xpProgressService";
+export * from "./gameplay/tempoService";

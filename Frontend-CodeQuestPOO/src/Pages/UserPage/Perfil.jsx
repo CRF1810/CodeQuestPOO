@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMe, editarPerfil, getMentores } from "../../Services/users/userService";
-import { obterXPAluno } from "../../Services/Gameplay/xpProgressService";
+import { obterXPAluno } from "../../Services/gameplay/xpProgressService";
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
 import SideBar from "../../Components/SideBar/SideBar";
 import {
