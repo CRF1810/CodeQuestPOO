@@ -31,7 +31,7 @@ import DesafioFinal from "./Components/GameTest/desafioFinal";
 
 // Game
 import FlorestaDosAlgoritmos from "./Game/Mapas/FlorestaDosAlgoritmos-Mapa1/FlorestaDosAlgoritmos";
-import VilaDaLogica from './Game/Mapas/VilaDaLogica-Mapa2/vilaDaLogica';
+import VilaDaLogica from "./Game/Mapas/VilaDaLogica-Mapa2/VilaDaLogica";
 
 import Mapa1 from "./Game/Routes/mapa-1.routes";
 import Mapa2 from "./Game/Routes/mapa-2.routes"
