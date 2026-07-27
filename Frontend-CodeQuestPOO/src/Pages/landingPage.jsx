@@ -15,12 +15,13 @@ import { getAllMentores } from "../Services/mentores/mentores";
 import { ChevronLeft, ChevronRight, Sparkles, RotateCcw } from "lucide-react";
 import "../css/landingPage.css";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const SERVER_URL = API_URL.replace(/\/api$/, "");
 
 function getImageUrl(path) {
     if (!path) return null;
     if (path.startsWith("http")) return path;
-    return `${BASE_URL}${path}`;
+    return `${SERVER_URL}${path}`;
 }
 
 const HERO_THEMES = {
