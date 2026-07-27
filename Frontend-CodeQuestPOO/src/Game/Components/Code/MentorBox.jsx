@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react"
 import { getMentorAluno, getReactionMentor } from "../../../Services/mentores/mentores"
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const SERVER_URL = API_URL.replace(/\/api$/, "");
 
 function getImageUrl(path) {
   if (!path) return null;
   if (path.startsWith("http")) return path;
-  return `${BASE_URL}${path}`;
+  return `${SERVER_URL}${path}`;
 }
 
 function getImageForStatus(mentor, status) {
