@@ -1,5 +1,24 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=MedievalSharp&family=Fira+Code:wght@400;500&display=swap');
+
+body {
+    font-family: 'MedievalSharp', sans-serif;
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6,
+.game-title,
+.title {
+    font-family: 'Cinzel Decorative', serif;
+}
+
+code,
+pre,
+.cm-editor,
+.cm-content {
+    font-family: 'Fira Code', monospace;
+}
 
 html,
 body,
