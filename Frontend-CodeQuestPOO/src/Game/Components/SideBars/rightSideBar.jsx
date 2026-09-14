@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import mapImg from "../../..../../../Assets/Maps/Map1.png";
 import mapImg2 from "../../..../../../Assets/Maps/Map2.png";
+import mapImg3 from "../../..../../../Assets/Maps/Map3.png";
 import { getLevelsByMap } from "../../../Services/maps/levelService";
 import { obterXPAluno } from "../../../Services/gameplay/xpProgressService";
 
@@ -17,7 +18,6 @@ import Button6 from "../../..../../../Assets/Buttons/6.png"
 import Button7 from "../../..../../../Assets/Buttons/7.png"
 import Button8 from "../../..../../../Assets/Buttons/8.png"
 
-// ─── PALETA DE CORES ────────────────────────────────────────────────────────
 
 const Color = {
     primary: {
@@ -46,7 +46,6 @@ const Color = {
     },
 };
 
-// ─── Mapa posições ────────────────────────────────────────────────────────────
 
 const CHALLENGE_POSITIONS_MAP_1 = {
     1: { x: 34, y: 88 },
@@ -70,6 +69,16 @@ const CHALLENGE_POSITIONS_MAP_2 = {
     8: { x: 55, y: 15 },
 };
 
+const CHALLENGE_POSITIONS_MAP_3 = {
+    1: { x: 25, y: 88 },
+    2: { x: 58, y: 70 },
+    3: { x: 48, y: 58 },
+    4: { x: 8, y: 65 },
+    5: { x: 30, y: 40 },
+    6: { x: 75, y: 45 },
+    7: { x: 50, y: 35 },
+};
+
 const BUTTON_IMAGES = {
     1: Button1,
     2: Button2,
@@ -88,12 +97,8 @@ const OBJETIVO = {
     recompensa: "+100 XP",
 };
 
-// ─── DISTÂNCIA AO CENTRO DO ECRÃ ────────────────────────────────────────────
-// Mesma lógica do LeftSideBar: distância entre o centro do ecrã e a borda
-// interna desta sidebar. Ajusta se quiseres mais/menos espaço para o main.
-const GAP_FROM_CENTER_RIGHT = 480; // px
+const GAP_FROM_CENTER_RIGHT = 480;
 
-// ────────────────────────────────────────────────────────────────────────────
 
 function XPBar({ xpAtual, xpProximo, percentagem }) {
     const safeCurrent = Number(xpAtual ?? 0);
@@ -487,10 +492,11 @@ export default function RightSideBar({ time, attempts, wrong = 0, mapaId = 1 }) 
     const objetivo = OBJETIVO;
 
     const isMap2 = mapaId === 2;
-    const mapTitle = isMap2 ? "Vila da Lógica" : "Floresta dos Algoritmos";
-    const mapImage = isMap2 ? mapImg2 : mapImg;
-    const routePrefix = isMap2 ? "vila" : "floresta";
-    const challengePositions = isMap2 ? CHALLENGE_POSITIONS_MAP_2 : CHALLENGE_POSITIONS_MAP_1;
+    const isMap3 = mapaId === 3;
+    const mapTitle = isMap2 ? "Vila da Lógica" : isMap3 ? "Castelo do Caos" : "Floresta dos Algoritmos";
+    const mapImage = isMap2 ? mapImg2 : isMap3 ? mapImg3 : mapImg;
+    const routePrefix = isMap2 ? "vila" : isMap3 ? "castelo" : "floresta";
+    const challengePositions = isMap2 ? CHALLENGE_POSITIONS_MAP_2 : isMap3 ? CHALLENGE_POSITIONS_MAP_3 : CHALLENGE_POSITIONS_MAP_1;
 
     function formatTime(totalSeconds) {
         const horas = Math.floor(totalSeconds / 3600);

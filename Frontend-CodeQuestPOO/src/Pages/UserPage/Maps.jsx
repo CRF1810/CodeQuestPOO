@@ -409,7 +409,7 @@ export default function Maps() {
 
                     {mapa3 && (
 
-                        <MapCard mapaData={mapa3} imgSrc={map3} route="/FlorestaDosAlgoritmos" imgClass="w-100 h-145" navigate={navigate}
+                        <MapCard mapaData={mapa3} imgSrc={map3} route="/CasteloDoCaos" imgClass="w-100 h-145" navigate={navigate}
                             onBlockedClick={semMentor ? () => setShowSemMentor(true) : null}
                         />
 

@@ -7,6 +7,7 @@ export default function ModalService({ challenge, isOpen, setIsOpen, mapaId = 1 
   const mapRoutes = {
     1: "/FlorestaDosAlgoritmos",
     2: "/VilaDaLogica",
+    3: "/CasteloDoCaos",
   };
 
   const handleClose = () => {

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import BossBannerImgMap1 from "../../..../../../Assets/Maps/BannerBoss-Map1.png";
 import BossBannerImgMap2 from "../../..../../../Assets/Maps/BannerBoss-Map2.png";
+import BossBannerImgMap3 from "../../..../../../Assets/Maps/BannerBoss-Map3.png";
 
 import { obterXPAluno } from "../../../Services/gameplay/xpProgressService";
 import { Trophy, CheckSquare } from "lucide-react";
@@ -243,7 +244,7 @@ function BossBanner({ correct = 0, totalFases = 5, mapaId = 1 }) {
     const BOSS_BANNERS = {
         1: BossBannerImgMap1,
         2: BossBannerImgMap2,
-        // 3: BossBannerImgMap3, // adicionar quando existir o asset do mapa 3
+        3: BossBannerImgMap3, 
     };
     const bossImg = BOSS_BANNERS[mapaId] ?? BossBannerImgMap1;
 
@@ -514,8 +515,6 @@ export default function RightSideBarBoss({ time, attempts, wrong = 0, correct = 
                 style={{
                     top: "50%",
                     left: "50%",
-                    // Centra verticalmente e empurra para a direita do centro do ecrã,
-                    // mantendo sempre a mesma distância ao centro, independente da largura do monitor.
                     transform: `translate(${GAP_FROM_CENTER_RIGHT}px, -50%)`,
                     width: `${SIDEBAR_WIDTH}px`,
                     maxHeight: "900px",

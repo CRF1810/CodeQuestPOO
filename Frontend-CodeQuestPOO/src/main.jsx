@@ -32,9 +32,11 @@ import DesafioFinal from "./Components/GameTest/desafioFinal";
 // Game
 import FlorestaDosAlgoritmos from "./Game/Mapas/FlorestaDosAlgoritmos-Mapa1/FlorestaDosAlgoritmos";
 import VilaDaLogica from "./Game/Mapas/VilaDaLogica-Mapa2/VilaDaLogica";
+import CasteloDoCaos from "./Game/Mapas/CasteloDoCaos-Mapa3/CasteloDoCaos";
 
 import Mapa1 from "./Game/Routes/mapa-1.routes";
 import Mapa2 from "./Game/Routes/mapa-2.routes"
+import Mapa3 from "./Game/Routes/mapa-3.routes"
 
 //context
 import { SessionProvider } from './Context/SessionProvider';
@@ -69,14 +71,17 @@ createRoot(document.getElementById('root')).render(
           <Route path="/DesafioFinalGameTest" element={<DesafioFinal />} />
 
           {/* GAME */}
-          
+
           {/* Map-1 */}
           <Route path="/FlorestaDosAlgoritmos" element={<FlorestaDosAlgoritmos />} />
           <Route path="/floresta/*" element={<Mapa1 />} />
           {/* Map-2 */}
           <Route path="/VilaDaLogica" element={<VilaDaLogica />} />
           <Route path="/vila/*" element={<Mapa2 />} />
-          
+          {/* Map-3 */}
+          <Route path="/CasteloDoCaos" element={<CasteloDoCaos />} />
+          <Route path="/castelo/*" element={<Mapa3 />} /> 
+
           <Route path="*" element={<Landingpage />} />
         </Routes>
       </SessionProvider>
