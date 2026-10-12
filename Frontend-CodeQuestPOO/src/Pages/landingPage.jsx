@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaGamepad, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import HeaderLandingPage from "../Components/Header/HeaderLandingPage";
+import logo from "../Assets/Section1.jpg";
 import videoAbertura from "../Assets/landpage/Abertura.mp4";
 import herois from "../Assets/landpage/Herois.png";
 import evoluir from "../Assets/landpage/Evoluir.jpg";
@@ -423,8 +424,8 @@ export default function Landingpage() {
                 <HeaderLandingPage />
             </div>
 
-            <section id="video" className="relative w-full py-115 px-135 flex items-center justify-center overflow-hidden bg-black" style={{ minHeight: "90vh" }}>
-                <video autoPlay loop muted playsInline preload="auto" className="absolute inset-0 w-full h-full object-contain">
+            <section id="video" className="relative w-full py-115 px-135 flex items-center justify-center overflow-hidden" style={{ minHeight: "90vh" }}>
+                <video autoPlay loop muted playsInline poster={logo} className="absolute inset-0 w-full h-full object-cover">
                     <source src={videoAbertura} type="video/mp4" />
                 </video>
                 <div className="absolute inset-0 bg-black/20" />
