@@ -15,25 +15,55 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 export const criar = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
-      nome, email, password, numero, turma,
-      escola, ano, ano_letivo, avatar_id, mentor_id
+      nome,
+      email,
+      password,
+      numero,
+      turma,
+      escola,
+      ano,
+      ano_letivo,
+      avatar_id,
+      mentor_id
     } = req.body;
 
     if (!nome || !email || !password || !numero || !turma || !escola || !ano || !ano_letivo) {
-      res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos' });
+      res.status(400).json({
+        error: 'Todos os campos obrigatórios devem ser preenchidos'
+      });
       return;
     }
 
     const aluno = await AlunosService.criarAluno({
-      nome, email, password, numero, turma,
-      escola, ano, ano_letivo, avatar_id, mentor_id
+      nome,
+      email,
+      password,
+      numero,
+      turma,
+      escola,
+      ano,
+      ano_letivo,
+      avatar_id,
+      mentor_id
     });
 
     res.status(201).json(aluno);
   } catch (err) {
     const error = err as Error;
+
+    if (error.message === 'Email já está em uso') {
+      res.status(409).json({
+        sucesso: false,
+        mensagem: 'Este email já está registado no sistema.'
+      });
+      return;
+    }
+
     console.error('[AlunosController] criar:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Erro interno ao criar conta. Tenta novamente mais tarde.'
+    });
   }
 };
 

@@ -1,25 +1,25 @@
 const dsf_3 = [
   {
     titulo: "Fase 1 – Criar um Habitante",
-    initialCode: "# Cria uma classe Habitante e depois cria um objeto\n",
+    initialCode: "# Define a classe Habitante e cria um objeto a partir dela\n",
     objectives: [
-      { label: "Criar uma classe chamada Habitante" },
-      { label: "Criar um objeto chamado aldeao a partir da classe" },
-      { label: "Mostrar a mensagem: Objeto criado" },
+      { label: "Definir a classe Habitante (com pass)" },
+      { label: "Criar um objeto a partir da classe: aldeao = Habitante()" },
+      { label: "Mostrar: Objeto criado" },
     ],
     validate: (output) => output.trim() === "Objeto criado",
     hints: {
-      error: "Depois de criares a classe, podes criar o objeto com aldeao = Habitante().",
+      error: "Um objeto (ou instância) cria-se chamando a classe com parênteses: aldeao = Habitante().",
       success: "Boa! Criaste a tua primeira instância 🎉",
     },
   },
   {
     titulo: "Fase 2 – Criar uma Casa",
-    initialCode: "# Cria um objeto a partir da classe Casa\n",
+    initialCode: "# Define a classe Casa e cria um objeto a partir dela\n",
     objectives: [
-      { label: "Criar uma classe chamada Casa" },
-      { label: "Criar um objeto chamado casa_azul" },
-      { label: "Mostrar a mensagem: Casa criada" },
+      { label: "Definir a classe Casa (com pass)" },
+      { label: "Criar um objeto chamado casa_azul a partir da classe" },
+      { label: "Mostrar: Casa criada" },
     ],
     validate: (output) => output.trim() === "Casa criada",
     hints: {
@@ -29,15 +29,15 @@ const dsf_3 = [
   },
   {
     titulo: "Fase 3 – Criar o Lobo",
-    initialCode: "# Cria uma instância da classe Lobo\n",
+    initialCode: "# Define a classe Lobo e cria uma instância dela\n",
     objectives: [
-      { label: "Criar uma classe chamada Lobo" },
-      { label: "Criar um objeto chamado boss" },
-      { label: "Mostrar a mensagem: Boss criado" },
+      { label: "Definir a classe Lobo (com pass)" },
+      { label: "Criar um objeto chamado boss a partir da classe" },
+      { label: "Mostrar: Boss criado" },
     ],
     validate: (output) => output.trim() === "Boss criado",
     hints: {
-      error: "Cria a classe Lobo e depois cria o objeto com boss = Lobo().",
+      error: "Define a classe Lobo e depois cria o objeto com boss = Lobo().",
       success: "Boa! O Lobo Guardião entrou no jogo 🐺",
     },
   },

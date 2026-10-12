@@ -5,18 +5,18 @@ const dsf_6 = [
     initialCode: "# Cria uma lista com diferentes heróis\n",
 
     objectives: [
-      { label: "Criar a classe Heroi" },
-      { label: "Criar Guerreiro, Arqueiro e Mago" },
-      { label: "Criar um objeto de cada classe" },
-      { label: "Guardar todos os personagens numa lista" },
-      { label: "Percorrer a lista para os apresentar" },
+      { label: "Definir Heroi com __init__(self, nome) e as classes Guerreiro, Arqueiro e Mago, que herdam dela" },
+      { label: "Criar 'Kael' (Guerreiro), 'Sira' (Arqueiro) e 'Elyra' (Mago)" },
+      { label: "Guardar os três objetos na mesma lista" },
+      { label: "Percorrer a lista com um ciclo for" },
+      { label: "Mostrar o nome de cada herói, em linhas separadas: Kael, Sira e Elyra" },
     ],
 
     validate: (output) =>
       output.trim() === "Kael\nSira\nElyra",
 
     hints: {
-      error: "Coloca os diferentes objetos na mesma lista e percorre-a com um ciclo.",
+      error: "Objetos de classes diferentes podem estar na mesma lista. Percorre-a com for heroi in lista.",
       success: "O exército está reunido! 🛡️",
     },
   },
@@ -24,14 +24,14 @@ const dsf_6 = [
   {
     titulo: "Fase 2 – Todos ao Ataque",
 
-    initialCode: "# Faz todos os heróis atacar()\n",
+    initialCode: "# Faz todos os heróis atacarem através do mesmo método\n",
 
     objectives: [
-      { label: "Criar diferentes tipos de heróis" },
-      { label: "Implementar atacar() em cada classe" },
-      { label: "Guardar os heróis numa lista" },
-      { label: "Percorrer a lista" },
-      { label: "Chamar atacar() sem verificar o tipo" },
+      { label: "Definir Heroi, Guerreiro, Arqueiro e Mago (com herança)" },
+      { label: "Implementar atacar() em cada classe filha, com a sua própria mensagem" },
+      { label: "Guardar 'Kael', 'Sira' e 'Elyra' numa lista" },
+      { label: "Percorrer a lista com um ciclo for" },
+      { label: "Chamar heroi.atacar() em cada objeto, sem verificar o tipo" },
     ],
 
     validate: (output) =>
@@ -39,8 +39,8 @@ const dsf_6 = [
       "Kael golpeou com a espada!\nSira disparou uma flecha!\nElyra lançou um feitiço!",
 
     hints: {
-      error: "Percorre a lista e chama atacar() directamente em cada objeto.",
-      success: "É isso! O mesmo método desencadeia comportamentos diferentes ⚔️",
+      error: "Percorre a lista e chama atacar() diretamente em cada objeto, sem if nem isinstance().",
+      success: "É isso! O mesmo método desencadeia comportamentos diferentes (polimorfismo) ⚔️",
     },
   },
 
@@ -50,12 +50,11 @@ const dsf_6 = [
     initialCode: "# Comanda o exército contra o Dragão do Caos\n",
 
     objectives: [
-      { label: "Criar Guerreiro, Arqueiro e Mago" },
-      { label: "Dar a cada classe um método atacar()" },
-      { label: "Criar uma lista com todos os heróis" },
-      { label: "Percorrer o exército através de um ciclo" },
-      { label: "Fazer cada herói executar o seu próprio ataque" },
-      { label: "Mostrar o resultado de todo o ataque" },
+      { label: "Definir Heroi, Guerreiro, Arqueiro e Mago (com herança)" },
+      { label: "Dar a cada classe filha o seu próprio método atacar()" },
+      { label: "Criar uma lista com 'Kael', 'Sira' e 'Elyra'" },
+      { label: "Percorrer a lista e chamar atacar() em cada herói" },
+      { label: "No fim do ciclo, mostrar: O Dragão do Caos foi atingido!" },
     ],
 
     validate: (output) =>
@@ -63,8 +62,8 @@ const dsf_6 = [
       "Kael golpeou com a espada!\nSira disparou uma flecha!\nElyra lançou um feitiço!\nO Dragão do Caos foi atingido!",
 
     hints: {
-      error: "Usa polimorfismo: percorre a lista e chama o mesmo método atacar() para todos.",
-      success: "🏆 Vitória! Acabaste de usar polimorfismo para comandar todo o exército!",
+      error: "Usa polimorfismo: percorre a lista e chama o mesmo método atacar() em todos. A mensagem final aparece só depois do ciclo.",
+      success: "🏆 Vitória! Usaste polimorfismo para comandar todo o exército!",
     },
   },
 

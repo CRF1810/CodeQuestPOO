@@ -16,6 +16,14 @@ export const registerUser = async (data) => {
     return res;
   } catch (err) {
     console.error("Erro ao registrar utilizador: ", err);
+
+    if (err.response?.status === 409) {
+      return {
+        sucesso: false,
+        mensagem: err.response.data.mensagem
+      };
+    }
+
     throw err;
   }
 };

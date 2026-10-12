@@ -46,14 +46,23 @@ export class AlunosService {
       throw handleError('Erro ao buscar alunos', error);
     }
   }
-
   static async criarAluno(dados: CriarAlunoDTO): Promise<AlunoType> {
+    const emailNormalizado = dados.email.trim().toLowerCase();
+
     try {
+      const alunoExistente = await Aluno.findOne({
+        where: { email: emailNormalizado }
+      });
+
+      if (alunoExistente) {
+        throw new Error('Email já está em uso');
+      }
+
       const hash = await bcrypt.hash(dados.password, 10);
 
       const novoAluno = await Aluno.create({
         nome: dados.nome,
-        email: dados.email,
+        email: emailNormalizado,
         password: hash,
         numero: dados.numero,
         turma: dados.turma,
@@ -74,14 +83,27 @@ export class AlunosService {
         mapa_atual: 1
       });
 
-      await EmailService.enviarEmailBoasVindas(novoAluno.email, novoAluno.nome);
+      try {
+        await EmailService.enviarEmailBoasVindas(novoAluno.email, novoAluno.nome);
+      } catch (emailError) {
+        console.error('Aluno criado, mas não foi possível enviar o email:', emailError);
+      }
 
       return novoAluno.get({ plain: true }) as AlunoType;
+
     } catch (error) {
+      
+      if (error instanceof Error && error.message === 'Email já está em uso') {
+        throw error;
+      }
+    
+      if (error instanceof Error && (error as any).name === 'SequelizeUniqueConstraintError') {
+        throw new Error('Email já está em uso');
+      }
+
       throw handleError('Erro ao criar aluno', error);
     }
   }
-
   static async getMe(alunoId: number): Promise<AlunoType> {
     try {
       const aluno = await Aluno.findOne({

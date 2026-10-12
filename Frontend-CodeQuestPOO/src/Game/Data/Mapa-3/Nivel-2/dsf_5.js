@@ -5,10 +5,10 @@ const dsf_5 = [
     initialCode: "# Sobrescreve o método atacar()\n",
 
     objectives: [
-      { label: "Criar a classe Heroi" },
-      { label: "Criar o método atacar()" },
-      { label: "Criar a classe Guerreiro" },
-      { label: "Sobrescrever atacar()" },
+      { label: "Definir a classe Heroi com __init__(self, nome) e o método atacar()" },
+      { label: "Definir a classe Guerreiro que herda de Heroi" },
+      { label: "Sobrescrever atacar() no Guerreiro (mesmo nome, novo comportamento)" },
+      { label: "Criar o guerreiro 'Kael' e chamar atacar()" },
       { label: "Mostrar: Kael golpeou com a espada!" },
     ],
 
@@ -16,21 +16,21 @@ const dsf_5 = [
       output.trim() === "Kael golpeou com a espada!",
 
     hints: {
-      error: "Cria uma nova versão de atacar() dentro da classe Guerreiro.",
-      success: "Boa! O Guerreiro tem agora uma voz própria ⚔️",
+      error: "Escreve uma nova versão de atacar() dentro da classe Guerreiro: o Python usa sempre a versão da classe filha.",
+      success: "Boa! O Guerreiro tem agora um comportamento próprio ⚔️",
     },
   },
 
   {
     titulo: "Fase 2 – O Feitiço da Maga",
 
-    initialCode: "# Cria um comportamento próprio para a Maga\n",
+    initialCode: "# Cria um comportamento próprio para o Mago\n",
 
     objectives: [
-      { label: "Criar a classe Heroi" },
-      { label: "Criar a classe Maga" },
-      { label: "Fazer Maga herdar de Heroi" },
-      { label: "Sobrescrever o método atacar()" },
+      { label: "Definir a classe Heroi com __init__(self, nome) e o método atacar()" },
+      { label: "Definir a classe Mago que herda de Heroi" },
+      { label: "Sobrescrever atacar() no Mago" },
+      { label: "Criar a maga 'Elyra' e chamar atacar()" },
       { label: "Mostrar: Elyra lançou uma bola de fogo!" },
     ],
 
@@ -38,8 +38,8 @@ const dsf_5 = [
       output.trim() === "Elyra lançou uma bola de fogo!",
 
     hints: {
-      error: "A classe Maga precisa da sua própria implementação de atacar().",
-      success: "Excelente! A mesma acção pode ter um comportamento completamente diferente 🔥",
+      error: "A classe Mago precisa da sua própria versão de atacar(), que use self.nome.",
+      success: "Excelente! O mesmo método pode ter um comportamento completamente diferente 🔥",
     },
   },
 
@@ -49,18 +49,18 @@ const dsf_5 = [
     initialCode: "# Dá uma habilidade diferente a cada classe\n",
 
     objectives: [
-      { label: "Criar Heroi, Guerreiro e Mago" },
-      { label: "Criar o método habilidade()" },
-      { label: "Sobrescrever habilidade() nas classes filhas" },
-      { label: "Dar uma habilidade própria a cada personagem" },
-      { label: "Mostrar as duas habilidades" },
+      { label: "Definir Heroi com __init__(self, nome) e um método habilidade()" },
+      { label: "Definir Guerreiro e Mago, ambas a herdar de Heroi" },
+      { label: "Sobrescrever habilidade() em cada classe filha" },
+      { label: "Criar 'Kael' (Guerreiro) e 'Elyra' (Mago) e chamar habilidade() de cada um" },
+      { label: "Mostrar: Kael usa Golpe Poderoso! e Elyra usa Raio Arcano!, em linhas separadas" },
     ],
 
     validate: (output) =>
       output.trim() === "Kael usa Golpe Poderoso!\nElyra usa Raio Arcano!",
 
     hints: {
-      error: "Cada classe filha deve redefinir habilidade() com a sua própria mensagem.",
+      error: "Cada classe filha redefine habilidade() com a sua própria mensagem, usando self.nome.",
       success: "Fantástico! Cada tipo de herói tem agora uma identidade própria ✨",
     },
   },

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Lock, User, Eye, EyeOff, CheckCircle, XCircle, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Lock, User, Eye, EyeOff, CheckCircle, AlertCircle, X } from 'lucide-react';
 import logo from '../../Assets/logo.png';
 import Bg from '../../Assets/Login/BgLogin.jpg';
 import HeroSection from '../../Assets/Login/Hero.png';
@@ -9,32 +9,44 @@ import { saveToken } from "../../Services/auth/authStorage";
 
 const Toast = ({ message, type, onClose }) => {
   const isSuccess = type === 'success';
-  
+  const duration = 4200;
+
+  useEffect(() => {
+    const t = setTimeout(onClose, duration);
+    return () => clearTimeout(t);
+  }, [onClose]);
+
   return (
-    <div className="fixed top-4 right-4 z-50 animate-slide-in">
-      <div className={`flex items-center gap-3 min-w-[320px] max-w-md p-4 rounded-lg shadow-2xl backdrop-blur-sm border ${
-        isSuccess 
-          ? 'bg-emerald-500/90 border-emerald-400/50' 
-          : 'bg-red-500/90 border-red-400/50'
-      }`}>
-        <div className="flex-shrink-0">
-          {isSuccess ? (
-            <CheckCircle className="w-6 h-6 text-white" />
-          ) : (
-            <XCircle className="w-6 h-6 text-white" />
-          )}
+    <div className="fixed top-4 right-4 z-50 animate-toast-impact">
+      <div className={`flex flex-col min-w-[320px] max-w-md rounded-2xl shadow-2xl backdrop-blur-md border overflow-hidden ${isSuccess
+        ? 'bg-gradient-to-r from-emerald-500/95 to-emerald-600/95 border-emerald-400/50'
+        : 'bg-gradient-to-r from-rose-500/95 to-rose-600/95 border-rose-400/50'
+        }`}>
+        <div className="flex items-center gap-4 px-6 py-4">
+          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
+            {isSuccess ? (
+              <CheckCircle className="w-5 h-5 text-white" />
+            ) : (
+              <AlertCircle className="w-5 h-5 text-white" />
+            )}
+          </div>
+          <div className="flex-1">
+            <p className="text-white font-semibold text-sm">{message}</p>
+          </div>
+          <button
+            onClick={onClose}
+            className="flex-shrink-0 text-white/70 hover:text-white transition-colors hover:rotate-90 duration-300"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        
-        <div className="flex-1">
-          <p className="text-white font-medium text-sm">{message}</p>
+        {/* barra de progresso — dá noção de quanto tempo falta até fechar */}
+        <div className="h-1 bg-black/20">
+          <div
+            className="h-full bg-white/70 animate-toast-bar"
+            style={{ animationDuration: `${duration - 100}ms` }}
+          />
         </div>
-        
-        <button
-          onClick={onClose}
-          className="flex-shrink-0 text-white/80 hover:text-white transition-colors"
-        >
-          <X className="w-5 h-5" />
-        </button>
       </div>
     </div>
   );
@@ -50,7 +62,6 @@ export default function Login() {
 
   const showToast = (message, type = 'error') => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 5000); 
   };
 
   const handleSubmit = async (e) => {
@@ -78,10 +89,10 @@ export default function Login() {
   return (
     <>
       {toast && (
-        <Toast 
-          message={toast.message} 
-          type={toast.type} 
-          onClose={() => setToast(null)} 
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
 
@@ -104,7 +115,7 @@ export default function Login() {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                 <div>
                   <label className="block text-slate-300 text-sm font-medium mb-2">
                     Email
@@ -212,19 +223,27 @@ export default function Login() {
       </div>
 
       <style jsx>{`
-        @keyframes slide-in {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
+        @keyframes toast-impact {
+          0% { transform: translateY(-14px) scale(0.92); opacity: 0; }
+          55% { transform: translateY(2px) scale(1.02); opacity: 1; }
+          100% { transform: translateY(0) scale(1); }
         }
-        
-        .animate-slide-in {
-          animation: slide-in 0.3s ease-out;
+
+        @keyframes toast-bar {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
+
+        .animate-toast-impact {
+          animation: toast-impact 0.38s cubic-bezier(.34,1.56,.64,1) both;
+        }
+
+        .animate-toast-bar {
+          animation: toast-bar linear forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-toast-impact { animation: none !important; }
         }
       `}</style>
     </>

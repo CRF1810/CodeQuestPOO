@@ -76,7 +76,6 @@ export default function DashBoardHeader({ user }) {
   const navItems = [
     { id: "home", icon: <Home size={20} />, label: "Início", path: "/Dashboard" },
     { id: "leaderboard", icon: <Trophy size={20} />, label: "Leaderboard", path: "/leaderBoard" },
-    { id: "recent", icon: <Clock size={20} />, label: "Recentes", path: "/recent" },
     { id: "amigos", icon: <Users size={20} />, label: "Amigos", path: "/amigos" },
   ];
 

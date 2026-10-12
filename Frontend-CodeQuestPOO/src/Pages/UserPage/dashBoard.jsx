@@ -29,23 +29,8 @@ import {
     CheckCircle2,
 } from "lucide-react";
 
-const PLAYER = {
-    name: "CodeMaster",
-    heroi: mago,
-    rank: "Aprendiz",
-    level: 12,
-    memberSince: "Set 2024",
-    accuracy: 78,
-    errors: 22,
-    totalXP: 2450,
-    nextLevelXP: 3000,
-    desafios: 23,
-    dicasUsadas: 15,
-    diasSeguidos: 7,
-    hoursThisWeek: "16 H 32 M",
-    maxPerDay: "5 H 21 M",
-    weekActivity: [30, 55, 40, 70, 95, 50, 20],
-};
+//Dumb data
+
 
 const DAYS = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
 
@@ -191,25 +176,6 @@ function WeeklyBars({ activity, currentDayOfWeek }) {
     );
 }
 
-// ============================================================
-// 🔷 LoginRewardBanner
-// ============================================================
-function LoginRewardBanner() {
-    return (
-        <div className="flex items-center justify-between bg-gradient-to-r from-yellow-700/80 via-yellow-600/70 to-orange-600/60 border border-yellow-600/40 rounded-4xl px-6 py-4 mb-5 animate-scaleUp animate-glow">
-            <div className="flex items-center gap-3">
-                <span className="text-2xl animate-bounce-custom">🎁</span>
-                <div>
-                    <p className="text-white font-bold text-sm">Recompensa de Login – Dia 71 ⚡</p>
-                    <p className="text-yellow-200 text-xs mt-0.5">+150 moedas • Dobro de XP por 1 hora</p>
-                </div>
-            </div>
-            <button className="bg-white text-yellow-800 font-bold text-xs rounded-lg px-5 py-2 hover:bg-yellow-100 transition-colors shadow-sm">
-                Resgatar
-            </button>
-        </div>
-    );
-}
 
 // ============================================================
 // 🔷 XPBar
@@ -652,8 +618,8 @@ function mapProgressToPlayer(userData, data, tempo) {
         diasSeguidos: data.streak_dias ?? 0,
         dicasUsadas: data.dicas_usadas ?? 0,
         desafios: data.desafios_completos ?? 0,
-        accuracy: data.acertos ?? 80,
-        errors: data.errors ?? 20,
+        accuracy: data.acertos ?? 0,
+        errors: data.errors ?? 0,
 
         totalXP: progressao.xpAtual ?? 0,
         nextLevelXP: progressao.xpProximoNivel ?? 500,
@@ -759,7 +725,7 @@ export function DashBoard() {
             .catch(err => {
                 const errorMsg = err.response?.data?.error || err.message || "Erro desconhecido";
                 console.error("[Dashboard] Erro ao carregar progresso:", errorMsg);
-                setProgresso({ ...PLAYER, name: userData.nome });
+                setProgresso({ name: userData.nome });
             })
             .finally(() => setLoading(false));
     }, []);
@@ -776,7 +742,7 @@ export function DashBoard() {
                         const prog = progresso.find(p => p.mapa === m.id) || {};
                         return {
                             ...m,
-                            mapImg: MAP_IMAGES[index] || map1,   
+                            mapImg: MAP_IMAGES[index] || map1,
                             desafios: prog.desafios_completos || 0,
                             total: prog.total_desafios || 0,
                             locked: !prog.desbloqueado,
@@ -862,19 +828,24 @@ export function DashBoard() {
 
     const currentDayOfWeek = getDayofWeek();
 
-    const totalRespostas = (desempenho?.total_certas ?? 0) + (desempenho?.total_erradas ?? 0);
+    const totalRespostas =
+        (desempenho?.total_certas ?? 0) +
+        (desempenho?.total_erradas ?? 0);
+
     const accuracyPct = totalRespostas > 0
         ? Math.round((desempenho.total_certas / totalRespostas) * 100)
-        : (progresso?.accuracy ?? 0);
-    const errorsPct = 100 - accuracyPct;
+        : 0;
 
+    const errorsPct = totalRespostas > 0
+        ? Math.round((desempenho.total_erradas / totalRespostas) * 100)
+        : 0;
+        
     return (
         <div className="relative min-h-screen bg-black animate-fadeIn">
             <DashBoardHeader user={user} />
             <SideBar user={user} />
 
             <main className="ml-20 mt-4 p-6 pt-24">
-                <LoginRewardBanner />
 
                 {progresso && progressaoXp && (
                     <MainCard
