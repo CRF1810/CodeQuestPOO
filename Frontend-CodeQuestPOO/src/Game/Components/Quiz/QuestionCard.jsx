@@ -168,7 +168,7 @@ export default function QuestionCard({
               {droppedItem.label}
             </p>
             <p className={`font-bold text-[16px] tracking-wider ${isCorrect ? "text-[#19f027] result-correct" : "text-[#d32020] result-wrong"}`}>
-              {isCorrect ? "✦ Correto!" : "✗ Errado"}
+              {isCorrect ? "✦ Boa!" : "✗ Tenta depois!"}
             </p>
           </>
         ) : (

@@ -23,8 +23,8 @@ function getImageForStatus(mentor, status) {
 const STATUS_CONFIG = {
   idle:    { accent: "#4ade80", label: "Pronto" },
   typing:  { accent: "#60a5fa", label: "A pensar..." },
-  error:   { accent: "#f87171", label: "Tenta depois!" },
-  success: { accent: "#4ade80", label: "Boa!" },
+  error:   { accent: "#f87171", label: "Atenção!" },
+  success: { accent: "#facc15", label: "Boa!" },
 }
 
 const DEFAULT_MESSAGES = {
