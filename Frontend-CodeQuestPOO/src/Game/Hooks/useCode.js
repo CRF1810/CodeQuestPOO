@@ -39,6 +39,7 @@ export function useCode(fases = [], config = {}) {
   const [totalAttempts, setTotalAttempts] = useState(0)
   const [streakAtual, setStreakAtual] = useState(config.streakInicial ?? 0)
   const [transitioning, setTransitioning] = useState(false)
+  const [awaitingContinue, setAwaitingContinue] = useState(false)
 
   const totalWrongRef = useRef(0)
   const totalAttemptsRef = useRef(0)
@@ -109,6 +110,8 @@ export function useCode(fases = [], config = {}) {
     setShowFailModal(false)
     setWrong(0)
     setAttempts(0)
+    setAwaitingContinue(false)
+    setTransitioning(false)
 
     totalAttemptsRef.current = 0
 
@@ -252,6 +255,13 @@ export function useCode(fases = [], config = {}) {
     return totalAttemptsRef.current
   }
 
+  function continueToNextQuestion() {
+    setAwaitingContinue(false)
+    setTransitioning(false)
+    if (isUltima) setFinished(true)
+    else setCurrentIndex(i => i + 1)
+  }
+
   async function gerarFeedbackErro({ code, finalOutput, erro, rawError, tentativa }) {
     try {
       const tipoErroId = classifyError(rawError)
@@ -299,6 +309,11 @@ export function useCode(fases = [], config = {}) {
   }
 
   async function runCode(code) {
+    if (code === undefined && awaitingContinue) {
+      continueToNextQuestion()
+      return { success: true, continued: true }
+    }
+
     if (loading) return
 
     const executionStartedAt = Date.now()
@@ -371,14 +386,8 @@ export function useCode(fases = [], config = {}) {
           prev.map(obj => ({ ...obj, done: true }))
         )
 
+        setAwaitingContinue(true)
         setTransitioning(true)
-
-        setTimeout(() => {
-          if (isUltima) setFinished(true)
-          else setCurrentIndex(i => i + 1)
-
-          setTransitioning(false)
-        }, 9000)
 
         return { success: true, output }
 
@@ -419,6 +428,7 @@ export function useCode(fases = [], config = {}) {
           setTotalWrong(t => t + 1)
 
           if (totalWrongRef.current >= 3) {
+            setAwaitingContinue(false)
             setShowFailModal(true)
             setTransitioning(false)
             setLoading(false)
@@ -428,12 +438,8 @@ export function useCode(fases = [], config = {}) {
           const skipMessage = "Atingiste 3 tentativas sem acertar. Vamos avançar para o próximo exercício; poderás continuar a aprender nos seguintes."
           addLog("warning", `⚠️ ${skipMessage}`)
 
+          setAwaitingContinue(true)
           setTransitioning(true)
-          setTimeout(() => {
-            if (isUltima) setFinished(true)
-            else setCurrentIndex(i => i + 1)
-            setTransitioning(false)
-          }, 9000)
         }
 
         return {
@@ -475,6 +481,7 @@ export function useCode(fases = [], config = {}) {
         setTotalWrong(t => t + 1)
 
         if (totalWrongRef.current >= 3) {
+          setAwaitingContinue(false)
           setShowFailModal(true)
           setLoading(false)
           return { success: false, message: clean }
@@ -483,13 +490,8 @@ export function useCode(fases = [], config = {}) {
         const skipMessage = "Atingiste 3 tentativas sem acertar. Vamos avançar para o próximo exercício; poderás continuar a aprender nos seguintes."
         addLog("warning", `⚠️ ${skipMessage}`)
 
+        setAwaitingContinue(true)
         setTransitioning(true)
-        setTimeout(() => {
-          if (isUltima) setFinished(true)
-          else setCurrentIndex(i => i + 1)
-
-          setTransitioning(false)
-        }, 9000)
       }
 
       return { success: false, message: clean }
@@ -521,5 +523,7 @@ export function useCode(fases = [], config = {}) {
     showFailModal,
     streakAtual,
     transitioning,
+    awaitingContinue,
+    continueToNextQuestion,
   }
 }
