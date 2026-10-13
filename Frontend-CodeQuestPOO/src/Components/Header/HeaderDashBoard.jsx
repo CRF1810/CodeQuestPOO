@@ -6,8 +6,8 @@ import {
   Home,
   Clock,
   Users,
-  Search,
-  Settings,
+  Bell,
+  X,
   Star,
   Flame,
   DollarSign,
@@ -26,8 +26,8 @@ function formatarTempo(segundos = 0) {
 
 export default function DashBoardHeader({ user }) {
   const [activeNav, setActiveNav] = useState("home");
-  const [searchFocused, setSearchFocused] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [stats, setStats] = useState({
     tempo_total_jogo: 0,
     xp_total: 0,
@@ -111,12 +111,6 @@ export default function DashBoardHeader({ user }) {
         .active-dot {
           animation: glow-pulse 1.8s ease-in-out infinite;
         }
-        .search-bar {
-          transition: all 0.25s ease;
-        }
-        .search-bar:focus-within {
-          transform: scaleX(1.01);
-        }
       `}</style>
 
       <header
@@ -185,48 +179,19 @@ export default function DashBoardHeader({ user }) {
         </div>
 
         <div className="ml-auto flex items-center gap-3">
-          <div className="w-52">
-            <div
-              className="search-bar flex items-center gap-2 px-3 py-2 rounded-full cursor-text"
-              style={{
-                background: searchFocused ? "rgba(6,182,212,0.08)" : "rgba(255,255,255,0.04)",
-                border: `1px solid ${searchFocused ? "rgba(6,182,212,0.45)" : "rgba(255,255,255,0.08)"}`,
-                boxShadow: searchFocused ? "0 0 0 3px rgba(6,182,212,0.08)" : "none",
-              }}
-              onClick={() => document.getElementById("header-search")?.focus()}
-            >
-              <Search size={14} color={searchFocused ? "#06b6d4" : "rgba(255,255,255,0.3)"} />
-
-              <input
-                id="header-search"
-                type="text"
-                placeholder="Pesquisar"
-                className="bg-transparent outline-none text-xs w-full"
-                style={{ color: "rgba(255,255,255,0.7)", caretColor: "#06b6d4" }}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-              />
-
-              {!searchFocused && (
-                <kbd
-                  className="text-xs px-1.5 py-0.5 rounded-full flex-shrink-0"
-                  style={{
-                    color: "rgba(255,255,255,0.2)",
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    fontFamily: "monospace",
-                    fontSize: "10px",
-                  }}
-                >
-                  /
-                </kbd>
-              )}
-            </div>
-          </div>
-
           <div className="flex items-center gap-4 mr-2">
-            <button className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:bg-cyan-600/10 hover:text-cyan-500 text-white/40">
-              <Settings size={20} />
+            <button
+              type="button"
+              aria-label="Notificações"
+              aria-haspopup="dialog"
+              aria-expanded={isNotificationsOpen}
+              className="relative w-10 h-10 rounded-full flex items-center justify-center text-cyan-400 bg-cyan-500/10 transition-all duration-200 hover:bg-cyan-600/20"
+              onClick={() => {
+                setIsModalOpen(false);
+                setIsNotificationsOpen((open) => !open);
+              }}
+            >
+              <Bell size={19} />
             </button>
 
             <button
@@ -237,13 +202,47 @@ export default function DashBoardHeader({ user }) {
                 border: "2px solid rgba(255,255,255,0.1)",
                 boxShadow: "0 0 14px rgba(6,182,212,0.3)",
               }}
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                setIsNotificationsOpen(false);
+                setIsModalOpen(true);
+              }}
             >
               {user?.nome?.[0]?.toUpperCase() ?? "U"}
             </button>
           </div>
         </div>
+
+        {isNotificationsOpen && (
+          <div
+            role="dialog"
+            aria-label="Notificações"
+            className="absolute top-full right-6 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-white/10 bg-neutral-950 p-4 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-bold text-white">Notificações</h2>
+              <button
+                type="button"
+                aria-label="Fechar notificações"
+                className="text-white/50 hover:text-white"
+                onClick={() => setIsNotificationsOpen(false)}
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <p className="text-sm text-neutral-400">Ainda não tens notificações.</p>
+          </div>
+        )}
       </header>
+
+      {isNotificationsOpen && (
+        <button
+          type="button"
+          aria-label="Fechar notificações"
+          className="fixed inset-0 z-40 cursor-default"
+          onClick={() => setIsNotificationsOpen(false)}
+        />
+      )}
 
       <div className="relative">
         {isModalOpen && (

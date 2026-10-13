@@ -1,4 +1,4 @@
-import { LogOut, User, X, Mail, Shield, ChevronRight, Settings } from "lucide-react";
+import { LogOut, User, X, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "../../css/ProfileModal.css";
 import { useState, useEffect } from "react";
@@ -49,40 +49,22 @@ export default function ProfileModal({ onClose }) {
         <div className="pm-divider" />
 
         <div className="pm-menu">
-          <div className="pm-menu-item">
+          <button
+            type="button"
+            className="pm-menu-item w-full text-left"
+            onClick={() => {
+              onClose();
+              navigate("/Perfil");
+            }}
+          >
             <div className="pm-menu-icon">
               <User size={15} />
             </div>
-            <button className="pm-menu-label" onClick={() => navigate("/Perfil")}>
+            <span className="pm-menu-label">
               Perfil
-            </button>
+            </span>
             <ChevronRight size={14} className="pm-menu-arrow" />
-          </div>
-
-          <div className="pm-menu-item">
-            <div className="pm-menu-icon">
-              <Mail size={15} />
-            </div>
-            <span className="pm-menu-label">Notificações</span>
-            <span className="pm-badge">3</span>
-            <ChevronRight size={14} className="pm-menu-arrow" />
-          </div>
-
-          <div className="pm-menu-item">
-            <div className="pm-menu-icon">
-              <Shield size={15} />
-            </div>
-            <span className="pm-menu-label">Segurança</span>
-            <ChevronRight size={14} className="pm-menu-arrow" />
-          </div>
-
-          <div className="pm-menu-item">
-            <div className="pm-menu-icon">
-              <Settings size={15} />
-            </div>
-            <span className="pm-menu-label">Definições</span>
-            <ChevronRight size={14} className="pm-menu-arrow" />
-          </div>
+          </button>
         </div>
 
         <div className="pm-footer">
@@ -102,4 +84,4 @@ export default function ProfileModal({ onClose }) {
       </div>
     </>
   );
-}   
+}
