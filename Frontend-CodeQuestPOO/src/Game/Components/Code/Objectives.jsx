@@ -30,7 +30,7 @@ export default function Objectives({ items = [] }) {
   const goNext = () => setPage((p) => (p + 1) % totalPages);
 
   return (
-    <div className="px-4 py-4 bg-gray-800 border-t border-gray-800 rounded-4xl border-4 shadow-lg shadow-black/40">
+    <div className="w-full min-w-0 px-4 py-4 bg-gray-800 border-t border-gray-800 rounded-4xl border-4 shadow-lg shadow-black/40">
       <div className="flex items-center justify-between border-b-2 border-white mb-2">
         <p className="text-xs text-gray-500 font-mono uppercase tracking-wider">
           Objetivos da fase
@@ -51,11 +51,11 @@ export default function Objectives({ items = [] }) {
         )}
       </div>
 
-      <div key={page} className="flex flex-col gap-2 mt-4">
+      <div key={page} className="flex min-w-0 flex-col gap-2 mt-4">
         {currentItems.map((item, i) => (
           <div
             key={i}
-            className="flex items-center gap-2 opacity-0 animate-[fadeIn_0.4s_ease-out_forwards]"
+            className="flex min-w-0 items-center gap-2 opacity-0 animate-[fadeIn_0.4s_ease-out_forwards]"
             style={{ animationDelay: `${i * 100}ms` }}
           >
             <span
@@ -67,7 +67,7 @@ export default function Objectives({ items = [] }) {
             >
               {item.done ? "✓" : ""}
             </span>
-            <span className={`text-xs font-mono ${item.done ? "text-gray-500 line-through" : "text-gray-300"}`}>
+            <span className={`min-w-0 break-words text-xs font-mono ${item.done ? "text-gray-500 line-through" : "text-gray-300"}`}>
               {item.label}
             </span>
           </div>

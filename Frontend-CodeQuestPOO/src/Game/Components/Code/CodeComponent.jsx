@@ -46,6 +46,7 @@ export default function CodeComponent({
 
       <div
         className={`
+          w-full max-w-[41.25rem]
           transition-all duration-300 ease-in-out
           ${transitioning
             ? "opacity-0 scale-95 pointer-events-none"
@@ -72,7 +73,7 @@ export default function CodeComponent({
           </button>
         )}
 
-        <div className="flex flex-row mt-2 gap-4 mb-2">
+        <div className="grid w-full grid-cols-2 items-start gap-4 mt-2 mb-2">
 
           <MentorBox
             status={mentorStatus}
@@ -85,7 +86,7 @@ export default function CodeComponent({
             }}
           />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex min-w-0 flex-col gap-2">
 
             <Objectives items={objectives} />
 
