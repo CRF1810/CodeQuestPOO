@@ -29,7 +29,14 @@ export default function CodeComponent({
             <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
 
             <p className="font-bold text-xl">
-              Próxima pergunta...
+              {mentorStatus === "success"
+                ? "Resposta correta!"
+                : "Atingiste 3 tentativas sem acertar."}
+            </p>
+            <p className="mt-2 max-w-md text-sm text-gray-300">
+              {mentorStatus === "success"
+                ? "Lê o feedback com atenção. O próximo exercício vai começar em instantes."
+                : "Vamos avançar para o próximo exercício. Continua a praticar nos desafios seguintes."}
             </p>
 
           </div>
