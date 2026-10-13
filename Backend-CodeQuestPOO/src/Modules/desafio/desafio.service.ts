@@ -37,6 +37,7 @@ export class DesafiosService {
             const {
                 respostas_certas = 0,
                 respostas_erradas = 0,
+                tentativas = 1,
                 ajudas_usadas = 0,
                 tempo_desafio = 0,
                 score = 0,
@@ -44,6 +45,9 @@ export class DesafiosService {
                 tipo_feedback_id = null,
                 feedback_ia = null,
             } = dados;
+            const tentativasRegistadas = Number.isInteger(tentativas) && tentativas > 0
+                ? tentativas
+                : 1;
 
             const desafio = await Desafio.findByPk(desafioId, {
                 include: [{
@@ -61,7 +65,7 @@ export class DesafiosService {
                     desafio_id: desafioId,
                     respostas_certas,
                     respostas_erradas,
-                    tentativas: 1,
+                    tentativas: tentativasRegistadas,
                     ajudas_usadas,
                     tempo_desafio,
                     score,
@@ -76,7 +80,7 @@ export class DesafiosService {
             if (!primeiraVez) {
                 try {
                     await desempenho.update({
-                        tentativas: desempenho.tentativas + 1,
+                        tentativas: desempenho.tentativas + tentativasRegistadas,
                         respostas_certas,
                         respostas_erradas,
                         ajudas_usadas,

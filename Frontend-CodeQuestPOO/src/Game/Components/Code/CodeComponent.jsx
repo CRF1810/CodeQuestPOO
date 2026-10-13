@@ -14,6 +14,7 @@ export default function CodeComponent({
   addLog,
   hints,
   transitioning,
+  onRequestHint,
 }) {
 
   return (
@@ -53,6 +54,16 @@ export default function CodeComponent({
           loading={loading || transitioning}
           addLog={addLog}
         />
+
+        {hints?.start && (
+          <button
+            type="button"
+            onClick={onRequestHint}
+            className="mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-bold transition-colors"
+          >
+            Pedir dica
+          </button>
+        )}
 
         <div className="flex flex-row mt-2 gap-4 mb-2">
 

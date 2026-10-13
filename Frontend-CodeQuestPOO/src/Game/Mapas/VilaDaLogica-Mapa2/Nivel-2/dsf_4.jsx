@@ -71,6 +71,7 @@ export default function DSF4() {
         objectives,
         finished,
         runCode,
+        requestHint,
         addLog,
         timeSeconds,
         correct,
@@ -260,6 +261,7 @@ export default function DSF4() {
                     mentorStatus={mentorStatus}
                     objectives={objectives}
                     runCode={runCode}
+                    onRequestHint={requestHint}
                     addLog={addLog}
                     hints={currentQuestion?.hints}
                     aiFeedback={aiFeedback}
