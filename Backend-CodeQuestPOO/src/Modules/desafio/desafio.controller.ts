@@ -33,6 +33,7 @@ export const concluirDesafio = async (req: AuthRequest, res: Response): Promise<
     const {
       respostas_certas,
       respostas_erradas,
+      tentativas,
       ajudas_usadas,
       tempo_desafio,
       score,
@@ -48,6 +49,7 @@ export const concluirDesafio = async (req: AuthRequest, res: Response): Promise<
       {
         respostas_certas,
         respostas_erradas,
+        tentativas,
         ajudas_usadas,
         tempo_desafio,
         score,

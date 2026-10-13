@@ -244,6 +244,7 @@ export default function DSF7() {
                         mentorStatus={code.mentorStatus}
                         objectives={code.currentQuestion?.objectives ?? []}
                         runCode={code.runCode}
+                        onRequestHint={code.requestHint}
                         addLog={code.addLog}
                         hints={code.currentQuestion?.hints}
                         aiFeedback={code.aiFeedback}

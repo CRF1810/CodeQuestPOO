@@ -5,6 +5,7 @@ import formatError from "../../Python/ErrorPyton"
 import classifyError from "../../Python/classifyError"
 import classifyFeedback from "../../Python/classifyFeedback"
 import { pedirFeedbackIA } from "../../Services/gameplay/feedbackAiService"
+import { iniciarSessaoInvestigacao, registarEventoInvestigacao, terminarSessaoInvestigacao } from "../../Services/gameplay/researchMetricsService"
 
 export function useCode(fases = [], config = {}) {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -46,6 +47,53 @@ export function useCode(fases = [], config = {}) {
   const tipoErroAtualRef = useRef(null)
   const tipoFeedbackAtualRef = useRef(1)
   const feedbackIaAtualRef = useRef(null)
+  const researchSessionIdRef = useRef(null)
+  const researchSessionPromiseRef = useRef(null)
+  const challengeIdRef = useRef(config.desafio_id)
+  const totalSubmissionsRef = useRef(0)
+  const hintRequestsRef = useRef(0)
+  const researchSessionClosedRef = useRef(false)
+  const researchSessionEndedRef = useRef(false)
+
+  useEffect(() => {
+    challengeIdRef.current = config.desafio_id
+  }, [config.desafio_id])
+
+  async function ensureResearchSession() {
+    if (researchSessionIdRef.current) return researchSessionIdRef.current
+    if (!config.token || !config.desafio_id) return null
+    if (!researchSessionPromiseRef.current) {
+      researchSessionPromiseRef.current = iniciarSessaoInvestigacao()
+        .then((id) => {
+          researchSessionIdRef.current = id
+          return id
+        })
+        .catch((error) => {
+          researchSessionPromiseRef.current = null
+          console.error("Não foi possível iniciar a sessão de métricas:", error)
+          return null
+        })
+    }
+    return researchSessionPromiseRef.current
+  }
+
+  async function recordResearchEvent(event) {
+    try {
+      const sessionId = await ensureResearchSession()
+      if (!sessionId) return
+      await registarEventoInvestigacao(sessionId, { desafio_id: config.desafio_id, ...event })
+    } catch (error) {
+      console.error("Não foi possível guardar a métrica do exercício:", error)
+    }
+  }
+
+  async function requestHint() {
+    const hint = currentHint.start
+    if (!hint) return
+    hintRequestsRef.current += 1
+    addLog("info", `💡 ${hint}`)
+    await recordResearchEvent({ event_type: "hint_request", hint_key: "start" })
+  }
 
   useEffect(() => {
     if (!currentQuestion) return
@@ -64,9 +112,6 @@ export function useCode(fases = [], config = {}) {
 
     totalAttemptsRef.current = 0
 
-    if (currentHint.start) {
-      addLog("info", currentHint.start)
-    }
   }, [currentIndex])
 
   useEffect(() => {
@@ -80,6 +125,50 @@ export function useCode(fases = [], config = {}) {
   }, [finished, showFailModal, startTime])
 
   useEffect(() => {
+    if (!showFailModal) return
+    researchSessionEndedRef.current = true
+    void recordResearchEvent({
+      event_type: "challenge_failed",
+      completion_time_ms: Date.now() - startTime,
+      correct_solution: false,
+      score: totalSubmissionsRef.current
+        ? Math.round((totalCorrectRef.current / totalSubmissionsRef.current) * 100)
+        : 0,
+    }).then(async () => {
+      const sessionId = researchSessionIdRef.current
+      if (!sessionId || researchSessionClosedRef.current || researchSessionEndedRef.current) return
+      try { await terminarSessaoInvestigacao(sessionId) }
+      catch (error) { console.error("Não foi possível terminar a sessão de métricas:", error) }
+      finally { researchSessionClosedRef.current = true }
+    })
+  }, [showFailModal])
+
+  useEffect(() => () => {
+    void (async () => {
+      let sessionId = researchSessionIdRef.current
+      if (!sessionId && researchSessionPromiseRef.current) {
+        sessionId = await researchSessionPromiseRef.current
+      }
+      if (!sessionId || researchSessionClosedRef.current) return
+      try {
+        await registarEventoInvestigacao(sessionId, {
+          desafio_id: challengeIdRef.current,
+          event_type: "challenge_abandoned",
+          completion_time_ms: Date.now() - startTime,
+          score: totalSubmissionsRef.current
+            ? Math.round((totalCorrectRef.current / totalSubmissionsRef.current) * 100)
+            : 0,
+        })
+        await terminarSessaoInvestigacao(sessionId)
+      } catch (error) {
+        console.error("Não foi possível fechar a sessão interrompida:", error)
+      } finally {
+        researchSessionClosedRef.current = true
+      }
+    })()
+  }, [])
+
+  useEffect(() => {
     if (!finished) return
     if (!config.token || !config.desafio_id) return
     if (desempenhoGuardado) return
@@ -87,7 +176,7 @@ export function useCode(fases = [], config = {}) {
 
     setSaving(true)
 
-    const totalTentativas = totalCorrectRef.current + totalWrongRef.current
+    const totalTentativas = totalSubmissionsRef.current
     const score =
       totalTentativas > 0
         ? Math.round((totalCorrectRef.current / totalTentativas) * 100)
@@ -95,7 +184,7 @@ export function useCode(fases = [], config = {}) {
 
     console.log("SAVE →", {
       erradas: totalWrongRef.current,
-      tentativas: totalAttemptsRef.current,
+      tentativas: totalSubmissionsRef.current,
       certas: totalCorrectRef.current,
       time: timeSeconds,
       streakAtual: streakAtual,
@@ -107,10 +196,10 @@ export function useCode(fases = [], config = {}) {
     concluirDesafio(config.desafio_id, {
       respostas_certas: totalCorrectRef.current,
       respostas_erradas: totalWrongRef.current,
-      tentativas: totalAttemptsRef.current,
+      tentativas: totalSubmissionsRef.current,
       tempo_desafio: timeSeconds,
       score,
-      ajudas_usadas: 0,
+      ajudas_usadas: hintRequestsRef.current,
       novo_streak: streakAtual,
       tipo_erro_id: tipoErroAtualRef.current,
       tipo_feedback_id: tipoFeedbackAtualRef.current,
@@ -118,6 +207,20 @@ export function useCode(fases = [], config = {}) {
     })
       .then((resultado) => {
         if (!resultado) return
+        researchSessionEndedRef.current = true
+        void recordResearchEvent({
+          event_type: "challenge_complete",
+          completion_time_ms: Date.now() - startTime,
+          correct_solution: true,
+          score,
+        }).then(async () => {
+          const sessionId = researchSessionIdRef.current
+          if (sessionId && !researchSessionClosedRef.current) {
+            try { await terminarSessaoInvestigacao(sessionId) }
+            catch (error) { console.error("Não foi possível terminar a sessão de métricas:", error) }
+            finally { researchSessionClosedRef.current = true }
+          }
+        })
         setDesempenhoGuardado(true)
         setFinalResult(resultado)
         console.log("✅ Desafio concluído!", resultado)
@@ -138,6 +241,7 @@ export function useCode(fases = [], config = {}) {
 
   function addErrorLog(message) {
     totalAttemptsRef.current += 1
+    totalSubmissionsRef.current += 1
 
     setWrong(w => w + 1)
     setAttempts(a => a + 1)
@@ -155,7 +259,7 @@ export function useCode(fases = [], config = {}) {
       tipoErroAtualRef.current = tipoErroId
 
       // Calcula score parcial para determinar tipo de feedback
-      const totalAteTentativa = totalCorrectRef.current + totalWrongRef.current + 1
+      const totalAteTentativa = totalSubmissionsRef.current
       const scoreParcial = totalAteTentativa > 0
         ? Math.round((totalCorrectRef.current / totalAteTentativa) * 100)
         : 0
@@ -178,6 +282,15 @@ export function useCode(fases = [], config = {}) {
 
       feedbackIaAtualRef.current = feedback
       setAiFeedback(feedback)
+      if (feedback) {
+        await recordResearchEvent({
+          event_type: "feedback",
+          tipo_erro_id: tipoErroId,
+          tipo_feedback_id: tipoFeedbackId,
+          feedback_text: feedback,
+          score: scoreParcial,
+        })
+      }
       return feedback
     } catch (err) {
       console.error("Erro ao pedir feedback IA:", err)
@@ -187,6 +300,9 @@ export function useCode(fases = [], config = {}) {
 
   async function runCode(code) {
     if (loading) return
+
+    const executionStartedAt = Date.now()
+    let executionDurationMs = 0
 
     setLoading(true)
     setMentorStatus("typing")
@@ -213,6 +329,7 @@ export function useCode(fases = [], config = {}) {
       })
 
       await pyodide.runPythonAsync(code)
+      executionDurationMs = Date.now() - executionStartedAt
 
       const output = stdout.trim()
       const error = stderr.trim()
@@ -228,6 +345,7 @@ export function useCode(fases = [], config = {}) {
       })
 
       if (isValid) {
+        totalSubmissionsRef.current += 1
         setMentorStatus("success")
 
         addLog(
@@ -237,6 +355,14 @@ export function useCode(fases = [], config = {}) {
 
         setCorrect(c => c + 1)
         totalCorrectRef.current += 1
+        const totalScore = Math.round((totalCorrectRef.current / totalSubmissionsRef.current) * 100)
+        await recordResearchEvent({
+          event_type: "execution",
+          execution_success: true,
+          correct_solution: true,
+          completion_time_ms: executionDurationMs,
+          score: totalScore,
+        })
 
         setConsecutiveWrong(0)
         setStreakAtual(s => s + 1)
@@ -275,6 +401,15 @@ export function useCode(fases = [], config = {}) {
           tentativa: nextAttempts,
         })
 
+        await recordResearchEvent({
+          event_type: "execution",
+          execution_success: true,
+          correct_solution: false,
+          completion_time_ms: executionDurationMs,
+          score: Math.round((totalCorrectRef.current / totalSubmissionsRef.current) * 100),
+          tipo_erro_id: tipoErroAtualRef.current,
+        })
+
         setMentorStatus("error")
 
         setStreakAtual(0)
@@ -306,6 +441,7 @@ export function useCode(fases = [], config = {}) {
         }
       }
     } catch (err) {
+      executionDurationMs = executionDurationMs || Date.now() - executionStartedAt
       const clean = formatError(err?.message || String(err))
       const tipoErroId = classifyError(err?.message || String(err))
       tipoErroAtualRef.current = tipoErroId
@@ -319,6 +455,15 @@ export function useCode(fases = [], config = {}) {
         erro: clean,
         rawError: err?.message || String(err),
         tentativa: nextAttempts,
+      })
+
+      await recordResearchEvent({
+        event_type: "execution",
+        execution_success: false,
+        correct_solution: false,
+        completion_time_ms: executionDurationMs,
+        score: Math.round((totalCorrectRef.current / totalSubmissionsRef.current) * 100),
+        tipo_erro_id: tipoErroAtualRef.current,
       })
 
       setStreakAtual(0)
@@ -370,6 +515,7 @@ export function useCode(fases = [], config = {}) {
     saving,
     addLog,
     runCode,
+    requestHint,
     showFailModal,
     streakAtual,
     transitioning,

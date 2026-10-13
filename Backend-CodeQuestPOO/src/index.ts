@@ -7,6 +7,7 @@ import path from "path";
 
 import sequelize from "./Config/sequelize.js";
 import feedbackAIRoutes from "./Modules/feedbackAI/feedbackAI.routes.js";
+import researchRoutes from "./Modules/research/research.routes.js";
 import amizadesRoutes from "./Modules/amizades/amizades.route.js";
 import adminRoutes from "./Modules/admin/admin.routes.js";
 
@@ -149,6 +150,7 @@ app.use('/uploads', express.static(uploadsPath));
 
 app.use("/api/amizades", amizadesRoutes);
 app.use("/api/feedback-ai", feedbackAIRoutes);
+app.use("/api/research", researchRoutes);
 
 app.get("/api/feedback-ai/teste", (_req: Request, res: Response) => {
   res.json({ message: "rota feedback carregada" });

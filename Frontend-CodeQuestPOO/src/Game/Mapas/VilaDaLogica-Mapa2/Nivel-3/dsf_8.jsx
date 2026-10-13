@@ -73,6 +73,7 @@ export default function DSF8() {
         objectives,
         finished,
         runCode,
+        requestHint,
         addLog,
         timeSeconds,
         correct,
@@ -295,6 +296,7 @@ export default function DSF8() {
                     mentorStatus={mentorStatus}
                     objectives={objectives}
                     runCode={runCode}
+                    onRequestHint={requestHint}
                     addLog={addLog}
                     hints={currentQuestion?.hints}
                     aiFeedback={aiFeedback}

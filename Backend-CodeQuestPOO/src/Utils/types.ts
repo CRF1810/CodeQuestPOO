@@ -86,6 +86,7 @@ export interface Nivel {
 export interface ConcluirDesafioDTO {
   respostas_certas?: number;
   respostas_erradas?: number;
+  tentativas?: number;
   ajudas_usadas?: number;
   tempo_desafio?: number;
   score?: number;

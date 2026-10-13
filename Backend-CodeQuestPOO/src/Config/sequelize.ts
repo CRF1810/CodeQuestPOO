@@ -23,6 +23,7 @@ import JogadorTempo from "../Models/JogadorTempo/jogadorTempo.js"
 import TempoNivel from "../Models/TempoNivel/tempoNivel.js"
 import Sessoes from "../Models/Sessoes/sessoes.js"
 import HistoricoTempoSemanal from "../Models/HistoricoSemanal/historicoSemanal.js"
+import ResearchEvent from "../Models/ResearchEvent/researchEvent.js"
 
 
 dotenv.config();
@@ -59,6 +60,7 @@ const sequelize = new Sequelize({
         TempoNivel,
         Sessoes,
         HistoricoTempoSemanal,
+        ResearchEvent,
         Amizade
     ],
 });
