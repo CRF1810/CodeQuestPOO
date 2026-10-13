@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Bell, Settings, Map, Trophy, Library, ClipboardCheck } from "lucide-react";
 import { sidebarLinks } from "../../config/sideBarLinks";
 import { useNavigate } from "react-router-dom";
 
@@ -34,15 +33,6 @@ export default function SideBar() {
 
             </div>
 
-            <div className="flex flex-col items-center gap-2 pb-2">
-                <Divider />
-                <SideButton tooltip="Notifications">
-                    <Bell size={18} />
-                </SideButton>
-                <SideButton tooltip="Settings">
-                    <Settings size={18} />
-                </SideButton>
-            </div>
         </aside>
     );
 }
