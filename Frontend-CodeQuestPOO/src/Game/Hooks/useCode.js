@@ -378,7 +378,7 @@ export function useCode(fases = [], config = {}) {
           else setCurrentIndex(i => i + 1)
 
           setTransitioning(false)
-        }, 5000)
+        }, 7000)
 
         return { success: true, output }
 
@@ -433,7 +433,7 @@ export function useCode(fases = [], config = {}) {
             if (isUltima) setFinished(true)
             else setCurrentIndex(i => i + 1)
             setTransitioning(false)
-          }, 4000)
+          }, 7000)
         }
 
         return {
@@ -489,7 +489,7 @@ export function useCode(fases = [], config = {}) {
           else setCurrentIndex(i => i + 1)
 
           setTransitioning(false)
-        }, 4000)
+        }, 7000)
       }
 
       return { success: false, message: clean }

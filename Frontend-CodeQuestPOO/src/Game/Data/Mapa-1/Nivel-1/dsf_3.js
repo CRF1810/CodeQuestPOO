@@ -24,11 +24,18 @@ const dsf_3 = [
 
       const escapedTen = tenVariable.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
       const escapedFive = fiveVariable.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-      const printsSum = executableLines.some(line =>
-        new RegExp(`^print\\s*\\(\\s*(?:${escapedTen}\\s*\\+\\s*${escapedFive}|${escapedFive}\\s*\\+\\s*${escapedTen})\\s*\\)\\s*$`).test(line)
+      const sumExpression = `(?:${escapedTen}\\s*\\+\\s*${escapedFive}|${escapedFive}\\s*\\+\\s*${escapedTen})`
+      const printsDirectSum = executableLines.some(line =>
+        new RegExp(`^print\\s*\\(\\s*${sumExpression}\\s*\\)\\s*$`).test(line)
+      )
+      const sumVariable = executableLines
+        .map(line => line.match(new RegExp(`^([A-Za-z_]\\w*)\\s*=\\s*${sumExpression}\\s*$`)))
+        .find(Boolean)?.[1]
+      const printsSumVariable = sumVariable && executableLines.some(line =>
+        new RegExp(`^print\\s*\\(\\s*${sumVariable}\\s*\\)\\s*$`).test(line)
       )
 
-      return printsSum
+      return printsDirectSum || printsSumVariable
     },
     hints: {
       error: "Lembra-te: a soma em Python se faz com +",
@@ -46,18 +53,25 @@ const dsf_3 = [
     validate: (output, code) => {
       if (output.trim() !== "50" || typeof code !== "string") return false
 
-      // Exige as variáveis da atividade e que print mostre o produto delas.
+      // Exige as variáveis da atividade e que print mostre o produto delas,
+      // diretamente ou através de uma variável intermédia.
       const executableLines = code
         .split("\n")
         .map(line => line.replace(/#.*/, "").trim())
         .filter(Boolean)
       const hasA = executableLines.some(line => /^a\s*=/.test(line))
       const hasB = executableLines.some(line => /^b\s*=/.test(line))
-      const printsProduct = executableLines.some(line =>
+      const printsDirectProduct = executableLines.some(line =>
         /^print\s*\(\s*(?:a\s*\*\s*b|b\s*\*\s*a)\s*\)\s*$/.test(line)
       )
+      const productVariable = executableLines
+        .map(line => line.match(/^([A-Za-z_]\w*)\s*=\s*(?:a\s*\*\s*b|b\s*\*\s*a)\s*$/))
+        .find(Boolean)?.[1]
+      const printsProductVariable = productVariable && executableLines.some(line =>
+        new RegExp(`^print\\s*\\(\\s*${productVariable}\\s*\\)\\s*$`).test(line)
+      )
 
-      return hasA && hasB && printsProduct
+      return hasA && hasB && (printsDirectProduct || printsProductVariable)
     },
     hints: {
       error: "Lembra-te: a multiplicação em Python usa *",
