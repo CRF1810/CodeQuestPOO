@@ -35,9 +35,16 @@ export default function CodeComponent({
             </p>
             <p className="mt-2 max-w-md text-sm text-gray-300">
               {mentorStatus === "success"
-                ? "Lê o feedback com atenção. O próximo exercício vai começar em instantes."
-                : "Vamos avançar para o próximo exercício. Continua a praticar nos desafios seguintes."}
+                ? "Lê o feedback com atenção e clica em Continuar quando estiveres pronto."
+                : "Atingiste 3 tentativas sem acertar. Clica em Continuar para avançar."}
             </p>
+            <button
+              type="button"
+              onClick={() => runCode()}
+              className="mt-5 rounded-full border border-blue-300/40 bg-blue-600 px-6 py-2 text-sm font-bold text-white transition hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            >
+              Continuar
+            </button>
 
           </div>
 
