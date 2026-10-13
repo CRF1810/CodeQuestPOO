@@ -11,13 +11,33 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Sparkles, Shield, Swords, Check, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import loadingVideo from "../../Assets/Loading/loading.webm";
+import aureliaImage from "../../Assets/Aurelia.png";
+import brommImage from "../../Assets/Bromm.png";
+import eldrinImage from "../../Assets/Eldrin.png";
+import lyraImage from "../../Assets/Lyra.png";
+import tharokImage from "../../Assets/Tharok.png";
+import vaelgrimImage from "../../Assets/Vaelgrim.png";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
+
+const MENTOR_IMAGES = {
+    Aurelia: aureliaImage,
+    Bromm: brommImage,
+    Eldrin: eldrinImage,
+    Lyra: lyraImage,
+    Tharok: tharokImage,
+    Vaelgrim: vaelgrimImage,
+};
 
 function getImageUrl(path) {
     if (!path) return null;
-    if (path.startsWith("http")) return path;
-    return `${BASE_URL}${path}`;
+    if (/^https?:\/\//i.test(path)) return path;
+    return `${API_ORIGIN}/${String(path).replace(/^\/+/, "")}`;
+}
+
+function getMentorImage(mentor) {
+    return MENTOR_IMAGES[mentor?.nome] ?? getImageUrl(mentor?.imagem);
 }
 
 
@@ -207,8 +227,8 @@ export default function Mentores() {
                                         className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 border"
                                         style={{ borderColor: isActive ? t.accent + "55" : "#2a2a2a" }}
                                     >
-                                        {m.imagem
-                                            ? <img src={getImageUrl(m.imagem)} alt={m.nome} className="w-full h-full object-cover object-top" />
+                                        {getMentorImage(m)
+                                            ? <img src={getMentorImage(m)} alt={m.nome} className="w-full h-full object-cover object-top" />
                                             : <div className="w-full h-full bg-neutral-800 flex items-center justify-center text-xs font-black text-neutral-500">{m.nome[0]}</div>
                                         }
                                     </div>
@@ -271,7 +291,7 @@ export default function Mentores() {
                                     />
                                     <img
                                         key={selected.id}
-                                        src={getImageUrl(selected.imagem)}
+                                        src={getMentorImage(selected)}
                                         alt={selected.nome}
                                         className="relative z-10 h-full max-h-96 mb-3 rounded-3xl w-auto object-contain object-bottom select-none"
                                         style={{
@@ -307,8 +327,13 @@ export default function Mentores() {
                                     <h2
                                         className="font-black text-5xl tracking-tight uppercase mb-4 leading-none"
                                         style={{
-                                            background: `linear-gradient(135deg, #fff 30%, ${theme.accent} 100%)`,
+                                            display: "inline-block",
+                                            width: "fit-content",
+                                            maxWidth: "100%",
+                                            backgroundImage: `linear-gradient(135deg, #fff 10%, ${theme.accent} 100%)`,
+                                            backgroundClip: "text",
                                             WebkitBackgroundClip: "text",
+                                            color: "transparent",
                                             WebkitTextFillColor: "transparent",
                                         }}
                                     >
