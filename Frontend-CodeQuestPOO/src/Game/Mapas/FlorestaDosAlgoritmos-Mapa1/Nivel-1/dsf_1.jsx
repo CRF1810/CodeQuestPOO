@@ -176,7 +176,7 @@ export default function DSF1() {
                 mapaId={mapaId}
             />
 
-            <RightSideBar time={timeSeconds} wrong={wrong} />
+            <RightSideBar time={timeSeconds} wrong={wrong} hints={currentQuestion?.hint} />
             <LeftSideBar
                 streak={streakAtual}
                 onOpenChallengeInfo={openChallengeModal}

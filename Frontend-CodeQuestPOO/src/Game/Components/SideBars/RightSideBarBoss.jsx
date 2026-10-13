@@ -193,45 +193,48 @@ function ObjetivoBox({ objetivo }) {
     );
 }
 
-function PedirDica({ onPedir }) {
-    const [usado, setUsado] = useState(false);
-
-    function handlePedir() {
-        setUsado(true);
-        if (onPedir) onPedir();
-    }
+function PedirDica({ hints }) {
+    const [mostrarDica, setMostrarDica] = useState(false);
+    const dica = typeof hints === "string"
+        ? hints
+        : hints?.start ?? Object.values(hints ?? {}).find(value => typeof value === "string")
+            ?? "Lê a pergunta com atenção, identifica o conceito principal e elimina as opções que não respondem diretamente ao que é pedido.";
 
     return (
         <div
-            className="rounded-4xl p-3 flex items-center justify-between gap-1"
+            className="rounded-4xl p-3 flex flex-col gap-2"
             style={{
                 background: Color.neutral.card,
                 border: `1px solid ${Color.neutral.border}`,
                 boxShadow: `0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(122, 184, 255, 0.1)`,
             }}
         >
-            <div>
-                <p className="text-white text-[11px] font-semibold">Pedir Dica</p>
-                <p className="text-gray-500 text-[9px]">−5 coins por dica</p>
+            <div className="flex items-center justify-between gap-2">
+                <div>
+                    <p className="text-white text-[11px] font-semibold">Pedir Dica</p>
+                    <p className="text-gray-500 text-[9px]">Revela uma pista para esta pergunta</p>
+                </div>
+                <button
+                    type="button"
+                    aria-expanded={mostrarDica}
+                    onClick={() => setMostrarDica(value => !value)}
+                    className="text-[10px] font-bold px-3 py-1.5 rounded-4xl transition-all"
+                    style={{
+                        background: `linear-gradient(135deg, ${Color.primary.light}, ${Color.primary.lighter})`,
+                        color: "#fff",
+                        border: `1px solid ${Color.primary.main}`,
+                        cursor: "pointer",
+                        boxShadow: `0 0 10px ${Color.glow.blueSoft}`,
+                    }}
+                >
+                    {mostrarDica ? "Ocultar" : "Usar 💡"}
+                </button>
             </div>
-            <button
-                onClick={handlePedir}
-                disabled={usado}
-                className="text-[10px] font-bold px-3 py-1.5 rounded-4xl transition-all"
-                style={{
-                    background: usado
-                        ? `rgba(122, 184, 255, 0.1)`
-                        : `linear-gradient(135deg, ${Color.primary.light}, ${Color.primary.lighter})`,
-                    color: usado ? "#888" : "#fff",
-                    border: usado
-                        ? `1px solid ${Color.neutral.border}`
-                        : `1px solid ${Color.primary.main}`,
-                    cursor: usado ? "not-allowed" : "pointer",
-                    boxShadow: usado ? "none" : `0 0 10px ${Color.glow.blueSoft}`,
-                }}
-            >
-                {usado ? "Usada ✓" : "Usar 💡"}
-            </button>
+            {mostrarDica && (
+                <p aria-live="polite" className="text-blue-100 text-[10px] leading-relaxed">
+                    💡 {dica}
+                </p>
+            )}
         </div>
     );
 }
@@ -379,7 +382,7 @@ function getWrongStyle(wrong, limit = 5) {
     return { color: "text-red-500", pulse: "animate-[pulse_0.3s_ease-in-out_infinite]", glow: "drop-shadow-[0_0_8px_rgba(239,68,68,1)]" }
 }
 
-export default function RightSideBarBoss({ time, attempts, wrong = 0, correct = 0, totalFases = 8, mapaId = 1 }) {
+export default function RightSideBarBoss({ time, attempts, wrong = 0, correct = 0, totalFases = 8, mapaId = 1, hints }) {
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
     const [progressaoXp, setProgressaoXp] = useState(null);
@@ -573,7 +576,7 @@ export default function RightSideBarBoss({ time, attempts, wrong = 0, correct = 
                 </div>
 
                 <ObjetivoBox objetivo={objetivo} />
-                <PedirDica onPedir={() => console.log("TODO: chamar API de dica")} />
+                <PedirDica hints={hints} />
 
                 <BossBanner correct={correct} totalFases={totalFases} mapaId={mapaId} />
 

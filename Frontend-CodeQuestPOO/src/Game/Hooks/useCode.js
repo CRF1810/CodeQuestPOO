@@ -335,7 +335,7 @@ export function useCode(fases = [], config = {}) {
       const error = stderr.trim()
       const finalOutput = error ? formatError(error) : output
 
-      const isValid = currentQuestion?.validate?.(finalOutput) ?? false
+      const isValid = currentQuestion?.validate?.(finalOutput, code) ?? false
 
       console.log({
         output,
@@ -378,7 +378,7 @@ export function useCode(fases = [], config = {}) {
           else setCurrentIndex(i => i + 1)
 
           setTransitioning(false)
-        }, 1500)
+        }, 5000)
 
         return { success: true, output }
 
@@ -425,14 +425,15 @@ export function useCode(fases = [], config = {}) {
             return { success: false, output: finalOutput }
           }
 
-          addLog("warning", "⚠️ Número máximo de tentativas atingido. Indo para próxima pergunta...")
+          const skipMessage = "Atingiste 3 tentativas sem acertar. Vamos avançar para o próximo exercício; poderás continuar a aprender nos seguintes."
+          addLog("warning", `⚠️ ${skipMessage}`)
 
           setTransitioning(true)
           setTimeout(() => {
             if (isUltima) setFinished(true)
             else setCurrentIndex(i => i + 1)
             setTransitioning(false)
-          }, 1600)
+          }, 4000)
         }
 
         return {
@@ -479,7 +480,8 @@ export function useCode(fases = [], config = {}) {
           return { success: false, message: clean }
         }
 
-        addLog("warning", "⚠️ Número máximo de tentativas atingido. Indo para próxima pergunta...")
+        const skipMessage = "Atingiste 3 tentativas sem acertar. Vamos avançar para o próximo exercício; poderás continuar a aprender nos seguintes."
+        addLog("warning", `⚠️ ${skipMessage}`)
 
         setTransitioning(true)
         setTimeout(() => {
@@ -487,7 +489,7 @@ export function useCode(fases = [], config = {}) {
           else setCurrentIndex(i => i + 1)
 
           setTransitioning(false)
-        }, 1600)
+        }, 4000)
       }
 
       return { success: false, message: clean }
