@@ -1,7 +1,31 @@
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
-import { RefreshCw, Map, Swords, X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RefreshCw, Map, Swords, X, ArrowRight } from "lucide-react";
+
+const CHALLENGE_ROUTES = {
+    floresta: [
+        "/floresta/nivel-1/desafio-1", "/floresta/nivel-1/desafio-2", "/floresta/nivel-1/desafio-3",
+        "/floresta/nivel-2/desafio-4", "/floresta/nivel-2/desafio-5", "/floresta/nivel-2/desafio-6",
+        "/floresta/nivel-3/desafio-7", "/floresta/nivel-3/desafio-8",
+    ],
+    vila: [
+        "/vila/nivel-5/desafio-9", "/vila/nivel-5/desafio-10", "/vila/nivel-5/desafio-11",
+        "/vila/nivel-6/desafio-12", "/vila/nivel-6/desafio-13", "/vila/nivel-6/desafio-14",
+        "/vila/nivel-7/desafio-15", "/vila/nivel-7/desafio-16",
+    ],
+    castelo: [
+        "/castelo/nivel-8/desafio-17", "/castelo/nivel-8/desafio-18", "/castelo/nivel-8/desafio-19",
+        "/castelo/nivel-9/desafio-20", "/castelo/nivel-9/desafio-21",
+        "/castelo/nivel-10/desafio-22", "/castelo/nivel-10/desafio-23",
+    ],
+};
+
+const MAP_ROUTES = {
+    floresta: "/FlorestaDosAlgoritmos",
+    vila: "/VilaDaLogica",
+    castelo: "/CasteloDoCaos",
+};
 
 export default function ModalFalha({
     isOpen,
@@ -14,6 +38,16 @@ export default function ModalFalha({
     const [visible, setVisible] = useState(false);
     const [animatingOut, setAnimatingOut] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const mapKey = location.pathname.startsWith("/vila/")
+        ? "vila"
+        : location.pathname.startsWith("/castelo/")
+            ? "castelo"
+            : "floresta";
+    const routeList = CHALLENGE_ROUTES[mapKey];
+    const currentRouteIndex = routeList.indexOf(location.pathname);
+    const nextRoute = routeList[currentRouteIndex + 1] || MAP_ROUTES[mapKey];
 
     const mins = Math.floor(time / 60);
     const secs = time % 60;
@@ -34,7 +68,16 @@ export default function ModalFalha({
             setVisible(false);
             setAnimatingOut(false);
         }, 320);
-        navigate("/FlorestaDosAlgoritmos");
+        navigate(MAP_ROUTES[mapKey]);
+    };
+
+    const handleContinue = () => {
+        setAnimatingOut(true);
+        setTimeout(() => {
+            setVisible(false);
+            setAnimatingOut(false);
+            navigate(nextRoute);
+        }, 320);
     };
 
     if (!visible) return null;
@@ -96,6 +139,14 @@ export default function ModalFalha({
                         </p>
                     </div>
                 </div>
+
+                <button
+                    onClick={handleContinue}
+                    className="w-full py-3.5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-95 mb-2 bg-gradient-to-br from-blue-500 to-blue-800 text-white shadow-[0_0_20px_-4px_rgba(59,130,246,0.4)]"
+                >
+                    <ArrowRight size={15} />
+                    Continuar
+                </button>
 
                 <button
                     onClick={onRepetir}
