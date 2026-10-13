@@ -136,7 +136,7 @@ export function useCode(fases = [], config = {}) {
         : 0,
     }).then(async () => {
       const sessionId = researchSessionIdRef.current
-      if (!sessionId || researchSessionClosedRef.current || researchSessionEndedRef.current) return
+      if (!sessionId || researchSessionClosedRef.current) return
       try { await terminarSessaoInvestigacao(sessionId) }
       catch (error) { console.error("Não foi possível terminar a sessão de métricas:", error) }
       finally { researchSessionClosedRef.current = true }
@@ -149,7 +149,7 @@ export function useCode(fases = [], config = {}) {
       if (!sessionId && researchSessionPromiseRef.current) {
         sessionId = await researchSessionPromiseRef.current
       }
-      if (!sessionId || researchSessionClosedRef.current) return
+      if (!sessionId || researchSessionClosedRef.current || researchSessionEndedRef.current) return
       try {
         await registarEventoInvestigacao(sessionId, {
           desafio_id: challengeIdRef.current,
