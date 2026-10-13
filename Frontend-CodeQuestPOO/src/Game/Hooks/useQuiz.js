@@ -35,7 +35,7 @@ export function useQuiz(perguntas = [], config = {}) {
   }, [finished, startTime, showFailModal])
 
   useEffect(() => {
-    if (!currentResponse) return
+    if (!currentResponse || showFailModal) return
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTransitioning(true)
@@ -47,7 +47,7 @@ export function useQuiz(perguntas = [], config = {}) {
 
     return () => clearTimeout(timer)
 
-  }, [currentResponse])
+  }, [currentResponse, showFailModal])
 
 
   useEffect(() => {
@@ -139,7 +139,7 @@ export function useQuiz(perguntas = [], config = {}) {
       setConsecutiveWrong(prev => {
         const next = prev + 1
         const perguntasRestantes = perguntas.length - currentIndex
-        if (next >= 4 && perguntasRestantes <= 2) setShowFailModal(true), setTransitioning(false)
+        if (next >= 3 && perguntasRestantes <= 2) setShowFailModal(true), setTransitioning(false)
         return next
       })
       startTransition()

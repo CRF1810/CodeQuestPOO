@@ -232,7 +232,7 @@ export default function QuizResult({
         <div className="w-[65%] flex flex-col gap-2.5">
           <ActionBtn onClick={onNextChallenge} primary>
             <span className="flex items-center justify-center gap-2">
-              Próximo Desafio <Rocket size={15} />
+              Continuar para o próximo desafio <Rocket size={15} />
             </span>
           </ActionBtn>
 

@@ -418,7 +418,7 @@ export function useCode(fases = [], config = {}) {
           totalWrongRef.current += 1
           setTotalWrong(t => t + 1)
 
-          if (totalWrongRef.current >= 2) {
+          if (totalWrongRef.current >= 3) {
             setShowFailModal(true)
             setTransitioning(false)
             setLoading(false)
@@ -474,7 +474,7 @@ export function useCode(fases = [], config = {}) {
         totalWrongRef.current += 1
         setTotalWrong(t => t + 1)
 
-        if (totalWrongRef.current >= 2) {
+        if (totalWrongRef.current >= 3) {
           setShowFailModal(true)
           setLoading(false)
           return { success: false, message: clean }
