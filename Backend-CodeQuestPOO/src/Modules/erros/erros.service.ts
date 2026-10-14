@@ -4,6 +4,8 @@ import {
     TipoErro,
     ErroJogador,
 } from "../../Models/index.js"
+import ResearchEvent from "../../Models/ResearchEvent/researchEvent.js";
+import { col, fn, Op } from "sequelize";
 
 export class ErrosService {
 
@@ -13,7 +15,26 @@ export class ErrosService {
 
             if (!aluno) throw new Error('Aluno não encontrado');
 
-            const quantidadeDeErros = await ErroJogador.findAll({
+            const errosDeExecucao = await ResearchEvent.findAll({
+                where: {
+                    aluno_id: alunoId,
+                    event_type: "execution",
+                    correct_solution: false,
+                    tipo_erro_id: { [Op.ne]: null },
+                },
+                attributes: [
+                    "tipo_erro_id",
+                    [fn("COUNT", col("id")), "quantidade"],
+                ],
+                group: ["tipo_erro_id"],
+                raw: true,
+            });
+
+            // Keep showing existing classifications for students who have not
+            // generated research execution events yet.
+            const quantidadeDeErros = errosDeExecucao.length > 0
+                ? errosDeExecucao
+                : await ErroJogador.findAll({
                 where: {
                     aluno_id: alunoId
                 },
@@ -30,7 +51,7 @@ export class ErrosService {
                         attributes: ['id', 'nome']
                     },
                 ]
-            })
+            });
 
             const TipoDeErros = await TipoErro.findAll({
                 attributes: ['id', 'nome']

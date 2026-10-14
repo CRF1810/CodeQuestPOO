@@ -63,11 +63,13 @@ const ERROR_COLORS = [
 ];
 
 function mapErrosToDB(quantidadeDeErros = [], tipoDeErros = []) {
-    const total = quantidadeDeErros.reduce((sum, e) => sum + (e.quantidade ?? 0), 0);
+    const contagemPorTipo = new Map(
+        quantidadeDeErros.map(e => [Number(e.tipo_erro_id), Number(e.quantidade) || 0])
+    );
+    const total = [...contagemPorTipo.values()].reduce((sum, count) => sum + count, 0);
 
     return tipoDeErros.map((tipo, i) => {
-        const encontrado = quantidadeDeErros.find(e => e.tipo_erro_id === tipo.id);
-        const count = encontrado?.quantidade ?? 0;
+        const count = contagemPorTipo.get(Number(tipo.id)) ?? 0;
         const pct = total > 0 ? Math.round((count / total) * 100) : 0;
         return {
             name: tipo.nome,
