@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getProgressoDashboard } from "../../Services/users/userStatsService";
+import { getPedidosAmizade } from "../../Services/users/amizadesService";
 import logo from "../../Assets/logo.png";
 import socket from "../../Services/socket/socket";
 import {
@@ -28,6 +29,10 @@ export default function DashBoardHeader({ user }) {
   const [activeNav, setActiveNav] = useState("home");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [newRequestToast, setNewRequestToast] = useState(null);
+  const previousRequestIdsRef = useRef(null);
+  const requestToastTimerRef = useRef(null);
   const [stats, setStats] = useState({
     tempo_total_jogo: 0,
     xp_total: 0,
@@ -72,6 +77,60 @@ export default function DashBoardHeader({ user }) {
       socket.disconnect();
     };
   }, [user?.id]);
+
+  useEffect(() => {
+    if (!localStorage.getItem("cq_token")) return;
+
+    let active = true;
+    previousRequestIdsRef.current = null;
+
+    const checkFriendRequests = async () => {
+      try {
+        const requests = await getPedidosAmizade();
+        if (!active) return;
+
+        const pendingRequests = Array.isArray(requests) ? requests : [];
+        const previousIds = previousRequestIdsRef.current;
+
+        if (previousIds) {
+          const newRequest = pendingRequests.find(
+            (request) => !previousIds.has(String(request.id))
+          );
+
+          if (newRequest) {
+            setNewRequestToast(newRequest.aluno?.nome || "Alguém");
+            window.clearTimeout(requestToastTimerRef.current);
+            requestToastTimerRef.current = window.setTimeout(
+              () => setNewRequestToast(null),
+              6000
+            );
+          }
+        }
+
+        previousRequestIdsRef.current = new Set(
+          pendingRequests.map((request) => String(request.id))
+        );
+        setFriendRequests(pendingRequests);
+      } catch (err) {
+        if (active) console.error("Erro ao carregar notificações de amizade:", err);
+      }
+    };
+
+    void checkFriendRequests();
+    const interval = window.setInterval(checkFriendRequests, 30_000);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+      window.clearTimeout(requestToastTimerRef.current);
+    };
+  }, [user?.id]);
+
+  const abrirPedidosAmizade = () => {
+    setNewRequestToast(null);
+    setIsNotificationsOpen(false);
+    navigate("/amigos");
+  };
 
   const navItems = [
     { id: "home", icon: <Home size={20} />, label: "Início", path: "/Dashboard" },
@@ -182,7 +241,9 @@ export default function DashBoardHeader({ user }) {
           <div className="flex items-center gap-4 mr-2">
             <button
               type="button"
-              aria-label="Notificações"
+              aria-label={friendRequests.length
+                ? `Notificações: ${friendRequests.length} pedidos de amizade pendentes`
+                : "Notificações"}
               aria-haspopup="dialog"
               aria-expanded={isNotificationsOpen}
               className="relative w-10 h-10 rounded-full flex items-center justify-center text-cyan-400 bg-cyan-500/10 transition-all duration-200 hover:bg-cyan-600/20"
@@ -192,6 +253,11 @@ export default function DashBoardHeader({ user }) {
               }}
             >
               <Bell size={19} />
+              {friendRequests.length > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center border border-black">
+                  {friendRequests.length > 99 ? "99+" : friendRequests.length}
+                </span>
+              )}
             </button>
 
             <button
@@ -230,7 +296,42 @@ export default function DashBoardHeader({ user }) {
                 <X size={16} />
               </button>
             </div>
-            <p className="text-sm text-neutral-400">Ainda não tens notificações.</p>
+            {friendRequests.length === 0 ? (
+              <p className="text-sm text-neutral-400">Ainda não tens notificações.</p>
+            ) : (
+              <div>
+                <p className="text-xs text-neutral-400 mb-2">
+                  {friendRequests.length === 1
+                    ? "Tens um pedido de amizade pendente:"
+                    : `Tens ${friendRequests.length} pedidos de amizade pendentes:`}
+                </p>
+                <div className="max-h-52 overflow-y-auto">
+                  {friendRequests.slice(0, 5).map((request) => (
+                    <button
+                      key={request.id}
+                      type="button"
+                      onClick={abrirPedidosAmizade}
+                      className="w-full flex items-center gap-3 rounded-xl px-2 py-2 text-left text-sm text-white hover:bg-white/5"
+                    >
+                      <span className="w-8 h-8 rounded-full bg-cyan-500/10 text-cyan-300 flex items-center justify-center">
+                        <Users size={15} />
+                      </span>
+                      <span>
+                        <strong>{request.aluno?.nome || "Novo utilizador"}</strong>
+                        <span className="block text-xs text-neutral-400">Enviou-te um pedido de amizade</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={abrirPedidosAmizade}
+                  className="mt-3 w-full rounded-xl border border-cyan-500/20 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/10"
+                >
+                  Ver pedidos de amizade
+                </button>
+              </div>
+            )}
           </div>
         )}
       </header>
@@ -242,6 +343,22 @@ export default function DashBoardHeader({ user }) {
           className="fixed inset-0 z-40 cursor-default"
           onClick={() => setIsNotificationsOpen(false)}
         />
+      )}
+
+      {newRequestToast && (
+        <button
+          type="button"
+          onClick={abrirPedidosAmizade}
+          className="fixed top-24 right-6 z-[60] flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-neutral-950 px-4 py-3 text-left text-sm text-white shadow-xl shadow-black/40"
+        >
+          <span className="w-9 h-9 rounded-full bg-cyan-500/10 text-cyan-300 flex items-center justify-center">
+            <Users size={17} />
+          </span>
+          <span>
+            <strong className="block">Novo pedido de amizade</strong>
+            <span className="text-xs text-neutral-400">{newRequestToast} enviou-te um pedido</span>
+          </span>
+        </button>
       )}
 
       <div className="relative">
