@@ -161,14 +161,11 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center text-sm">
                   <label className="flex items-center text-slate-400 cursor-pointer hover:text-slate-300 transition-colors">
                     <input type="checkbox" className="mr-2 rounded border-slate-600 bg-slate-900/50 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-0" />
                     Lembrar-me
                   </label>
-                  <a href="#" className="text-cyan-500 hover:text-cyan-400 transition-colors">
-                    Esqueceste-te da palavra-passe?
-                  </a>
                 </div>
 
                 <button
