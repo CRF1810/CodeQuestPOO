@@ -16,7 +16,7 @@ import map3 from "../../Assets/Maps/ThirdMap.png";
 
 import { useNavigate } from "react-router-dom";
 
-import { ChartBar, Search, Lock, Swords, X } from "lucide-react";
+import { Lock, Swords, X } from "lucide-react";
 
 import { getMe } from "../../Services/users/userService";
 
@@ -358,30 +358,6 @@ export default function Maps() {
             )}
 
             <div className="flex-1 flex flex-col mt-20 ml-20 px-6 pb-8">
-
-                <div className="flex justify-end items-center gap-3 mb-2 mr-10">
-
-                    <button className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 border border-gray-800 hover:border-gray-600 hover:text-white transition-colors">
-
-                        <Search size={20} />
-
-                    </button>
-
-                    <button
-
-                        onClick={() => navigate("/Estatisticas")}
-
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 border border-gray-800 hover:border-gray-600 hover:text-white transition-colors"
-
-                    >
-
-                        <ChartBar size={20} />
-
-                    </button>
-
-                </div>
-
-
 
                 <div className="flex justify-center mt-3">
 
