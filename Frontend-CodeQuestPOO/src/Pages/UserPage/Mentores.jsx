@@ -11,23 +11,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Sparkles, Shield, Swords, Check, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import loadingVideo from "../../Assets/Loading/loading.webm";
-import aureliaImage from "../../Assets/Aurelia.png";
-import brommImage from "../../Assets/Bromm.png";
-import eldrinImage from "../../Assets/Eldrin.png";
-import lyraImage from "../../Assets/Lyra.png";
-import tharokImage from "../../Assets/Tharok.png";
-import vaelgrimImage from "../../Assets/Vaelgrim.png";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
 
 const MENTOR_IMAGES = {
-    Aurelia: aureliaImage,
-    Bromm: brommImage,
-    Eldrin: eldrinImage,
-    Lyra: lyraImage,
-    Tharok: tharokImage,
-    Vaelgrim: vaelgrimImage,
+    Aurelia: "/uploads/Aurelia/Aurelia.png",
+    Bromm: "/uploads/Bromm/Bromm.png",
+    Eldrin: "/uploads/Eldrin/Eldrin.png",
+    Lyra: "/uploads/Lyra/Lyra.png",
+    Tharok: "/uploads/Tharok/Tharok.png",
+    Vaelgrim: "/uploads/Vaelgrim/Vaelgrim.png",
 };
 
 function getImageUrl(path) {

@@ -8,21 +8,59 @@ import herois from "../Assets/landpage/Herois.png";
 import evoluir from "../Assets/landpage/Evoluir.jpg";
 import explorar from "../Assets/landpage/Explorar.jpg";
 import aprender from "../Assets/landpage/Aprender.jpg";
-import historiaBg from "../Assets/landpage/BgHistoria.png";
 import FinalBg from "../Assets/landpage/FinalBg.png";
 import Footer from "../Components/footer/FooterLandPage";
 import { getAllMentores } from "../Services/mentores/mentores";
-import { ChevronLeft, ChevronRight, Sparkles, RotateCcw } from "lucide-react";
+import { ChevronLeft, ChevronRight, RotateCcw, Sparkles } from "lucide-react";
 import "../css/landingPage.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-const SERVER_URL = API_URL.replace(/\/api$/, "");
+const API_URL = import.meta.env.VITE_API_URL;
+const SERVER_URL = API_URL ? API_URL.replace(/\/api\/?$/, "") : "";
 
-function getImageUrl(path) {
-    if (!path) return null;
-    if (path.startsWith("http")) return path;
-    return `${SERVER_URL}${path}`;
+function getImageUrl(path, mentorName) {
+    const imagePath = path || `/uploads/${mentorName}/${mentorName}.png`;
+    if (imagePath.startsWith("http")) return imagePath;
+    return `${SERVER_URL}/${imagePath.replace(/^\/+/, "")}`;
 }
+
+const FALLBACK_MENTORS = [
+    {
+        id: 1,
+        nome: "Aurelia",
+        imagem: "/uploads/Aurelia/Aurelia.png",
+        descricao: "Uma paladina nobre que jurou proteger o reino e o conhecimento dos seus habitantes.",
+    },
+    {
+        id: 2,
+        nome: "Bromm",
+        imagem: "/uploads/Bromm/Bromm.png",
+        descricao: "Um anão resistente e determinado que nunca recua perante um desafio.",
+    },
+    {
+        id: 3,
+        nome: "Eldrin",
+        imagem: "/uploads/Eldrin/Eldrin.png",
+        descricao: "Um arquimago experiente, dedicado ao estudo da magia e dos segredos do código.",
+    },
+    {
+        id: 4,
+        nome: "Lyra",
+        imagem: "/uploads/Lyra/Lyra.png",
+        descricao: "Uma exploradora élfica rápida e precisa, conhecedora de todos os caminhos da floresta.",
+    },
+    {
+        id: 5,
+        nome: "Tharok",
+        imagem: "/uploads/Tharok/Tharok.png",
+        descricao: "Um guerreiro tribal das montanhas que luta com honra, força e lealdade.",
+    },
+    {
+        id: 6,
+        nome: "Vaelgrim",
+        imagem: "/uploads/Vaelgrim/Vaelgrim.png",
+        descricao: "Um antigo herói do reino, marcado por uma maldição, que continua a combater pelo bem.",
+    },
+];
 
 const HERO_THEMES = {
     Aurelia:  { accent: "#f59e0b", label: "Guardiã da Luz",         via: "#d97706" },
@@ -95,7 +133,7 @@ function HeroCard({ mentor, isCenter }) {
                     />
 
                     <img
-                        src={getImageUrl(mentor.imagem)}
+                        src={getImageUrl(mentor.imagem, mentor.nome)}
                         alt={mentor.nome}
                         style={{
                             width: "100%",
@@ -390,8 +428,7 @@ function MentorCarousel({ mentores }) {
 
 export default function Landingpage() {
     const [visibleElements, setVisibleElements] = useState({});
-    const [mentores, setMentores] = useState([]);
-    const [mentoresLoading, setMentoresLoading] = useState(true);
+    const [mentores, setMentores] = useState(FALLBACK_MENTORS);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -413,9 +450,12 @@ export default function Landingpage() {
 
     useEffect(() => {
         getAllMentores()
-            .then(data => setMentores(Array.isArray(data) ? data : []))
-            .catch(err => console.error("Erro ao buscar mentores:", err))
-            .finally(() => setMentoresLoading(false));
+            .then(data => {
+                if (Array.isArray(data) && data.length) setMentores(data);
+            })
+            .catch(err => {
+                console.error("Erro ao buscar mentores:", err);
+            });
     }, []);
 
     return (
@@ -424,70 +464,51 @@ export default function Landingpage() {
                 <HeaderLandingPage />
             </div>
 
-            <section id="video" className="relative w-full py-115 px-135 flex items-center justify-center overflow-hidden" style={{ minHeight: "90vh" }}>
-                <video autoPlay loop muted playsInline poster={logo} className="absolute inset-0 w-full h-full object-cover">
+            <section id="video" className="opening-video-section relative w-full flex items-center justify-center overflow-hidden">
+                <video autoPlay loop muted playsInline poster={logo} className="opening-video__media absolute inset-0 w-full h-full object-cover">
                     <source src={videoAbertura} type="video/mp4" />
                 </video>
-                <div className="absolute inset-0 bg-black/20" />
+                <div className="opening-video__fade absolute inset-x-0 bottom-0" aria-hidden="true" />
             </section>
 
-            <section id="historia" className="relative w-full py-20 px-8 flex items-center justify-center bg-black overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b bg-gradient-to-t from-black/50 via-black/5 to-black" />
-                <div
-                    className="relative w-full max-w-7xl mx-auto"
-                    style={{
-                        backgroundImage: `url(${historiaBg})`,
-                        backgroundSize: "100% 100%",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        minHeight: "1000px",
-                        padding: "10px 20px",
-                    }}
+            <section id="historia" className="story-section">
+                <article
+                    id="historia-conteudo"
+                    data-scroll-reveal
+                    className={`story-scroll scroll-reveal ${visibleElements["historia-conteudo"] ? "visible" : ""}`}
                 >
-                    <div id="historia" data-scroll-reveal className={`scroll-reveal text-center relative z-10 ${visibleElements["historia"] ? "visible" : ""}`}>
-                        <div className="mb-8">
-                            <h2 className="rpg-heading text-6xl md:text-7xl text-yellow-400 text-center animate-pulse mt-20">
-                                História
-                            </h2>
-                        </div>
-                        <div className="relative z-10 max-w-3xl ml-60 mt-15">
-                            <p className="rpg-text text-black text-sm md:text-base leading-relaxed font-light">
-                                <span className="font-serif font-semibold text-2xl">H</span>
-                                á muito tempo, num vale rodeado por grandes montanhas, existia um reino onde o
+                    <div className="story-scroll__content">
+                        <p className="story-scroll__eyebrow">Crónicas do reino</p>
+                        <h2 className="story-scroll__title">História</h2>
+                        <div className="story-scroll__text rpg-text">
+                            <p className="story-scroll__opening">
+                                Há muito tempo, num vale rodeado por grandes montanhas, existia um reino onde o
                                 conhecimento era a maior fonte de poder. Esse reino era protegido pelos
-                                <span className="text-black font-bold"> Guardians do Código</span>, mestres da Programação Orientada a Objectos.
-                                <br /><br />
+                                <strong> Guardians do Código</strong>, mestres da Programação Orientada a Objectos.
+                            </p>
+                            <p>
                                 Com o passar do tempo, o conhecimento foi sendo esquecido… e desse esquecimento
-                                nasceu o <span className="text-red-600 font-semibold">Dragão do Caos</span>, uma criatura que se alimenta de erros e código mal estruturado.
-                                <br /><br />
-                                <span className="inline-block px-3 py-1.5 bg-red-100 border-l-4 border-red-600 rounded text-xs md:text-sm">
-                                    Agora, o reino está em perigo.
-                                </span>
-                                <br />
-                                <span className="inline-block px-3 py-1.5 bg-amber-100 border-l-4 border-amber-600 rounded mt-1 text-xs md:text-sm">
-                                    Novos heróis foram chamados.
-                                </span>
-                                <br /><br />
-                                <span className="text-cyan-700 font-semibold text-sm md:text-base inline-block px-4 py-2 bg-cyan-100 rounded-lg border border-cyan-600 shadow">
-                                    ⚡ Tu és um deles. ⚡
-                                </span>
-                                <br /><br />
+                                nasceu o <strong className="story-scroll__dragon">Dragão do Caos</strong>, uma criatura
+                                que se alimenta de erros e código mal estruturado.
+                            </p>
+                            <p className="story-scroll__callout">
+                                Agora, o reino está em perigo. Novos heróis foram chamados. <strong>Tu és um deles.</strong>
+                            </p>
+                            <p>
                                 Explora diferentes regiões, aprende os princípios da POO, enfrenta desafios e
                                 derrota o dragão para restaurar o conhecimento e salvar o reino.
                             </p>
-                            <div className="mt-4 pt-4 border-t border-amber-600/30">
-                                <p className="text-black font-bold italic text-sm md:text-base font-medium">
-                                    "O código bem estruturado é a espada que derrota o caos"
-                                </p>
-                                <p className="text-gray-800 text-xs mt-1">— Antigo provérbio dos Guardians</p>
-                            </div>
                         </div>
+                        <blockquote className="story-scroll__quote">
+                            “O código bem estruturado é a espada que derrota o caos”
+                            <cite>— Antigo provérbio dos Guardians</cite>
+                        </blockquote>
                     </div>
-                </div>
+                </article>
             </section>
 
             <section
-                className="relative w-full py-80 px-20 overflow-hidden"
+                className="hero-art-transition relative w-full py-80 px-20 overflow-hidden"
                 style={{
                     backgroundImage: `url(${herois})`,
                     backgroundSize: "cover",
@@ -516,13 +537,13 @@ export default function Landingpage() {
                     </p>
                     <div className="space-y-20">
                         {[
-                            { id: "explorar", src: explorar, title: "Explorar", reverse: false, desc: <>Percorre diferentes <span className="text-white font-semibold">mapas do reino</span>, desbloqueia novas áreas e descobre conceitos fundamentais da Programação Orientada a Objectos à medida que avanças na tua aventura épica.</>, tags: ["Mapas Únicos", "Desafios POO"], tagColors: ["emerald", "white"] },
-                            { id: "evoluir",  src: evoluir,  title: "Evoluir",  reverse: true,  desc: <>Ganha <span className="text-yellow-400 font-semibold">XP</span>, <span className="text-yellow-300 font-semibold">coins</span> e recompensas, melhora as tuas habilidades e acompanha o teu progresso enquanto te tornas um verdadeiro <span className="text-white font-bold">Guardião do Código</span>.</>, tags: ["Sistema XP", "Recompensas"], tagColors: ["yellow", "white"] },
-                            { id: "aprender", src: aprender, title: "Aprender", reverse: false, desc: <>Aprende <span className="text-white font-semibold">Programação Orientada a Objectos (POO)</span> de forma prática, divertida e descomplicada, com exercícios interactivos e desafios que te ajudam a pensar como um verdadeiro programador.</>, tags: ["POO Prática", "Interativo"], tagColors: ["emerald", "white"] },
-                        ].map(({ id, src, title, reverse, desc, tags, tagColors }) => (
+                            { id: "explorar", src: explorar, title: "Explorar", reverse: false, desc: <>Percorre diferentes <span className="text-white font-semibold">mapas do reino</span>, desbloqueia novas áreas e descobre conceitos fundamentais da Programação Orientada a Objectos à medida que avanças na tua aventura épica.</>, tags: ["Mapas Únicos", "Desafios POO"] },
+                            { id: "evoluir",  src: evoluir,  title: "Evoluir",  reverse: true,  desc: <>Ganha <span className="text-yellow-400 font-semibold">XP</span>, <span className="text-yellow-300 font-semibold">coins</span> e recompensas, melhora as tuas habilidades e acompanha o teu progresso enquanto te tornas um verdadeiro <span className="text-white font-bold">Guardião do Código</span>.</>, tags: ["Sistema XP", "Recompensas"] },
+                            { id: "aprender", src: aprender, title: "Aprender", reverse: false, desc: <>Aprende <span className="text-white font-semibold">Programação Orientada a Objectos (POO)</span> de forma prática, divertida e descomplicada, com exercícios interactivos e desafios que te ajudam a pensar como um verdadeiro programador.</>, tags: ["POO Prática", "Interativo"] },
+                        ].map(({ id, src, title, reverse, desc, tags }) => (
                             <div key={id} id={id} data-scroll-reveal className={`scroll-reveal flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-8 group ${visibleElements[id] ? "visible" : ""}`}>
-                                <div className="w-full md:w-1/2 overflow-hidden rounded-2xl shine-effect card-border-glow-white">
-                                    <img src={src} alt={title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
+                                <div className="resource-image-frame w-full md:w-1/2">
+                                    <img src={src} alt={title} className="resource-image w-full h-full object-cover" />
                                 </div>
                                 <div className="w-full md:w-1/2 space-y-6">
                                     <div className={`flex items-center gap-3 ${reverse ? "justify-end md:justify-start" : ""}`}>
@@ -531,12 +552,10 @@ export default function Landingpage() {
                                         {reverse && <div className="w-1 h-12 bg-gradient-to-b from-white to-emerald-400" />}
                                     </div>
                                     <p className={`rpg-text text-gray-300 text-lg leading-relaxed font-light ${reverse ? "md:text-right" : ""}`}>{desc}</p>
-                                    <div className={`flex gap-3 pt-4 ${reverse ? "justify-end md:justify-start" : ""}`}>
-                                        {tags.map((tag, ti) => (
-                                            <span key={ti} className={`px-4 py-2 rounded-full text-sm font-semibold ${tagColors[ti] === "emerald" ? "bg-emerald-500/20 border border-emerald-500/50 text-emerald-400" : tagColors[ti] === "yellow" ? "bg-yellow-500/20 border border-yellow-500/50 text-yellow-400" : "bg-white/10 border border-white/30 text-white"}`}>
-                                                {tag}
-                                            </span>
-                                        ))}
+                                    <div className={`resource-details-wrap pt-4 ${reverse ? "justify-end md:justify-start" : ""}`}>
+                                        <ul className="resource-details">
+                                            {tags.map(tag => <li key={tag}>{tag}</li>)}
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -577,11 +596,6 @@ export default function Landingpage() {
                             </span>
                         </button>
                     </div>
-                    <div className="flex items-center justify-center gap-3 pt-8">
-                        <div className="w-3 h-3 rounded-full bg-white animate-pulse" />
-                        <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse delay-75" />
-                        <div className="w-3 h-3 rounded-full bg-white animate-pulse delay-150" />
-                    </div>
                 </div>
             </section>
 
@@ -607,23 +621,13 @@ export default function Landingpage() {
                         <span className="text-red-500 font-semibold"> Dragão do Caos</span>.
                     </p>
 
-                    {mentoresLoading ? (
-                        <div className="flex justify-center py-20">
-                            <div style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid #2a2a2a", borderTop: "2px solid #a3a3a3", animation: "spin 1s linear infinite" }} />
-                        </div>
-                    ) : (
-                        <MentorCarousel mentores={mentores} />
-                    )}
+                    <MentorCarousel mentores={mentores} />
 
                     <p className="text-center text-neutral-700 text-xs mt-8 tracking-widest uppercase font-bold">
                         Clica na carta para ver os detalhes do guardião
                     </p>
                 </div>
             </section>
-
-            <style>{`
-                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-            `}</style>
 
             <Footer />
         </>
