@@ -558,8 +558,12 @@
    }
 
    .opening-video__media {
+       position: absolute;
        top: var(--fixed-header-height);
+       left: 0;
+       width: 100%;
        height: calc(100% - var(--fixed-header-height));
+       object-fit: cover;
        object-position: center;
    }
 
@@ -600,24 +604,15 @@
        background: transparent;
        border: 0;
        cursor: pointer;
+       font-family: 'Cinzel Decorative', 'Cinzel', serif;
+       font-weight: 700;
+       letter-spacing: 0.02em;
        transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
    }
 
    .landing-header__button:hover,
    .landing-header__button:focus-visible {
        color: #fcd34d;
-   }
-
-   .landing-header__button--menu {
-       border: 1px solid rgba(212, 175, 55, 0.65);
-       border-radius: 4px;
-       background: rgba(120, 83, 24, 0.2);
-   }
-
-   .landing-header__button--menu:hover,
-   .landing-header__button--menu:focus-visible {
-       border-color: rgba(252, 211, 77, 0.75);
-       background: rgba(120, 83, 24, 0.34);
    }
 
    .landing-header__button--link::after {
@@ -638,40 +633,14 @@
        transform: scaleX(1);
    }
 
-   .landing-header__dropdown {
-       z-index: 30;
-       color: #f3f4f6;
-       background: rgba(5, 12, 8, 0.97);
-       border: 1px solid rgba(212, 175, 55, 0.45);
-       border-radius: 4px;
-       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.52);
-       backdrop-filter: blur(12px);
-   }
-
-   .landing-header__dropdown-item {
-       color: rgba(255, 255, 255, 0.8);
-       background: transparent;
-       border: 0;
-       border-radius: 0;
-       cursor: pointer;
-   }
-
-   .landing-header__dropdown-item + .landing-header__dropdown-item {
-       border-top: 1px solid rgba(212, 175, 55, 0.16);
-   }
-
-   .landing-header__dropdown-item:hover,
-   .landing-header__dropdown-item:focus-visible {
-       color: #fcd34d;
-       background: rgba(212, 175, 55, 0.12);
-   }
-
    .landing-header__login {
        color: #f9fafb;
        background: #3b2b16;
        border: 1px solid rgba(252, 211, 77, 0.72);
        border-radius: 4px;
        cursor: pointer;
+       font-family: 'Cinzel', serif;
+       letter-spacing: 0.04em;
        transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
    }
 

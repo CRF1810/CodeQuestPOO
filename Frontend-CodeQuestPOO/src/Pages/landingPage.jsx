@@ -465,7 +465,7 @@ export default function Landingpage() {
             </div>
 
             <section id="video" className="opening-video-section relative w-full flex items-center justify-center overflow-hidden">
-                <video autoPlay loop muted playsInline poster={logo} className="opening-video__media absolute inset-0 w-full h-full object-cover">
+                <video autoPlay loop muted playsInline poster={logo} className="opening-video__media">
                     <source src={videoAbertura} type="video/mp4" />
                 </video>
                 <div className="opening-video__fade absolute inset-x-0 bottom-0" aria-hidden="true" />

@@ -1,22 +1,18 @@
-import { useState } from 'react';
-import { FaChevronDown, FaGamepad } from 'react-icons/fa';
 import logo from '../../Assets/logo.png';
 import { useNavigate } from "react-router-dom"
 
 
 export default function HeaderLandingPage() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const navigate = useNavigate()
 
     const scrollToSection = (id) => {
         const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
+        const title = el?.querySelector('h2') ?? el;
+        if (!title) return;
 
-    const handleDropdownSelect = (valor) => {
-        if (valor === 'recursos') scrollToSection('recursos');
-        if (valor === 'herois') scrollToSection('herois');
-        setIsDropdownOpen(false);
+        const headerHeight = document.querySelector('.landing-header')?.getBoundingClientRect().height ?? 0;
+        const top = window.scrollY + title.getBoundingClientRect().top - headerHeight - 32;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     };
 
     return (
@@ -32,55 +28,30 @@ export default function HeaderLandingPage() {
                     </div>
 
                     {/* Navigation */}
-                    <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
-                        {/* Dropdown Customizado */}
-                        <div className="relative group">
-                            <button
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="landing-header__button landing-header__button--menu flex items-center gap-2 px-5 py-2.5 font-medium text-lg"
-                                aria-expanded={isDropdownOpen}
-                                aria-haspopup="menu"
-                            >
-                                <FaGamepad className="text-amber-300" />
-                                <span>Game Info</span>
-                                <FaChevronDown className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            {/* Dropdown Menu */}
-                            {isDropdownOpen && (
-                                <div className="landing-header__dropdown absolute top-full mt-2 left-0 w-56 overflow-hidden animate-dropdown" role="menu">
-                                    <div className="p-2">
-                                        <button
-                                            onClick={() => handleDropdownSelect('recursos')}
-                                            className="landing-header__dropdown-item w-full text-left px-4 py-3 transition-all duration-200 flex items-center gap-3"
-                                            role="menuitem"
-                                        >
-                                            <span className="font-medium">Recursos de Jogo</span>
-                                        </button>
-                                        <button
-                                            onClick={() => handleDropdownSelect('herois')}
-                                            className="landing-header__dropdown-item w-full text-left px-4 py-3 transition-all duration-200 flex items-center gap-3"
-                                            role="menuitem"
-                                        >
-                                            <span className="font-medium">Heróis</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
+                    <div className="hidden md:flex items-center space-x-2 absolute left-1/2 transform -translate-x-1/2">
                         <button
                             onClick={() => scrollToSection('historia')}
-                            className="landing-header__button landing-header__button--link px-4 py-2.5 font-medium text-lg"
+                            className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
                         >
                             História
                         </button>
-
+                        <button
+                            onClick={() => scrollToSection('recursos')}
+                            className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
+                        >
+                            Recursos
+                        </button>
                         <button
                             onClick={() => scrollToSection('cta')}
-                            className="landing-header__button landing-header__button--link px-4 py-2.5 font-medium text-lg"
+                            className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
                         >
-                            Jogue agora
+                            Jogar
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('herois')}
+                            className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
+                        >
+                            Heróis
                         </button>
                     </div>
 
