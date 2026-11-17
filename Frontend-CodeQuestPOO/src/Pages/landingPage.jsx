@@ -564,6 +564,36 @@ export default function Landingpage() {
                 </div>
             </section>
 
+                        <section id="herois" className="relative w-full py-24 px-6 bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
+
+                <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 70%)" }} />
+
+                <div className="max-w-7xl mx-auto relative z-10">
+                    <div className="flex items-center justify-center mb-8 gap-4">
+                        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                        <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 rounded-full bg-white" style={{ boxShadow: "0 0 8px #fff" }} />
+                            <h2 className="rpg-heading text-4xl md:text-5xl text-white tracking-wider text-center">
+                                Os Guardiões
+                            </h2>
+                            <div className="w-2 h-2 rounded-full bg-white" style={{ boxShadow: "0 0 8px #fff" }} />
+                        </div>
+                        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    </div>
+
+                    <p className="rpg-text text-gray-400 text-lg md:text-xl text-center mb-16 font-light max-w-2xl mx-auto">
+                        Cada guardião tem a sua especialidade. Escolhe o teu mentor e parte para a batalha contra o
+                        <span className="text-red-500 font-semibold"> Dragão do Caos</span>.
+                    </p>
+
+                    <MentorCarousel mentores={mentores} />
+
+                    <p className="text-center text-neutral-700 text-xs mt-8 tracking-widest uppercase font-bold">
+                        Clica na carta para ver os detalhes do guardião
+                    </p>
+                </div>
+            </section>
+
             <section
                 className="relative w-full py-70 px-60 overflow-hidden"
                 style={{
@@ -599,35 +629,7 @@ export default function Landingpage() {
                 </div>
             </section>
 
-            <section id="herois" className="relative w-full py-24 px-6 bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
 
-                <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 70%)" }} />
-
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="flex items-center justify-center mb-8 gap-4">
-                        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-white" style={{ boxShadow: "0 0 8px #fff" }} />
-                            <h2 className="rpg-heading text-4xl md:text-5xl text-white tracking-wider text-center">
-                                Os Guardiões
-                            </h2>
-                            <div className="w-2 h-2 rounded-full bg-white" style={{ boxShadow: "0 0 8px #fff" }} />
-                        </div>
-                        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                    </div>
-
-                    <p className="rpg-text text-gray-400 text-lg md:text-xl text-center mb-16 font-light max-w-2xl mx-auto">
-                        Cada guardião tem a sua especialidade. Escolhe o teu mentor e parte para a batalha contra o
-                        <span className="text-red-500 font-semibold"> Dragão do Caos</span>.
-                    </p>
-
-                    <MentorCarousel mentores={mentores} />
-
-                    <p className="text-center text-neutral-700 text-xs mt-8 tracking-widest uppercase font-bold">
-                        Clica na carta para ver os detalhes do guardião
-                    </p>
-                </div>
-            </section>
 
             <Footer />
         </>

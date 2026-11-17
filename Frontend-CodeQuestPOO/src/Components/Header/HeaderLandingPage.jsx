@@ -41,18 +41,21 @@ export default function HeaderLandingPage() {
                         >
                             Recursos
                         </button>
-                        <button
-                            onClick={() => scrollToSection('cta')}
-                            className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
-                        >
-                            Jogar
-                        </button>
+
                         <button
                             onClick={() => scrollToSection('herois')}
                             className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
                         >
                             Heróis
                         </button>
+
+                        <button
+                            onClick={() => scrollToSection('cta')}
+                            className="landing-header__button landing-header__button--link px-3 py-2.5 font-medium text-base lg:text-lg"
+                        >
+                            Jogar
+                        </button>
+                        
                     </div>
 
                     <div className="flex items-center space-x-3 flex-shrink-0 mr-4">
