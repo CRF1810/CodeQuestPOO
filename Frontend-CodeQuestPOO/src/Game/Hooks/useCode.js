@@ -292,9 +292,8 @@ export function useCode(fases = [], config = {}) {
 
       feedbackIaAtualRef.current = feedback
       setAiFeedback(feedback)
-      setMentorStatus("error")
       if (feedback) {
-        void recordResearchEvent({
+        await recordResearchEvent({
           event_type: "feedback",
           tipo_erro_id: tipoErroId,
           tipo_feedback_id: tipoFeedbackId,
@@ -305,11 +304,7 @@ export function useCode(fases = [], config = {}) {
       return feedback
     } catch (err) {
       console.error("Erro ao pedir feedback IA:", err)
-      const feedback = "Não consegui obter uma dica da IA agora. Revê o erro e tenta novamente."
-      feedbackIaAtualRef.current = feedback
-      setAiFeedback(feedback)
-      setMentorStatus("error")
-      return feedback
+      return null
     }
   }
 
@@ -415,7 +410,7 @@ export function useCode(fases = [], config = {}) {
           tentativa: nextAttempts,
         })
 
-        void recordResearchEvent({
+        await recordResearchEvent({
           event_type: "execution",
           execution_success: true,
           correct_solution: false,
@@ -469,7 +464,7 @@ export function useCode(fases = [], config = {}) {
         tentativa: nextAttempts,
       })
 
-      void recordResearchEvent({
+      await recordResearchEvent({
         event_type: "execution",
         execution_success: false,
         correct_solution: false,
