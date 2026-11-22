@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 import type { FeedbackInput } from "./feedbackAI.types.js";
 
-const GROQ_MODEL = "llama-3.3-70b-versatile";
+const GROQ_MODEL = "llama-3.1-8b-instant";
 const FEEDBACK_FALLBACK =
   "Revê o teu código e tenta identificar o erro principal.";
 
