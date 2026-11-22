@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 import type { FeedbackInput } from "./feedbackAI.types.js";
 
-const GROQ_MODEL = "llama-3.1-8b-instant";
+const GROQ_MODEL = "openai/gpt-oss-120b";
 
 const INSTRUCOES_FEEDBACK: Record<number, string> = {
   1: `
@@ -110,8 +110,8 @@ ${input.erro ?? "(sem erro)"}
         content: prompt,
       },
     ],
-    max_completion_tokens: 64,
-    temperature: 0.3,
+    max_completion_tokens: 256,
+    reasoning_effort: "low",
   });
 
   const feedback = response.choices[0]?.message?.content;
