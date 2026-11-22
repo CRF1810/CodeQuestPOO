@@ -74,7 +74,8 @@ export default function MentorBox({ status = "idle", messages = {}, aiFeedback =
     ...(messages?.phase || {}),
   };
 
-  const text = (status === "error" && aiFeedback)
+  const hasAiFeedback = typeof aiFeedback === "string" && aiFeedback.trim().length > 0;
+  const text = hasAiFeedback
     ? aiFeedback
     : (mergedMessages[status] ?? DEFAULT_MESSAGES[status]);
 
@@ -166,7 +167,7 @@ export default function MentorBox({ status = "idle", messages = {}, aiFeedback =
                 {cfg.label}
               </p>
 
-              {status === "typing" ? (
+              {status === "typing" && !hasAiFeedback ? (
                 <div className="flex items-center gap-1 h-4">
                   {[0, 1, 2].map(i => (
                     <span key={i} className="mentor-dot block w-[10px] h-[10px] rounded-full"

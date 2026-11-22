@@ -250,7 +250,7 @@ export function useCode(fases = [], config = {}) {
     setAttempts(a => a + 1)
     setTotalAttempts(a => a + 1)
 
-    addLog("error", message)
+    if (message) addLog("error", message)
 
     return totalAttemptsRef.current
   }
@@ -284,7 +284,7 @@ export function useCode(fases = [], config = {}) {
           ) ?? [],
         codigo: code,
         output: finalOutput ?? "",
-        erro: erro ?? "",
+        erro: rawError || erro || "",
         tentativa,
         tipo_erro_id: tipoErroId,
         tipo_feedback_id: tipoFeedbackId,
@@ -292,8 +292,9 @@ export function useCode(fases = [], config = {}) {
 
       feedbackIaAtualRef.current = feedback
       setAiFeedback(feedback)
+      setMentorStatus("error")
       if (feedback) {
-        await recordResearchEvent({
+        void recordResearchEvent({
           event_type: "feedback",
           tipo_erro_id: tipoErroId,
           tipo_feedback_id: tipoFeedbackId,
@@ -304,7 +305,11 @@ export function useCode(fases = [], config = {}) {
       return feedback
     } catch (err) {
       console.error("Erro ao pedir feedback IA:", err)
-      return null
+      const feedback = "Não consegui gerar uma dica agora. Tenta novamente mais tarde."
+      feedbackIaAtualRef.current = feedback
+      setAiFeedback(feedback)
+      setMentorStatus("error")
+      return feedback
     }
   }
 
@@ -354,7 +359,6 @@ export function useCode(fases = [], config = {}) {
 
       console.log({
         output,
-        finalOutput,
         isValid,
         consecutiveWrong,
       })
@@ -395,22 +399,24 @@ export function useCode(fases = [], config = {}) {
         setMentorStatus("error")
 
         const nextAttempts = addErrorLog(
-          currentHint.error
+          error
+            ? null
+            : currentHint.error
             ? `❌ ${currentHint.error}`
             : `❌ ${finalOutput || "Output vazio"}`
         )
 
         setMentorStatus("typing")
 
-        await gerarFeedbackErro({
+        const feedback = await gerarFeedbackErro({
           code,
           finalOutput,
-          erro: finalOutput,
+          erro: error || finalOutput,
           rawError: error || finalOutput,
           tentativa: nextAttempts,
         })
 
-        await recordResearchEvent({
+        void recordResearchEvent({
           event_type: "execution",
           execution_success: true,
           correct_solution: false,
@@ -432,7 +438,7 @@ export function useCode(fases = [], config = {}) {
             setShowFailModal(true)
             setTransitioning(false)
             setLoading(false)
-            return { success: false, output: finalOutput }
+            return { success: false, output: finalOutput, feedback }
           }
 
           const skipMessage = "Atingiste 3 tentativas sem acertar. Vamos avançar para o próximo exercício; poderás continuar a aprender nos seguintes."
@@ -444,27 +450,28 @@ export function useCode(fases = [], config = {}) {
 
         return {
           success: false,
-          output: finalOutput
+          output: finalOutput,
+          feedback
         }
       }
     } catch (err) {
       executionDurationMs = executionDurationMs || Date.now() - executionStartedAt
-      const clean = formatError(err?.message || String(err))
-      const tipoErroId = classifyError(err?.message || String(err))
+      const rawError = err?.message || String(err)
+      const tipoErroId = classifyError(rawError)
       tipoErroAtualRef.current = tipoErroId
 
       setMentorStatus("error")
 
-      const nextAttempts = addErrorLog(clean)
+      const nextAttempts = addErrorLog(null)
 
-      await gerarFeedbackErro({
+      const feedback = await gerarFeedbackErro({
         code,
-        erro: clean,
-        rawError: err?.message || String(err),
+        erro: rawError,
+        rawError,
         tentativa: nextAttempts,
       })
 
-      await recordResearchEvent({
+      void recordResearchEvent({
         event_type: "execution",
         execution_success: false,
         correct_solution: false,
@@ -484,7 +491,7 @@ export function useCode(fases = [], config = {}) {
           setAwaitingContinue(false)
           setShowFailModal(true)
           setLoading(false)
-          return { success: false, message: clean }
+          return { success: false, feedback }
         }
 
         const skipMessage = "Atingiste 3 tentativas sem acertar. Vamos avançar para o próximo exercício; poderás continuar a aprender nos seguintes."
@@ -494,7 +501,7 @@ export function useCode(fases = [], config = {}) {
         setTransitioning(true)
       }
 
-      return { success: false, message: clean }
+      return { success: false, feedback }
     } finally {
       setLoading(false)
     }

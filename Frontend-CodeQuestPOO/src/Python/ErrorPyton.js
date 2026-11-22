@@ -8,7 +8,7 @@ export default function formatError(err) {
   }
 
   if (error.includes("SyntaxError")) {
-    return "❌ Erro de sintaxe no código"
+    return "A analisar o erro com o mentor..."
   }
 
   if (error.includes("IndentationError")) {

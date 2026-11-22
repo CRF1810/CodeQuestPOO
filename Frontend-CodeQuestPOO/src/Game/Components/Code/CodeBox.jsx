@@ -27,7 +27,9 @@ export default function CodeBox({
 
             const result = await onRun(code);
 
-            if (result?.success) {
+            if (result?.feedback) {
+                addLog("info", `💡 ${result.feedback}`);
+            } else if (result?.success) {
                 addLog("success", result.message || "Sucesso");
             } else {
                 addLog("error", result?.message || "Erro");

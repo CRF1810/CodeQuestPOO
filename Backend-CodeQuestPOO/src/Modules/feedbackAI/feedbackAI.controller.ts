@@ -27,10 +27,13 @@ export const pedirFeedbackIA = async (
 
     res.json({ success: true, feedback });
   } catch (error) {
-    console.error("Erro ao gerar feedback IA:", error);
-    res.status(500).json({
+    console.error(
+      "Erro ao gerar feedback IA:",
+      error instanceof Error ? error.message : error
+    );
+    res.status(502).json({
       success: false,
-      feedback: "Não consegui gerar uma dica agora. Revê os objetivos do desafio e tenta novamente.",
+      feedback: "O mentor não conseguiu gerar feedback neste momento.",
     });
   }
 };
