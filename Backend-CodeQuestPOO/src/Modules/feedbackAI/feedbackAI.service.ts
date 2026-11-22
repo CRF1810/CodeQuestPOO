@@ -1,5 +1,9 @@
-import ollama from "ollama";
+import Groq from "groq-sdk";
 import type { FeedbackInput } from "./feedbackAI.types.js";
+
+const GROQ_MODEL = "llama-3.3-70b-versatile";
+const FEEDBACK_FALLBACK =
+  "Revê o teu código e tenta identificar o erro principal.";
 
 const INSTRUCOES_FEEDBACK: Record<number, string> = {
   1: `
@@ -91,20 +95,39 @@ ${input.erro ?? "(sem erro)"}
 `.trim();
 
   try {
-    const response = await ollama.chat({
-      model: "llama3",
+    const apiKey = process.env.API_KEY_AI;
+    if (!apiKey) {
+      throw new Error("API_KEY_AI não está configurada.");
+    }
+
+    const groq = new Groq({
+      apiKey,
+      maxRetries: 1,
+      timeout: 15_000,
+    });
+    const response = await groq.chat.completions.create({
+      model: GROQ_MODEL,
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      max_tokens: 64,
+      temperature: 0.3,
     });
 
-    return limitarFeedback(response.message.content);
-  } catch (error) {
-    console.error("Erro ao gerar feedback IA:", error);
+    const feedback = response.choices[0]?.message?.content;
+    if (!feedback?.trim()) {
+      throw new Error("A Groq devolveu uma resposta vazia.");
+    }
 
-    return "Revê o teu código e tenta identificar o erro principal.";
+    return limitarFeedback(feedback);
+  } catch (error) {
+    console.error(
+      "Erro ao gerar feedback IA:",
+      error instanceof Error ? error.message : error
+    );
+    return FEEDBACK_FALLBACK;
   }
 };
