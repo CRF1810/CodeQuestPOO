@@ -48,7 +48,7 @@ const dsf_1 = {
     },
     {
       id: 5,
-      texto: "Ao escrever a classe Lobo, o que acabámos de criar?",
+      texto: "Ao escrever:  \"class Lobo:\" o que acabámos de criar?",
       opcoes: [
         { id: "a", label: "O molde a partir do qual podemos criar vários lobos (objetos)" },
         { id: "b", label: "Um lobo concreto, com nome e vida já definidos" },

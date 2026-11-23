@@ -4,7 +4,7 @@ const dsf_2 = {
   perguntas: [
     {
       id: 1,
-      texto: "Qual é o tipo de dado de 10?",
+      texto: "Qual é o tipo de dados do valor 10?",
       opcoes: [
         { id: "a", label: "String" },
         { id: "b", label: "Integer" },
@@ -15,7 +15,7 @@ const dsf_2 = {
     },
     {
       id: 2,
-      texto: "Qual é o tipo de dado de 'Olá'?",
+      texto: "Qual é o tipo de dados do valor 'Olá'?",
       opcoes: [
         { id: "a", label: "String" },
         { id: "b", label: "Integer" },
@@ -26,7 +26,7 @@ const dsf_2 = {
     },
     {
       id: 3,
-      texto: "Qual representa um valor verdadeiro ou falso?",
+      texto: "Qual é o tipo de dados que representa valores verdadeiros ou falsos?",
       opcoes: [
         { id: "a", label: "String" },
         { id: "b", label: "Integer" },
@@ -37,7 +37,7 @@ const dsf_2 = {
     },
     {
       id: 4,
-      texto: "Qual é o tipo de dado de 3.14?",
+      texto: "Qual é o tipo de dado do valor 3.14?",
       opcoes: [
         { id: "a", label: "Integer" },
         { id: "b", label: "String" },
@@ -48,7 +48,7 @@ const dsf_2 = {
     },
     {
       id: 5,
-      texto: "Qual destes é um boolean?",
+      texto: "Qual destes é um valor booleano?",
       opcoes: [
         { id: "a", label: "10" },
         { id: "b", label: "'True'" },

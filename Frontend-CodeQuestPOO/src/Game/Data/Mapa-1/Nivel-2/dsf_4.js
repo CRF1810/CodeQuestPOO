@@ -15,7 +15,7 @@ const dsf_4 = {
     },
     {
       id: 2,
-      texto: "O que retorna 10 == 10?",
+      texto: "O que retorna a expressão 10 == 10?",
       opcoes: [
         { id: "a", label: "False" },
         { id: "b", label: "True" },
@@ -37,7 +37,7 @@ const dsf_4 = {
     },
     {
       id: 4,
-      texto: "O que retorna 7 < 2?",
+      texto: "O que retorna a expressão 7 < 2?",
       opcoes: [
         { id: "a", label: "True" },
         { id: "b", label: "False" },

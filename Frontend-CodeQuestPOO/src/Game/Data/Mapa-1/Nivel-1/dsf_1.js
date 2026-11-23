@@ -4,7 +4,7 @@ const dsf_1 = {
   perguntas: [
     {
       id: 1,
-      texto: "O que é uma variável em programação?",
+      texto: "O que é uma variável em Python?",
       hint: "Pensa na variável como uma caixa com um nome onde o programa guarda um valor.",
       opcoes: [
         { id: "a", label: "Um tipo de função" },
@@ -16,7 +16,7 @@ const dsf_1 = {
     },
     {
       id: 2,
-      texto: "Como se cria uma variável em Python?",
+      texto: "Como se define uma variável em Python?",
       hint: "Em Python, uma atribuição usa o nome, um sinal de igual e o valor à direita.",
       opcoes: [
         { id: "a", label: "int x = 10" },
@@ -28,7 +28,7 @@ const dsf_1 = {
     },
     {
       id: 3,
-      texto: "Qual destas é uma variável válida?",
+      texto: "Qual destes identificadores de variável é válido em Python?",
       hint: "Um nome de variável pode começar por letra; os números podem vir depois, sem espaços ou hífen.",
       opcoes: [
         { id: "a", label: "nome1" },
@@ -39,7 +39,7 @@ const dsf_1 = {
     },
     {
       id: 4,
-      texto: "O que acontece ao escrever x = 5?",
+      texto: "O que acontece quando se executa a instrução x = 5?",
       hint: "O sinal = atribui o valor da direita ao nome que está à esquerda.",
       opcoes: [
         { id: "a", label: "Apaga o programa" },
@@ -51,7 +51,7 @@ const dsf_1 = {
     },
     {
       id: 5,
-      texto: "Qual o valor de x após x = 10?",
+      texto: "Qual o valor de x após a execução da instrução x = 10?",
       hint: "Substitui x pelo valor que lhe foi atribuído na linha anterior.",
       opcoes: [
         { id: "a", label: "0" },

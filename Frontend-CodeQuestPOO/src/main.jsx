@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Pages
 import Landingpage from './Pages/landingPage';
-import GameTest from './Pages/gameTest';
 import { DashBoard } from './Pages/UserPage/dashBoard';
 import Perfil from './Pages/UserPage/Perfil';
 import Maps from './Pages/UserPage/Maps';
@@ -23,11 +22,6 @@ import LeaderBoard from './Pages/UserPage/leaderBoard';
 
 // Admin
 import AdminDashboard from "/src/Pages/Admin/AdminDashboard.jsx";
-
-// Components
-import Desafio1GameTest from "./Components/GameTest/desafio1";
-import Desafio2GameTest from "./Components/GameTest/desafio2";
-import DesafioFinal from "./Components/GameTest/desafioFinal";
 
 // Game
 import FlorestaDosAlgoritmos from "./Game/Mapas/FlorestaDosAlgoritmos-Mapa1/FlorestaDosAlgoritmos";
@@ -48,7 +42,6 @@ createRoot(document.getElementById('root')).render(
         <Routes>
           {/* ROTAS PRINCIPAIS */}
           <Route path="/" element={<Landingpage />} />
-          <Route path="/gametest" element={<GameTest />} />
           <Route path="/Dashboard" element={<DashBoard />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/CriarConta" element={<CriarConta />} />
@@ -62,13 +55,6 @@ createRoot(document.getElementById('root')).render(
           <Route path="/amigos" element={<Amigos />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/mentores" element={<Mentores />} />
-
-          {/* TESTES */}
-
-          {/* Teste */}
-          <Route path="/Desafio1GameTest" element={<Desafio1GameTest />} />
-          <Route path="/Desafio2GameTest" element={<Desafio2GameTest />} />
-          <Route path="/DesafioFinalGameTest" element={<DesafioFinal />} />
 
           {/* GAME */}
 

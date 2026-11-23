@@ -2,7 +2,7 @@ const dsf_7 = [
   {
     type: "quiz",
     titulo: "Debug 1 – Aspas",
-    texto: "O que está errado?\n\nprint('Olá)",
+    texto: "Qual é o erro neste código?\n\nprint('Olá)",
     opcoes: [
       { id: "a", label: "Falta fechar aspas" },
       { id: "b", label: "Falta dois pontos" },
@@ -15,7 +15,7 @@ const dsf_7 = [
   {
     type: "quiz",
     titulo: "Debug 2 – Comparação",
-    texto: "Qual é a correção correta?\n\nif x = 10:",
+    texto: "Qual é a correção apropriada?\n\nif x = 10:",
     opcoes: [
       { id: "a", label: "if x == 10:" },
       { id: "b", label: "if x === 10:" },
