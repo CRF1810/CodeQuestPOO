@@ -81,17 +81,6 @@ export default function LeftSideBar({ streak, onOpenChallengeInfo }) {
                 backdropFilter: "blur(5px)",
             }}
         >
-            <button
-                type="button"
-                className="w-10 h-10 mb-2 rounded-full flex items-center justify-center font-bold text-white shrink-0 transition-all duration-200 hover:scale-105 active:scale-95"
-                style={{
-                    background: `linear-gradient(135deg, ${Color.primary.light}, ${Color.primary.main})`,
-                    border: `2px solid ${Color.primary.lightest}`,
-                    boxShadow: `0 0 14px ${Color.glow.blue}, 0 0 28px rgba(30, 90, 142, 0.3)`,
-                }}
-            >
-                U
-            </button>
 
             <div
                 className="text-white font-bold text-[10px] tracking-wider px-2 py-0.5 rounded-xl flex items-center gap-1 transition-all duration-200 hover:scale-105"
