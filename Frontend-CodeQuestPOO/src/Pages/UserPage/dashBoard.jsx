@@ -10,18 +10,10 @@ import map1 from "../../Assets/Maps/FirstMap.png";
 import map2 from "../../Assets/Maps/SecondMap.png";
 import map3 from "../../Assets/Maps/ThirdMap.png";
 import { useState, useEffect } from "react";
-import SideBar from "../../Components/SideBar/SideBar";
 import mago from "../../Assets/DashBoard/mago.png";
 import loadingVideo from "../../Assets/Loading/loading.webm";
 import "../../css/DashBoard.css";
 import {
-    Target,
-    Flame,
-    Coins,
-    Swords,
-    BookOpen,
-    ShieldCheck,
-    ClipboardList,
     ChartNoAxesCombined,
     Map,
     Lock,
@@ -79,14 +71,6 @@ function mapErrosToDB(quantidadeDeErros = [], tipoDeErros = []) {
         };
     });
 }
-
-const DAILY_MISSION = {
-    text: "Complete 3 desafios sem usar dicas",
-    current: 1,
-    total: 3,
-    reward: "+100",
-    streak: { active: true, daysLeft: 3, goal: "Streak 10 dias" },
-};
 
 // ============================================================
 // 🔷 AccuracyChart
@@ -226,18 +210,18 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
         <div className="relative bg-[#151414] rounded-3xl border border-gray-800 overflow-hidden animate-slideInLeft">
 
             {/* Topo: título + badge */}
-            <div className="flex justify-between items-center px-6 pt-5 pb-2">
-                <h2 className="text-white font-bold text-2xl tracking-wide animate-pulse">
+            <div className="flex justify-between items-center px-4 pt-5 pb-2 md:px-6">
+                <h2 className="text-white font-bold text-xl tracking-wide md:text-2xl">
                     Bem-vindo, {player.name}!
                 </h2>
-                <span className="text-xs text-gray-500 border border-gray-700 rounded px-2 py-0.5 mr-52">
+                <span className="hidden text-xs text-gray-500 border border-gray-700 rounded px-2 py-0.5 md:block">
                     {progressaoXp.titulo}
                 </span>
             </div>
 
-            <div className="flex gap-0 px-6 pb-6" style={{ paddingRight: "290px" }}>
+            <div className="flex flex-col gap-5 px-4 pb-6 md:flex-row md:gap-0 md:px-6 md:pr-64">
 
-                <div className="flex flex-col gap-4 w-58 flex-shrink-0">
+                <div className="flex w-full flex-col gap-4 md:w-58 md:flex-shrink-0">
                     <AccuracyChart accuracy={player.accuracy} errors={player.errors} />
                     <div className="border-t border-gray-800" />
 
@@ -265,13 +249,7 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
                             />
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-y-2 text-xs mt-4">
-                        <span className="text-gray-500 mr-6">Seu Nível:</span>
-                        <span className="text-white font-bold text-right">{progressaoXp.nivel} 🎖️</span>
-                        <span className="text-gray-500">Dias Seguidos:</span>
-                        <span className="text-white font-bold text-right">{player.diasSeguidos} 🔥</span>
-                    </div>
-                    <div className="flex items-center justify-between ml-4 px-6 pb-3">
+                    <div className="flex items-center justify-between pb-1">
                         <button
                             onClick={() => navigate("/HistoricoSemanal")}
                             className="flex items-center gap-1.5 text-[11px] text-gray-400 border border-gray-700 rounded-lg px-3 py-1.5 hover:border-yellow-600 hover:text-yellow-500 transition-colors"
@@ -281,20 +259,16 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
                     </div>
                 </div>
 
-                <div className="w-px bg-gray-800 mx-6 self-stretch" />
+                <div className="hidden w-px bg-gray-800 mx-6 self-stretch md:block" />
 
-                <div className="flex flex-col gap-4 mt-10 flex-1">
+                <div className="flex flex-col gap-4 md:mt-10 md:flex-1">
                     <WeeklyBars activity={player.weekActivity} currentDayOfWeek={currentDayOfWeek} />
                     <div className="border-t border-gray-800" />
                     <XPBar current={progressaoXp.xpTotal} total={progressaoXp.xpProximoNivel} />
-                    <div className="grid grid-cols-3 gap-2 text-xs mt-1">
+                    <div className="grid grid-cols-2 gap-2 text-xs mt-1">
                         <div className="bg-gray-800/50 rounded-lg p-2 text-center border border-gray-700/30">
                             <p className="text-white font-bold text-base">{player.desafios}</p>
                             <p className="text-gray-500 text-[10px]">Desafios</p>
-                        </div>
-                        <div className="bg-gray-800/50 rounded-lg p-2 text-center border border-gray-700/30">
-                            <p className="text-white font-bold text-base">{player.accuracy}%</p>
-                            <p className="text-gray-500 text-[10px]">Acerto</p>
                         </div>
                         <div className="bg-gray-800/50 rounded-lg p-2 text-center border border-gray-700/30">
                             <p className="text-white font-bold text-base">{player.dicasUsadas}</p>
@@ -305,13 +279,13 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
             </div>
 
             <div
-                className="absolute top-0 right-0 bottom-0 w-70 ml-4"
+                className="pointer-events-none absolute right-0 top-0 hidden w-64 overflow-hidden md:bottom-0 md:block"
                 style={{
                     WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%)",
                     maskImage: "linear-gradient(to right, transparent 0%, black 28%)",
                 }}
             >
-                <img src={mago} alt="heroi" className="h-full w-full mb-4" />
+                <img src={mago} alt="" className="h-full w-full object-cover object-top" />
             </div>
         </div>
     );
@@ -329,9 +303,6 @@ function MapsPanel({ maps }) {
                     <Map size={18} />
                     Mapas de Aprendizado
                 </h3>
-                <button className="w-5 h-5 rounded border border-gray-700 flex items-center justify-center text-gray-500 text-xs hover:text-white">
-                    +
-                </button>
             </div>
 
             {maps.map((m, i) => {
@@ -502,98 +473,6 @@ function ErrorTypesPanel({ errors }) {
 }
 
 // ============================================================
-// 🔷 TrophiesAndMissionPanel
-// ============================================================
-function TrophiesAndMissionPanel({ mission }) {
-    const pct = Math.min((mission.current / mission.total) * 100, 100);
-    const done = mission.current >= mission.total;
-
-    return (
-        <div className="bg-[#151414] rounded-4xl border border-gray-800 p-5 flex flex-col gap-4 flex-1 animate-slideInRight">
-
-            <div className="flex justify-between items-center">
-                <h3 className="text-white text-sm font-semibold flex items-center gap-2">
-                    <Target size={15} className="text-yellow-500" />
-                    Missão Diária
-                </h3>
-                <span className="text-gray-600 text-[11px] border border-gray-800 rounded-lg px-2 py-0.5">
-                    {mission.current}/{mission.total}
-                </span>
-            </div>
-
-            <div className="bg-[#1a1a1a] border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
-                <div className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-[10px] flex items-center justify-center font-bold flex-shrink-0 mt-0.5">
-                        1
-                    </span>
-                    <span className="text-gray-400 text-xs leading-relaxed">{mission.text}</span>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                    <div className="flex justify-between text-[10px]">
-                        <span className="text-gray-600">Progresso</span>
-                        <span className="font-semibold" style={{ color: done ? "#d4a017" : "#555" }}>
-                            {mission.current} / {mission.total}
-                        </span>
-                    </div>
-                    <div className="h-1.5 bg-gray-900 rounded-full overflow-hidden">
-                        <div
-                            className="h-1.5 rounded-full transition-all duration-700"
-                            style={{
-                                width: `${pct}%`,
-                                background: done ? "#d4a017" : "#3b82f6",
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div className="flex justify-between items-center pt-1 border-t border-gray-800">
-                    <span className="text-gray-600 text-[10px]">Recompensa</span>
-                    <span className="text-yellow-400 font-bold text-xs flex items-center gap-1">
-                        <Coins size={13} />
-                        {mission.reward}
-                    </span>
-                </div>
-            </div>
-
-            {mission.streak.active && (
-                <div className="bg-yellow-500/[0.06] border border-yellow-500/20 rounded-2xl p-3.5 flex items-start gap-2.5">
-                    <Flame size={18} className="text-orange-400 flex-shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                        <p className="text-yellow-400 text-xs font-semibold">Streak Ativo!</p>
-                        <p className="text-gray-500 text-[11px] leading-relaxed">
-                            Continue jogando por mais{" "}
-                            <span className="text-gray-200 font-bold">{mission.streak.daysLeft} dias</span>{" "}
-                            para desbloquear o troféu{" "}
-                            <em className="text-gray-400 not-italic">"{mission.streak.goal}"</em>
-                        </p>
-                    </div>
-                </div>
-            )}
-
-            <div className="bg-[#1a1a1a] border border-gray-800 rounded-2xl p-4 flex flex-col gap-3 flex-1">
-                <p className="text-gray-600 text-[11px] flex items-center gap-1.5">
-                    <ClipboardList size={13} />
-                    Próximas missões
-                </p>
-                {[
-                    { icon: <Swords size={14} />, text: "Vence 2 batalhas seguidas", xp: "+80" },
-                    { icon: <BookOpen size={14} />, text: "Estuda 30 min sem pausa", xp: "+60" },
-                    { icon: <ShieldCheck size={14} />, text: "Completa um mapa sem erros", xp: "+120" },
-                ].map((m, i) => (
-                    <div key={i} className="flex items-center gap-2.5 opacity-50">
-                        <span className="text-gray-500">{m.icon}</span>
-                        <span className="text-gray-500 text-[11px] flex-1">{m.text}</span>
-                        <span className="text-gray-600 text-[10px] font-bold">{m.xp}</span>
-                    </div>
-                ))}
-            </div>
-
-        </div>
-    );
-}
-
-// ============================================================
 // 🔷 Helpers
 // ============================================================
 function formatTempo(minutos = 0) {
@@ -679,7 +558,7 @@ export function DashBoard() {
         } catch (err) {
             console.error("Erro ao verificar autenticação", err.response || err);
         }
-    }, [token]);
+    }, [navigate, token]);
 
     useEffect(() => {
         async function fetchProgressao() {
@@ -794,8 +673,10 @@ export function DashBoard() {
 
     if (loading) {
         return (
-            <div className="relative min-h-screen bg-[#000000] flex flex-col items-center justify-center overflow-hidden select-none">
-                <div className="flex flex-col items-center gap-6 z-10">
+            <div className="relative min-h-screen bg-[#000000]">
+                <DashBoardHeader user={user} layout="sidebar" />
+                <div className="ml-20 flex min-h-screen flex-col items-center justify-center overflow-hidden select-none md:ml-64">
+                  <div className="z-10 flex flex-col items-center gap-6">
                     <div className="relative w-40 h-40 flex items-center justify-center p-2 bg-[#080808]/50 rounded-xl">
                         <video
                             src={loadingVideo}
@@ -823,6 +704,7 @@ export function DashBoard() {
                             ))}
                         </div>
                     </div>
+                  </div>
                 </div>
             </div>
         );
@@ -844,10 +726,9 @@ export function DashBoard() {
         
     return (
         <div className="relative min-h-screen bg-black animate-fadeIn">
-            <DashBoardHeader user={user} />
-            <SideBar user={user} />
+            <DashBoardHeader user={user} layout="sidebar" />
 
-            <main className="ml-20 mt-4 p-6 pt-24">
+            <main className="ml-20 p-4 md:ml-64 md:p-6">
 
                 {progresso && progressaoXp && (
                     <MainCard
@@ -862,10 +743,9 @@ export function DashBoard() {
                     />
                 )}
 
-                <div className="flex gap-4 mt-6">
+                <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2">
                     <MapsPanel maps={mapasProgresso} />
                     <ErrorTypesPanel errors={errors} />
-                    <TrophiesAndMissionPanel mission={DAILY_MISSION} />
                 </div>
             </main>
         </div>

@@ -12,10 +12,14 @@ import {
   Star,
   Flame,
   DollarSign,
-  Trophy
+  Trophy,
+  ChartNoAxesCombined,
+  History,
+  Award,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/ProfileModal";
+import { sidebarLinks } from "../../config/sideBarLinks";
 
 function formatarTempo(segundos = 0) {
   const h = Math.floor(segundos / 3600);
@@ -25,7 +29,7 @@ function formatarTempo(segundos = 0) {
   return h > 0 ? `${h}h` : m > 0 ? `${m}min` : `${s}s`;
 }
 
-export default function DashBoardHeader({ user }) {
+export default function DashBoardHeader({ user, layout = "header" }) {
   const [activeNav, setActiveNav] = useState("home");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -41,6 +45,7 @@ export default function DashBoardHeader({ user }) {
   });
 
   const navigate = useNavigate();
+  const isSidebar = layout === "sidebar";
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -137,6 +142,197 @@ export default function DashBoardHeader({ user }) {
     { id: "leaderboard", icon: <Trophy size={20} />, label: "Leaderboard", path: "/leaderBoard" },
     { id: "amigos", icon: <Users size={20} />, label: "Amigos", path: "/amigos" },
   ];
+
+  if (isSidebar) {
+    const navigationItems = [
+      { id: "home", label: "Início", path: "/Dashboard", icon: Home },
+      ...sidebarLinks.map((link) => ({
+        id: link.path,
+        label: link.id,
+        path: link.path,
+        icon: link.icon,
+      })),
+      { id: "stats", label: "Estatísticas", path: "/Estatisticas", icon: ChartNoAxesCombined },
+      { id: "history", label: "Histórico semanal", path: "/HistoricoSemanal", icon: History },
+      { id: "trophies", label: "Conquistas", path: "/Trophies", icon: Award },
+      { id: "friends", label: "Amigos", path: "/amigos", icon: Users },
+    ];
+
+    return (
+      <>
+        <aside
+          className="fixed inset-y-0 left-0 z-50 flex w-20 flex-col overflow-y-auto border-r border-white/10 bg-neutral-950 px-3 py-5 md:w-64 md:px-4"
+          aria-label="Navegação principal"
+        >
+          <button
+            type="button"
+            className="mb-6 flex items-center justify-center md:justify-start"
+            onClick={() => navigate("/Dashboard")}
+            aria-label="CodeQuest - Início"
+          >
+            <img src={logo} alt="CodeQuest POO" className="h-11 w-auto" />
+            <span className="ml-3 hidden text-sm font-bold tracking-wide text-white md:block">CodeQuest</span>
+          </button>
+
+          <nav className="flex flex-1 flex-col gap-1">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              const active = window.location.pathname.toLowerCase() === item.path.toLowerCase();
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  title={item.label}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => navigate(item.path)}
+                  className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-left text-sm transition-colors ${
+                    active
+                      ? "bg-cyan-500/15 font-semibold text-cyan-300"
+                      : "text-neutral-400 hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  <Icon size={18} className="shrink-0" />
+                  <span className="hidden md:block">{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <section className="my-4 hidden rounded-xl border border-white/10 bg-white/[0.03] p-3 md:block" aria-label="Resumo do jogador">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-neutral-500">O teu progresso</p>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <span className="text-neutral-500">Tempo</span>
+              <span className="text-right text-cyan-300">{formatarTempo(stats.tempo_total_jogo)}</span>
+              <span className="text-neutral-500">Experiência</span>
+              <span className="text-right text-yellow-300">{stats.xp_total} XP</span>
+              <span className="text-neutral-500">Moedas</span>
+              <span className="text-right text-violet-300">{stats.coins}</span>
+              <span className="text-neutral-500">Sequência</span>
+              <span className="text-right text-orange-300">{stats.streak_dias} dias</span>
+            </div>
+          </section>
+
+          <div className="flex items-center gap-2 border-t border-white/10 pt-4">
+            <button
+              type="button"
+              aria-label={friendRequests.length
+                ? `Notificações: ${friendRequests.length} pedidos de amizade pendentes`
+                : "Notificações"}
+              aria-haspopup="dialog"
+              aria-expanded={isNotificationsOpen}
+              title="Notificações"
+              className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-cyan-300 hover:bg-cyan-500/10"
+              onClick={() => {
+                setIsModalOpen(false);
+                setIsNotificationsOpen((open) => !open);
+              }}
+            >
+              <Bell size={18} />
+              {friendRequests.length > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full border border-neutral-950 bg-red-500 px-1 text-[10px] font-bold text-white">
+                  {friendRequests.length > 99 ? "99+" : friendRequests.length}
+                </span>
+              )}
+            </button>
+            <button
+              type="button"
+              title={user?.nome || "Perfil"}
+              className="flex min-w-0 flex-1 items-center gap-2 rounded-xl p-1 text-left hover:bg-white/5"
+              onClick={() => {
+                setIsNotificationsOpen(false);
+                setIsModalOpen(true);
+              }}
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-600 font-bold text-white">
+                {user?.nome?.[0]?.toUpperCase() ?? "U"}
+              </span>
+              <span className="hidden truncate text-sm text-white md:block">{user?.nome || "Perfil"}</span>
+            </button>
+          </div>
+        </aside>
+
+        {isNotificationsOpen && (
+          <>
+            <button
+              type="button"
+              aria-label="Fechar notificações"
+              className="fixed inset-0 z-40 cursor-default"
+              onClick={() => setIsNotificationsOpen(false)}
+            />
+            <div
+              role="dialog"
+              aria-label="Notificações"
+              className="fixed bottom-4 left-24 z-[60] w-72 rounded-2xl border border-white/10 bg-neutral-950 p-4 shadow-2xl md:left-[17rem]"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-sm font-bold text-white">Notificações</h2>
+                <button
+                  type="button"
+                  aria-label="Fechar notificações"
+                  className="text-white/50 hover:text-white"
+                  onClick={() => setIsNotificationsOpen(false)}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              {friendRequests.length === 0 ? (
+                <p className="text-sm text-neutral-400">Ainda não tens notificações.</p>
+              ) : (
+                <>
+                  <p className="mb-2 text-xs text-neutral-400">
+                    {friendRequests.length === 1
+                      ? "Tens um pedido de amizade pendente:"
+                      : `Tens ${friendRequests.length} pedidos de amizade pendentes:`}
+                  </p>
+                  <div className="max-h-52 overflow-y-auto">
+                    {friendRequests.slice(0, 5).map((request) => (
+                      <button
+                        key={request.id}
+                        type="button"
+                        onClick={abrirPedidosAmizade}
+                        className="w-full rounded-xl px-2 py-2 text-left text-sm text-white hover:bg-white/5"
+                      >
+                        <strong>{request.aluno?.nome || "Novo utilizador"}</strong>
+                        <span className="block text-xs text-neutral-400">Enviou-te um pedido de amizade</span>
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={abrirPedidosAmizade}
+                    className="mt-3 w-full rounded-xl border border-cyan-500/20 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/10"
+                  >
+                    Ver pedidos de amizade
+                  </button>
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {newRequestToast && (
+          <button
+            type="button"
+            onClick={abrirPedidosAmizade}
+            className="fixed right-6 top-6 z-[60] rounded-2xl border border-cyan-500/30 bg-neutral-950 px-4 py-3 text-left text-sm text-white shadow-xl"
+          >
+            <strong className="block">Novo pedido de amizade</strong>
+            <span className="text-xs text-neutral-400">{newRequestToast} enviou-te um pedido</span>
+          </button>
+        )}
+
+        {isModalOpen && (
+          <>
+            <div
+              onClick={() => setIsModalOpen(false)}
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-md"
+            />
+            <Modal user={user} onClose={() => setIsModalOpen(false)} />
+          </>
+        )}
+      </>
+    );
+  }
 
   return (
     <>

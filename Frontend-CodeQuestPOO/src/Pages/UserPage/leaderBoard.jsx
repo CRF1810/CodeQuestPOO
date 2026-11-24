@@ -229,54 +229,54 @@ function LeaderRow({
     );
 }
 
+function PodiumSlot({ entry, pos, height, animationDelay, myId, timeKey }) {
+    const rank = getRankStyle(pos);
+    const isMe = entry.alunoId === myId;
+    const avatarImagem = entry.avatar?.caminho_imagem ?? entry.avatar;
+
+    return (
+        <div className="flex flex-col items-center gap-2 flex-1 max-w-[160px] animate-fade-in-up" style={{ animationDelay }}>
+            <div className="relative group">
+                <div className="absolute inset-0 rounded-full blur-md opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundColor: rank.color }} />
+                <Avatar nome={entry.nome} avatar={avatarImagem} size={pos === 0 ? 64 : 52} isMe={isMe} />
+            </div>
+
+            <span className={`text-xs font-black truncate w-full text-center mt-1 ${isMe ? "text-amber-400" : "text-neutral-200"}`}>
+                {entry.nome?.split(" ")[0]}
+            </span>
+
+            <span className="text-[11px] font-black tabular-nums tracking-wider bg-neutral-900/90 px-2 py-0.5 rounded-full border border-neutral-800" style={{ color: rank.color }}>
+                {formatTempo(entry[timeKey])}
+            </span>
+
+            <div
+                className="w-full rounded-t-2xl flex flex-col items-center justify-end pb-4 border-t-2 border-x shadow-2xl relative overflow-hidden group transition-all duration-500 hover:brightness-110"
+                style={{
+                    height,
+                    background: `linear-gradient(to bottom, ${rank.glow}, rgba(10,10,10,0.8))`,
+                    borderColor: pos === 0 ? "rgba(251,191,36,0.4)" : "rgba(64,64,64,0.3)",
+                }}
+            >
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent -translate-y-full group-hover:translate-y-full transition-transform duration-1000" />
+                <span className="text-4xl filter drop-shadow-md select-none transform group-hover:scale-110 transition-transform">
+                    {rank.badge}
+                </span>
+            </div>
+        </div>
+    );
+}
+
 function Podium({ entries, myId, timeKey }) {
     if (entries.length < 3) return null;
 
     const [second, first, third] = [entries[1], entries[0], entries[2]];
 
-    const PodiumSlot = ({ entry, pos, height, animationDelay }) => {
-        const rank = getRankStyle(pos);
-        const isMe = entry.alunoId === myId;
-        const avatarImagem = entry.avatar?.caminho_imagem ?? entry.avatar;
-
-        return (
-            <div className="flex flex-col items-center gap-2 flex-1 max-w-[160px] animate-fade-in-up" style={{ animationDelay }}>
-                <div className="relative group">
-                    <div className="absolute inset-0 rounded-full blur-md opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundColor: rank.color }} />
-                    <Avatar nome={entry.nome} avatar={avatarImagem} size={pos === 0 ? 64 : 52} isMe={isMe} />
-                </div>
-
-                <span className={`text-xs font-black truncate w-full text-center mt-1 ${isMe ? "text-amber-400" : "text-neutral-200"}`}>
-                    {entry.nome?.split(" ")[0]}
-                </span>
-
-                <span className="text-[11px] font-black tabular-nums tracking-wider bg-neutral-900/90 px-2 py-0.5 rounded-full border border-neutral-800" style={{ color: rank.color }}>
-                    {formatTempo(entry[timeKey])}
-                </span>
-
-                <div
-                    className="w-full rounded-t-2xl flex flex-col items-center justify-end pb-4 border-t-2 border-x shadow-2xl relative overflow-hidden group transition-all duration-500 hover:brightness-110"
-                    style={{
-                        height,
-                        background: `linear-gradient(to bottom, ${rank.glow}, rgba(10,10,10,0.8))`,
-                        borderColor: pos === 0 ? "rgba(251,191,36,0.4)" : "rgba(64,64,64,0.3)",
-                    }}
-                >
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent -translate-y-full group-hover:translate-y-full transition-transform duration-1000" />
-                    <span className="text-4xl filter drop-shadow-md select-none transform group-hover:scale-110 transition-transform">
-                        {rank.badge}
-                    </span>
-                </div>
-            </div>
-        );
-    };
-
     return (
         <div className="flex items-end justify-center gap-3 pt-6 pb-2 mb-6 bg-neutral-900/20 rounded-3xl p-4 border border-neutral-900/60 backdrop-blur-sm relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-amber-500/5 via-transparent to-transparent pointer-events-none" />
-            <PodiumSlot entry={second} pos={1} height="90px" animationDelay="100ms" />
-            <PodiumSlot entry={first} pos={0} height="125px" animationDelay="0ms" />
-            <PodiumSlot entry={third} pos={2} height="75px" animationDelay="200ms" />
+            <PodiumSlot entry={second} pos={1} height="90px" animationDelay="100ms" myId={myId} timeKey={timeKey} />
+            <PodiumSlot entry={first} pos={0} height="125px" animationDelay="0ms" myId={myId} timeKey={timeKey} />
+            <PodiumSlot entry={third} pos={2} height="75px" animationDelay="200ms" myId={myId} timeKey={timeKey} />
         </div>
     );
 }
