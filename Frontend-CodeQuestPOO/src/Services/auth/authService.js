@@ -19,11 +19,13 @@ export const login = async (email, password) => {
 
 export const logout = async (id) => {
   try {
+    if (id === undefined || id === null) return null;
     const { data } = await api.post(`/auth/logout/${id}`);
-    clearAuthStorage();
     return data;
   } catch (err) {
     console.error("[Performance] Erro ao fazer logout:", err);
     return null;
+  } finally {
+    clearAuthStorage();
   }
 };

@@ -235,6 +235,7 @@ export default function DashBoardHeader({ user, layout = "sidebar" }) {
             </button>
             <button
               type="button"
+              aria-label={`Abrir conta de ${user?.nome || "utilizador"}`}
               title={user?.nome || "Perfil"}
               className="flex min-w-0 flex-1 items-center gap-2 rounded-xl p-1 text-left hover:bg-white/5"
               onClick={() => {

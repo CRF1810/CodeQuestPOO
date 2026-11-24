@@ -5,22 +5,35 @@ import { useState, useEffect } from "react";
 import { getMe } from "../../Services/users/userService.js"
 import { logout } from "../../Services/auth/authService.js";
 
-export default function ProfileModal({ onClose }) {
+export default function ProfileModal({ user: initialUser, onClose }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(initialUser ?? null);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
+    let active = true;
     const getUser = async () => {
       try {
         const userData = await getMe();
-        console.log("User id", userData.id)
-        setUser(userData)
+        if (active) setUser(userData);
       } catch (error) {
-        console.error("Erro ao obter utilziador:", error);
+        console.error("Erro ao obter utilizador:", error);
       }
     }
-    getUser();
+
+    void getUser();
+    return () => {
+      active = false;
+    };
   }, []);
+
+  const terminarSessao = async () => {
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+    await logout(user?.id);
+    onClose();
+    navigate("/", { replace: true });
+  };
   
   return (
     <>
@@ -28,7 +41,7 @@ export default function ProfileModal({ onClose }) {
       <div className="profile-modal">
         <div className="pm-header">
           <span className="pm-title">Conta</span>
-          <button className="pm-close" onClick={onClose}>
+          <button type="button" aria-label="Fechar conta" className="pm-close" onClick={onClose}>
             <X size={19} />
           </button>
         </div>
@@ -41,8 +54,8 @@ export default function ProfileModal({ onClose }) {
             <div className="pm-avatar-dot" />
           </div>
           <div>
-            <div className="pm-user-name">{user?.nome || "Guest"}</div>
-            <div className="pm-user-email">{user?.email || "guest@email.com"}</div>
+            <div className="pm-user-name">{user?.nome || "A carregar conta..."}</div>
+            <div className="pm-user-email">{user?.email || "Email não disponível"}</div>
           </div>
         </div>
 
@@ -50,6 +63,7 @@ export default function ProfileModal({ onClose }) {
 
         <div className="pm-menu">
           <button
+            type="button"
             type="button"
             className="pm-menu-item w-full text-left"
             onClick={() => {
@@ -69,16 +83,14 @@ export default function ProfileModal({ onClose }) {
 
         <div className="pm-footer">
           <button
+            type="button"
+            disabled={isLoggingOut}
             className="pm-logout"
-            onClick={async () => {
-              await logout(user.id);
-              onClose();
-              navigate("/", { replace: true });
-            }}
+            onClick={terminarSessao}
           >
 
             <LogOut size={15} />
-            Terminar Sessão
+            {isLoggingOut ? "A terminar sessão..." : "Terminar Sessão"}
           </button>
         </div>
       </div>

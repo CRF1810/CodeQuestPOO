@@ -19,6 +19,9 @@ import {
     Lock,
     Skull,
     CheckCircle2,
+    Target,
+    BookOpen,
+    ArrowUpRight,
 } from "lucide-react";
 
 //Dumb data
@@ -472,6 +475,73 @@ function ErrorTypesPanel({ errors }) {
     );
 }
 
+function DailyMissionsPanel({ navigate }) {
+    const missions = [
+        {
+            id: "campaign",
+            title: "Avança na campanha",
+            description: "Escolhe um mapa e resolve um desafio.",
+            action: "Explorar mapas",
+            path: "/Maps",
+            icon: <Map size={16} />,
+        },
+        {
+            id: "practice",
+            title: "Pratica sem dicas",
+            description: "Tenta concluir o próximo desafio sem pedir ajuda.",
+            action: "Começar desafio",
+            path: "/Maps",
+            icon: <Target size={16} />,
+        },
+        {
+            id: "review",
+            title: "Aprende com os erros",
+            description: "Revê os erros registados e reforça a matéria.",
+            action: "Ver desempenhos",
+            path: "/Erros",
+            icon: <BookOpen size={16} />,
+        },
+    ];
+
+    return (
+        <section className="self-start rounded-3xl border border-gray-800 bg-[#151414] p-5 xl:sticky xl:top-6">
+            <div className="mb-4">
+                <h3 className="flex items-center gap-2 text-base font-bold text-white">
+                    <Target size={18} className="text-amber-400" />
+                    Missões diárias
+                </h3>
+                <p className="mt-1 text-xs text-gray-500">Pequenos objetivos para a tua próxima sessão.</p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+                {missions.map((mission) => {
+                    return (
+                        <article key={mission.id} className="rounded-2xl border border-gray-800 bg-[#1a1a1a] p-3">
+                            <div className="flex items-start gap-3">
+                                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-300">
+                                    {mission.icon}
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                    <h4 className="text-sm font-semibold text-gray-200">{mission.title}</h4>
+                                    <p className="mt-1 text-xs leading-relaxed text-gray-500">{mission.description}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => navigate(mission.path)}
+                                        className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 transition-colors hover:text-cyan-200"
+                                    >
+                                        {mission.action}
+                                        <ArrowUpRight size={13} />
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    );
+                })}
+            </div>
+        </section>
+    );
+}
+
 // ============================================================
 // 🔷 Helpers
 // ============================================================
@@ -743,9 +813,12 @@ export function DashBoard() {
                     />
                 )}
 
-                <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2">
-                    <MapsPanel maps={mapasProgresso} />
-                    <ErrorTypesPanel errors={errors} />
+                <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.9fr)]">
+                    <div className="flex flex-col gap-4">
+                        <MapsPanel maps={mapasProgresso} />
+                        <ErrorTypesPanel errors={errors} />
+                    </div>
+                    <DailyMissionsPanel navigate={navigate} />
                 </div>
             </main>
         </div>
