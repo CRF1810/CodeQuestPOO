@@ -21,13 +21,25 @@ import {
     CheckCircle2,
     Target,
     BookOpen,
-    ArrowUpRight,
+    Flame,
+    Coins,
+    Swords,
+    ShieldCheck,
+    ClipboardList,
 } from "lucide-react";
 
 //Dumb data
 
 
 const DAYS = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+
+const DAILY_MISSION = {
+    text: "Complete 3 desafios sem usar dicas",
+    current: 1,
+    total: 3,
+    reward: "+100",
+    streak: { active: true, daysLeft: 3, goal: "Streak 10 dias" },
+};
 
 function getDayofWeek() {
     try {
@@ -475,67 +487,87 @@ function ErrorTypesPanel({ errors }) {
     );
 }
 
-function DailyMissionsPanel({ navigate }) {
-    const missions = [
-        {
-            id: "campaign",
-            title: "Avança na campanha",
-            description: "Escolhe um mapa e resolve um desafio.",
-            action: "Explorar mapas",
-            path: "/Maps",
-            icon: <Map size={16} />,
-        },
-        {
-            id: "practice",
-            title: "Pratica sem dicas",
-            description: "Tenta concluir o próximo desafio sem pedir ajuda.",
-            action: "Começar desafio",
-            path: "/Maps",
-            icon: <Target size={16} />,
-        },
-        {
-            id: "review",
-            title: "Aprende com os erros",
-            description: "Revê os erros registados e reforça a matéria.",
-            action: "Ver desempenhos",
-            path: "/Erros",
-            icon: <BookOpen size={16} />,
-        },
-    ];
-
+function DailyMissionsPanel({ mission, navigate }) {
+    const pct = Math.min((mission.current / mission.total) * 100, 100);
+    const done = mission.current >= mission.total;
     return (
-        <section className="h-full rounded-3xl border border-gray-800 bg-[#151414] p-4 md:p-5">
-            <div className="mb-3">
-                <h3 className="flex items-center gap-2 text-base font-bold text-white">
-                    <Target size={18} className="text-amber-400" />
-                    Missões de hoje
+        <section className="h-full rounded-4xl border border-gray-800 bg-[#151414] p-4 md:p-5 flex flex-col gap-3 animate-slideInRight xl:col-start-2">
+            <div className="flex items-center justify-between">
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <Target size={15} className="text-yellow-500" />
+                    Missão Diária
                 </h3>
-                <p className="mt-1 text-xs text-gray-500">Objetivos para a tua próxima sessão.</p>
+                <span className="rounded-lg border border-gray-800 px-2 py-0.5 text-[11px] text-gray-400">
+                    {mission.current}/{mission.total}
+                </span>
             </div>
 
-            <div className="flex flex-col gap-2">
-                {missions.map((mission) => {
-                    return (
-                        <article key={mission.id} className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-[#1a1a1a] p-3">
-                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-300">
-                                    {mission.icon}
-                                </span>
-                                <div className="min-w-0 flex-1">
-                                    <h4 className="text-sm font-semibold text-gray-200">{mission.title}</h4>
-                                    <p className="mt-0.5 text-xs leading-relaxed text-gray-500">{mission.description}</p>
-                                </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => navigate(mission.path)}
-                                        aria-label={mission.action}
-                                        title={mission.action}
-                                        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-500/20 text-cyan-300 transition-colors hover:bg-cyan-500/10 hover:text-cyan-200"
-                                    >
-                                        <ArrowUpRight size={15} />
-                                    </button>
-                        </article>
-                    );
-                })}
+            <div className="flex flex-col gap-3 rounded-2xl border border-gray-800 bg-[#1a1a1a] p-4">
+                <div className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-yellow-500/30 bg-yellow-500/10 text-[10px] font-bold text-yellow-400">
+                        1
+                    </span>
+                    <span className="text-xs leading-relaxed text-gray-300">{mission.text}</span>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                    <div className="flex justify-between text-[10px]">
+                        <span className="text-gray-500">Progresso</span>
+                        <span className="font-semibold text-yellow-400">{mission.current} / {mission.total}</span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-gray-900">
+                        <div
+                            className="h-full rounded-full transition-all duration-700"
+                            style={{ width: `${pct}%`, background: done ? "#d4a017" : "#3b82f6" }}
+                        />
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between border-t border-gray-800 pt-2">
+                    <span className="text-[10px] text-gray-500">Recompensa</span>
+                    <span className="flex items-center gap-1 text-xs font-bold text-yellow-400">
+                        <Coins size={13} />
+                        {mission.reward}
+                    </span>
+                </div>
+                <button
+                    type="button"
+                    onClick={() => navigate("/Maps")}
+                    className="w-full rounded-xl bg-cyan-500/10 py-2 text-xs font-semibold text-cyan-300 transition-colors hover:bg-cyan-500/20"
+                >
+                    Começar missão
+                </button>
+            </div>
+
+            {mission.streak.active && (
+                <div className="flex items-start gap-2.5 rounded-2xl border border-yellow-500/20 bg-yellow-500/[0.06] p-3">
+                    <Flame size={17} className="mt-0.5 shrink-0 text-orange-400" />
+                    <div className="flex flex-col gap-1">
+                        <p className="text-xs font-semibold text-yellow-400">Streak Ativo!</p>
+                        <p className="text-[11px] leading-relaxed text-gray-500">
+                            Continua por mais <span className="font-bold text-gray-200">{mission.streak.daysLeft} dias</span>
+                            {" "}para desbloquear "{mission.streak.goal}".
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            <div className="flex flex-1 flex-col gap-2 rounded-2xl border border-gray-800 bg-[#1a1a1a] p-3">
+                <p className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                    <ClipboardList size={13} />
+                    Próximas missões
+                </p>
+                {[
+                    { icon: <Swords size={14} />, text: "Vence 2 batalhas seguidas", xp: "+80" },
+                    { icon: <BookOpen size={14} />, text: "Estuda 30 min sem pausa", xp: "+60" },
+                    { icon: <ShieldCheck size={14} />, text: "Completa um mapa sem erros", xp: "+120" },
+                ].map((item, index) => (
+                    <div key={index} className="flex items-center gap-2 opacity-60">
+                        <span className="text-gray-500">{item.icon}</span>
+                        <span className="flex-1 text-[11px] text-gray-500">{item.text}</span>
+                        <span className="text-[10px] font-bold text-gray-600">{item.xp}</span>
+                    </div>
+                ))}
             </div>
         </section>
     );
@@ -799,7 +831,7 @@ export function DashBoard() {
 
             <main className="ml-20 p-4 md:ml-64 md:p-6">
 
-                <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-2">
+                <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
                     {progresso && progressaoXp && (
                         <MainCard
                             player={{
@@ -812,7 +844,7 @@ export function DashBoard() {
                             navigate={navigate}
                         />
                     )}
-                    <DailyMissionsPanel navigate={navigate} />
+                    <DailyMissionsPanel mission={DAILY_MISSION} navigate={navigate} />
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2">
