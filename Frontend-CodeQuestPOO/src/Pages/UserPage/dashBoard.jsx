@@ -210,7 +210,7 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
     const progressaoXp = calculoXp?.progressao || {};
 
     return (
-        <div className="relative bg-[#151414] rounded-3xl border border-gray-800 overflow-hidden animate-slideInLeft">
+        <div className="relative h-full bg-[#151414] rounded-3xl border border-gray-800 overflow-hidden animate-slideInLeft">
 
             {/* Topo: título + badge */}
             <div className="flex justify-between items-center px-4 pt-5 pb-2 md:px-6">
@@ -222,7 +222,7 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
                 </span>
             </div>
 
-            <div className="flex flex-col gap-5 px-4 pb-6 md:flex-row md:gap-0 md:px-6 2xl:pr-64">
+            <div className="relative z-10 flex flex-col gap-5 px-4 pb-6 md:flex-row md:gap-0 md:px-6">
 
                 <div className="flex w-full flex-col gap-4 md:w-58 md:flex-shrink-0">
                     <AccuracyChart accuracy={player.accuracy} errors={player.errors} />
@@ -282,13 +282,13 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
             </div>
 
             <div
-                className="pointer-events-none absolute right-0 top-0 hidden w-64 overflow-hidden 2xl:bottom-0 2xl:block"
+                className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-48 opacity-25 2xl:block"
                 style={{
                     WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%)",
                     maskImage: "linear-gradient(to right, transparent 0%, black 28%)",
                 }}
             >
-                <img src={mago} alt="" className="h-full w-full object-cover object-top" />
+                <img src={mago} alt="" className="h-full w-full object-contain object-right-bottom" />
             </div>
         </div>
     );
@@ -504,36 +504,35 @@ function DailyMissionsPanel({ navigate }) {
     ];
 
     return (
-        <section className="self-start rounded-3xl border border-gray-800 bg-[#151414] p-5 xl:sticky xl:top-6 xl:mt-24">
-            <div className="mb-4">
+        <section className="h-full rounded-3xl border border-gray-800 bg-[#151414] p-4 md:p-5">
+            <div className="mb-3">
                 <h3 className="flex items-center gap-2 text-base font-bold text-white">
                     <Target size={18} className="text-amber-400" />
-                    Missões diárias
+                    Missões de hoje
                 </h3>
-                <p className="mt-1 text-xs text-gray-500">Pequenos objetivos para a tua próxima sessão.</p>
+                <p className="mt-1 text-xs text-gray-500">Objetivos para a tua próxima sessão.</p>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
                 {missions.map((mission) => {
                     return (
-                        <article key={mission.id} className="rounded-2xl border border-gray-800 bg-[#1a1a1a] p-3">
-                            <div className="flex items-start gap-3">
-                                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-300">
+                        <article key={mission.id} className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-[#1a1a1a] p-3">
+                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-300">
                                     {mission.icon}
                                 </span>
                                 <div className="min-w-0 flex-1">
                                     <h4 className="text-sm font-semibold text-gray-200">{mission.title}</h4>
-                                    <p className="mt-1 text-xs leading-relaxed text-gray-500">{mission.description}</p>
+                                    <p className="mt-0.5 text-xs leading-relaxed text-gray-500">{mission.description}</p>
+                                </div>
                                     <button
                                         type="button"
                                         onClick={() => navigate(mission.path)}
-                                        className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 transition-colors hover:text-cyan-200"
+                                        aria-label={mission.action}
+                                        title={mission.action}
+                                        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-500/20 text-cyan-300 transition-colors hover:bg-cyan-500/10 hover:text-cyan-200"
                                     >
-                                        {mission.action}
-                                        <ArrowUpRight size={13} />
+                                        <ArrowUpRight size={15} />
                                     </button>
-                                </div>
-                            </div>
                         </article>
                     );
                 })}
@@ -800,7 +799,7 @@ export function DashBoard() {
 
             <main className="ml-20 p-4 md:ml-64 md:p-6">
 
-                <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.9fr)]">
+                <div className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-2">
                     {progresso && progressaoXp && (
                         <MainCard
                             player={{
