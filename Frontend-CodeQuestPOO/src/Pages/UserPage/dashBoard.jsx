@@ -294,7 +294,7 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
             </div>
 
             <div
-                className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-48 opacity-25 2xl:block"
+                className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-72 opacity-30 xl:block 2xl:w-80"
                 style={{
                     WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%)",
                     maskImage: "linear-gradient(to right, transparent 0%, black 28%)",
