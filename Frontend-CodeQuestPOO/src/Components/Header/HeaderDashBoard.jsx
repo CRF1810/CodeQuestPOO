@@ -29,7 +29,7 @@ function formatarTempo(segundos = 0) {
   return h > 0 ? `${h}h` : m > 0 ? `${m}min` : `${s}s`;
 }
 
-export default function DashBoardHeader({ user, layout = "header" }) {
+export default function DashBoardHeader({ user, layout = "sidebar" }) {
   const [activeNav, setActiveNav] = useState("home");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -139,7 +139,7 @@ export default function DashBoardHeader({ user, layout = "header" }) {
 
   const navItems = [
     { id: "home", icon: <Home size={20} />, label: "Início", path: "/Dashboard" },
-    { id: "leaderboard", icon: <Trophy size={20} />, label: "Leaderboard", path: "/leaderBoard" },
+    { id: "leaderboard", icon: <Trophy size={20} />, label: "Rankings", path: "/leaderBoard" },
     { id: "amigos", icon: <Users size={20} />, label: "Amigos", path: "/amigos" },
   ];
 
@@ -166,12 +166,11 @@ export default function DashBoardHeader({ user, layout = "header" }) {
         >
           <button
             type="button"
-            className="mb-6 flex items-center justify-center md:justify-start"
+            className="mb-6 flex items-center justify-center"
             onClick={() => navigate("/Dashboard")}
             aria-label="CodeQuest - Início"
           >
             <img src={logo} alt="CodeQuest POO" className="h-11 w-auto" />
-            <span className="ml-3 hidden text-sm font-bold tracking-wide text-white md:block">CodeQuest</span>
           </button>
 
           <nav className="flex flex-1 flex-col gap-1">

@@ -1,5 +1,4 @@
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import SideBar from "../../Components/SideBar/SideBar";
 import { useEffect, useState } from "react";
 import { getMe } from "../../Services/users/userService";
 import { getDesempenhoCodigo } from "../../Services/users/performaceService";
@@ -285,10 +284,9 @@ export default function DesempenhoCodigo() {
 
   return (
     <div className="relative min-h-screen bg-neutral-950 text-neutral-100 antialiased">
-      <DashBoardHeader user={user} />
-      <SideBar user={user} />
+      <DashBoardHeader user={user} layout="sidebar" />
 
-      <main className="ml-20 pt-24 px-8 pb-16 flex justify-center">
+      <main className="ml-20 pt-6 px-4 pb-16 flex justify-center md:ml-64 md:px-8">
         <div className="w-full max-w-5xl">
 
           <div className="flex items-center gap-4 mb-8">

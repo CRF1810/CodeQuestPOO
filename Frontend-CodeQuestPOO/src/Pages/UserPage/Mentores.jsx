@@ -1,5 +1,4 @@
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import SideBar from "../../Components/SideBar/SideBar";
 import { useEffect, useState, useRef } from "react";
 import { getMe } from "../../Services/users/userService";
 import {
@@ -157,8 +156,7 @@ export default function Mentores() {
 
     return (
         <div className="relative min-h-screen bg-neutral-950 text-neutral-100 antialiased overflow-hidden">
-            <DashBoardHeader user={user} />
-            <SideBar user={user} />
+            <DashBoardHeader user={user} layout="sidebar" />
 
             <div
                 className="fixed inset-0 pointer-events-none transition-all duration-700"
@@ -169,7 +167,7 @@ export default function Mentores() {
                 }}
             />
 
-            <main className="ml-20 pt-20 pb-12 flex justify-center min-h-screen">
+            <main className="ml-20 pt-6 pb-12 flex justify-center min-h-screen md:ml-64">
             <div className="w-full max-w-6xl px-6 flex flex-col">
 
                 <div className="flex items-center gap-4 mb-10 mt-4">

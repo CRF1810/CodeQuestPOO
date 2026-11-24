@@ -12,12 +12,12 @@ export const sidebarLinks = [
     path: "/maps",
   },
   {
-    id: "Desempenhos de código",
+    id: "Desempenhos",
     icon: FolderCode,
     path: "/Erros",
   },
   {
-    id: "Placar de Líderes",
+    id: "Rankings",
     icon: Trophy, 
     path: "/leaderBoard",
   },

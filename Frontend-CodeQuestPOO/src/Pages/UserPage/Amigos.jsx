@@ -1,5 +1,4 @@
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import SideBar from "../../Components/SideBar/SideBar";
 import { useEffect, useState } from "react";
 import socket from "../../Services/socket/socket";
 import { getMe } from "../../Services/users/userService";
@@ -120,10 +119,9 @@ export default function Amigos() {
 
   return (
     <div className="relative min-h-screen bg-neutral-950 text-neutral-100">
-      <DashBoardHeader user={user} />
-      <SideBar user={user} />
+      <DashBoardHeader user={user} layout="sidebar" />
 
-      <main className="ml-20 pt-28 px-6 pb-20 flex justify-center">
+      <main className="ml-20 pt-6 px-4 pb-20 flex justify-center md:ml-64 md:px-6">
         <div className="w-full max-w-3xl">
           <div className="flex items-center gap-4 mb-8">
             <button

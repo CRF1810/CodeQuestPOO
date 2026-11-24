@@ -1,5 +1,4 @@
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import SideBar from "../../Components/SideBar/SideBar";
 import { useEffect, useState } from "react";
 import { getMe } from "../../Services/users/userService";
 import { getLeaderBoardBestTime, getLeaderBoardByMapa } from "../../Services/users/leaderBoard";
@@ -533,10 +532,9 @@ export default function LeaderBoard() {
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-amber-500/5 via-emerald-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-t from-amber-500/5 to-transparent rounded-full blur-[100px] pointer-events-none" />
 
-            <DashBoardHeader user={user} />
-            <SideBar user={user} />
+            <DashBoardHeader user={user} layout="sidebar" />
 
-            <main className="ml-20 pt-28 px-4 sm:px-8 pb-20 flex justify-center relative z-10">
+            <main className="ml-20 pt-6 px-4 sm:px-8 pb-20 flex justify-center relative z-10 md:ml-64">
                 <div className="w-full max-w-3xl">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-1 p-6 rounded-3xl backdrop-blur-md shadow-xl">
                         <div className="flex items-center gap-4">

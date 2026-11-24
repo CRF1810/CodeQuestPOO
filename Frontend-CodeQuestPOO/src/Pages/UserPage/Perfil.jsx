@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { getMe, editarPerfil, getMentores } from "../../Services/users/userService";
 import { obterXPAluno } from "../../Services/gameplay/xpProgressService";
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import SideBar from "../../Components/SideBar/SideBar";
 import {
     ArrowLeft,
     Settings,
@@ -420,10 +419,9 @@ export default function Perfil() {
 
     return (
         <div className="relative min-h-screen bg-black">
-            <DashBoardHeader user={stats} />
-            <SideBar user={stats} />
+            <DashBoardHeader user={stats} layout="sidebar" />
 
-            <main className="ml-100 pt-24 px-6 pb-10 w-210">
+            <main className="ml-20 w-auto px-4 pt-6 pb-10 md:ml-64 md:px-6">
                 <div className="flex items-center gap-3 mb-6">
                     <button
                         onClick={() => navigate(-1)}

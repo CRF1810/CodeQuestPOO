@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DashBoardHeader from "/src/Components/Header/HeaderDashBoard";
-import SideBar from "/src/Components/SideBar/SideBar";
 import adminBackground from "../../Assets/AdminBackground.png";
 
 import {
@@ -97,8 +96,7 @@ function AdminShell({ user, children }) {
         "--admin-bg-image": `url(${adminBackground})`,
       }}
     >
-      <DashBoardHeader user={user} />
-      <SideBar user={user} />
+      <DashBoardHeader user={user} layout="sidebar" />
 
       {children}
     </div>

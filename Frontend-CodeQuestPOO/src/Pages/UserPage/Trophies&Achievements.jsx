@@ -213,9 +213,9 @@ export default function Trophies() {
     return (
 
         <>
-            <DashBoardHeader user={user} />
+            <DashBoardHeader user={user} layout="sidebar" />
 
-            <div className="min-h-screen w-full pt-20" style={{ background: "#030310", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
+            <div className="ml-20 min-h-screen w-[calc(100%_-_5rem)] md:ml-64 md:w-[calc(100%_-_16rem)]" style={{ background: "#030310", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
                 {/* dot grid */}
                 <div className="fixed inset-0 pointer-events-none z-0"
                     style={{ backgroundImage: "radial-gradient(circle,#ffffff07 1px,transparent 1px)", backgroundSize: "38px 38px" }} />

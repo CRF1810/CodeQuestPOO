@@ -75,12 +75,19 @@
   position: relative;
   isolation: isolate;
   min-height: 100vh;
+  margin-left: 5rem;
   padding: 36px;
   color: #ffffff;
   overflow-x: hidden;
   background: #000000;
   font-family: "Lora", serif;
   animation: adminFadeIn 0.6s ease-in;
+}
+
+@media (min-width: 768px) {
+  .admin-page {
+    margin-left: 16rem;
+  }
 }
 
 .admin-page::before {

@@ -6,7 +6,6 @@ import { getMapas } from "../../Services/maps/mapasService";
 
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
 
-import SideBar from "../../Components/SideBar/SideBar";
 
 import map1 from "../../Assets/Maps/FirstMap.png";
 
@@ -346,9 +345,7 @@ export default function Maps() {
 
         <div className="maps min-h-screen bg-black flex flex-col">
 
-            <DashBoardHeader user={user} />
-
-            <SideBar user={user} />
+            <DashBoardHeader user={user} layout="sidebar" />
 
             {showSemMentor && (
                 <SemMentorModal
@@ -357,7 +354,7 @@ export default function Maps() {
                 />
             )}
 
-            <div className="flex-1 flex flex-col mt-20 ml-20 px-6 pb-8">
+            <div className="ml-20 flex-1 flex flex-col px-4 pb-8 pt-6 md:ml-64 md:px-6">
 
                 <div className="flex justify-center mt-3">
 

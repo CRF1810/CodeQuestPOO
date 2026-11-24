@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DashBoardHeader from "../../Components/Header/HeaderDashBoard";
-import SideBar from "../../Components/SideBar/SideBar";
 import { getHistoricoSemanal } from "../../Services/users/jogTemService";
 import { getMe } from "../../Services/users/userService";
 import loadingVideo from "../../Assets/Loading/loading.webm";
@@ -211,10 +210,9 @@ export default function HistoricoSemanal() {
 
     return (
         <div className="relative min-h-screen bg-neutral-950 text-neutral-100 antialiased">
-            <DashBoardHeader user={user} />
-            <SideBar user={user} />
+            <DashBoardHeader user={user} layout="sidebar" />
 
-            <main className="ml-20 pt-24 px-8 pb-16">
+            <main className="ml-20 pt-6 px-4 pb-16 md:ml-64 md:px-8">
                 <div className="w-full max-w-5xl mx-auto">
 
                     {/* Header */}
