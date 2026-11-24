@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  DollarSign,
+  Coins,
   Flame,
   Trophy,
   Users,
   ChevronLeft,
-  Settings,
   Volume2,
   Loader2
 } from "lucide-react";
@@ -812,6 +811,10 @@ export default function VilaDaLogica() {
     setTranslateY(clampY(dragStartTrans.current + (e.clientY - dragStartY.current)));
   }
   function onPointerUp() { setDragging(false); }
+  function onWheel(e) {
+    e.preventDefault();
+    setTranslateY(current => clampY(current - e.deltaY));
+  }
 
 
 
@@ -922,22 +925,12 @@ export default function VilaDaLogica() {
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div className="flex items-center gap-3">
               {[
                 {
                   id: 'streak',
-                  icon: (
-                    <svg
-                      className="fill-orange-500 shrink-0"
-                      style={{ animation: 'flicker 1.8s ease-in-out infinite' }}
-                      width={14} height={14} viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2C12 2 7 8 7 13a5 5 0 0 0 10 0c0-2.5-2-5-2-5s-1 3-3 3c-1.1 0-2-.9-2-2 0-2 2-4 2-7z" />
-                      <path d="M12 14c0 1.1-.9 2-2 2-.5 0-1-.2-1.4-.5C9 17 10.4 18 12 18s3-1 3-3c0-1-.5-2-1-2.5 0 .9-.4 1.5-1 1.5z"
-                        fill="#fbbf24" opacity="0.7" />
-                    </svg>
-                  ),
+                  icon: <Flame className="shrink-0 fill-orange-500 text-yellow-300 drop-shadow-md" size={18} />,
                   val: stats.streak || 0,
                   bg: "bg-orange-500/10 hover:bg-orange-500/20",
                   border: "border-orange-500/45",
@@ -945,26 +938,17 @@ export default function VilaDaLogica() {
                 },
                 {
                   id: 'coins',
-                  icon: (
-                    <svg
-                      className="shrink-0"
-                      style={{ animation: 'coinSpin 3.2s ease-in-out infinite' }}
-                      width={14} height={14} viewBox="0 0 24 24" fill="none"
-                    >
-                      <circle cx="12" cy="12" r="9" fill="#ca8a04" stroke="#fde047" strokeWidth="1.5" />
-                      <circle cx="12" cy="12" r="6" fill="#eab308" opacity="0.6" />
-                      <text x="12" y="16" textAnchor="middle" fontSize="9" fontWeight="700" fill="#fef08a" fontFamily="system-ui">$</text>
-                    </svg>
-                  ),
+                  icon: <Coins className="shrink-0 text-yellow-300 drop-shadow-md" size={18} strokeWidth={2.2} />,
                   val: stats.coins || 0,
                   bg: "bg-yellow-500/10 hover:bg-yellow-500/20",
                   border: "border-yellow-500/40",
                   textColor: "text-yellow-100",
                 },
-              ].map(({ icon, val, bg, border, textColor }, i) => (
+              ].map(({ icon, id, val, bg, border, textColor }, i) => (
                 <div
                   key={i}
-                  className={`flex items-center gap-2 px- py-1.5 rounded-full ${bg} border ${border} backdrop-blur-md transition-all hover:scale-105`}
+                  title={id === 'streak' ? 'Sequência' : 'Moedas'}
+                  className={`flex items-center gap-2 px-2.5 py-1.5 rounded-full ${bg} border ${border} backdrop-blur-md transition-all hover:scale-105`}
                 >
                   {icon}
                   <span className={`text-xs font-bold ${textColor} tracking-tight`}>
@@ -973,18 +957,6 @@ export default function VilaDaLogica() {
                 </div>
               ))}
             </div>
-            <button
-              style={{
-                width: 32, height: 32, borderRadius: 8,
-                background: "rgba(0,0,0,0.5)", border: "1.5px solid #333",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                cursor: "pointer", color: "#888",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.color = "#f5c878"; e.currentTarget.style.borderColor = "#8b5e1a"; }}
-              onMouseLeave={e => { e.currentTarget.style.color = "#888"; e.currentTarget.style.borderColor = "#333"; }}
-            >
-              <Settings size={14} />
-            </button>
           </div>
         </header>
 
@@ -1002,12 +974,13 @@ export default function VilaDaLogica() {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
+          onWheel={onWheel}
         >
           <div style={{
             position: "absolute", inset: 0,
             height: `${MAP_EXTRA * 100}%`,
             transform: `translateY(${translateY}px)`,
-            transition: dragging ? "none" : "transform 1.6s cubic-bezier(0.4,0,0.2,1)",
+            transition: dragging ? "none" : "transform 300ms ease-out",
           }}>
             <img src={map}
               alt="Mapa"
