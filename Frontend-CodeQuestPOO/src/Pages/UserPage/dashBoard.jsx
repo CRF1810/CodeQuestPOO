@@ -222,7 +222,7 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
                 </span>
             </div>
 
-            <div className="flex flex-col gap-5 px-4 pb-6 md:flex-row md:gap-0 md:px-6 md:pr-64">
+            <div className="flex flex-col gap-5 px-4 pb-6 md:flex-row md:gap-0 md:px-6 2xl:pr-64">
 
                 <div className="flex w-full flex-col gap-4 md:w-58 md:flex-shrink-0">
                     <AccuracyChart accuracy={player.accuracy} errors={player.errors} />
@@ -282,7 +282,7 @@ function MainCard({ player, calculoXp, currentDayOfWeek, navigate }) {
             </div>
 
             <div
-                className="pointer-events-none absolute right-0 top-0 hidden w-64 overflow-hidden md:bottom-0 md:block"
+                className="pointer-events-none absolute right-0 top-0 hidden w-64 overflow-hidden 2xl:bottom-0 2xl:block"
                 style={{
                     WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%)",
                     maskImage: "linear-gradient(to right, transparent 0%, black 28%)",
@@ -504,7 +504,7 @@ function DailyMissionsPanel({ navigate }) {
     ];
 
     return (
-        <section className="self-start rounded-3xl border border-gray-800 bg-[#151414] p-5 xl:sticky xl:top-6">
+        <section className="self-start rounded-3xl border border-gray-800 bg-[#151414] p-5 xl:sticky xl:top-6 xl:mt-24">
             <div className="mb-4">
                 <h3 className="flex items-center gap-2 text-base font-bold text-white">
                     <Target size={18} className="text-amber-400" />
@@ -800,25 +800,25 @@ export function DashBoard() {
 
             <main className="ml-20 p-4 md:ml-64 md:p-6">
 
-                {progresso && progressaoXp && (
-                    <MainCard
-                        player={{
-                            ...progresso,
-                            accuracy: accuracyPct,
-                            errors: errorsPct,
-                        }}
-                        calculoXp={progressaoXp}
-                        currentDayOfWeek={currentDayOfWeek}
-                        navigate={navigate}
-                    />
-                )}
-
-                <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.9fr)]">
-                    <div className="flex flex-col gap-4">
-                        <MapsPanel maps={mapasProgresso} />
-                        <ErrorTypesPanel errors={errors} />
-                    </div>
+                <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.9fr)]">
+                    {progresso && progressaoXp && (
+                        <MainCard
+                            player={{
+                                ...progresso,
+                                accuracy: accuracyPct,
+                                errors: errorsPct,
+                            }}
+                            calculoXp={progressaoXp}
+                            currentDayOfWeek={currentDayOfWeek}
+                            navigate={navigate}
+                        />
+                    )}
                     <DailyMissionsPanel navigate={navigate} />
+                </div>
+
+                <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2">
+                    <MapsPanel maps={mapasProgresso} />
+                    <ErrorTypesPanel errors={errors} />
                 </div>
             </main>
         </div>

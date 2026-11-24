@@ -166,11 +166,11 @@ export default function DashBoardHeader({ user, layout = "sidebar" }) {
         >
           <button
             type="button"
-            className="mb-6 flex items-center justify-center"
+            className="mb-6 flex items-center justify-center md:justify-start"
             onClick={() => navigate("/Dashboard")}
             aria-label="CodeQuest - Início"
           >
-            <img src={logo} alt="CodeQuest POO" className="h-11 w-auto" />
+            <img src={logo} alt="CodeQuest POO" className="h-14 w-auto max-w-full object-contain md:h-20" />
           </button>
 
           <nav className="flex flex-1 flex-col gap-1">
