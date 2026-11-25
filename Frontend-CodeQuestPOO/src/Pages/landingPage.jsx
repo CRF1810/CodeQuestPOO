@@ -22,7 +22,7 @@ function getImageUrl(path, mentorName) {
     if (imagePath.startsWith("http")) return imagePath;
     return `${SERVER_URL}/${imagePath.replace(/^\/+/, "")}`;
 }
-
+//Teste
 const FALLBACK_MENTORS = [
     {
         id: 1,
